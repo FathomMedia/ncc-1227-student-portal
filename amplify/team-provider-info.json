@@ -1,0 +1,23 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ncc-staging-70129-authRole",
+      "UnauthRoleArn": "arn:aws:iam::447959267241:role/amplify-ncc-staging-70129-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::447959267241:role/amplify-ncc-staging-70129-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-ncc-staging-70129-deployment",
+      "UnauthRoleName": "amplify-ncc-staging-70129-unauthRole",
+      "StackName": "amplify-ncc-staging-70129",
+      "StackId": "arn:aws:cloudformation:us-east-1:447959267241:stack/amplify-ncc-staging-70129/fb0515d0-7145-11ed-9814-0eea8eb3e84f",
+      "AmplifyAppId": "d3v3kang6oyzug"
+    },
+    "categories": {
+      "auth": {
+        "ncc2ea7371e": {}
+      },
+      "api": {
+        "ncc": {}
+      }
+    }
+  }
+}

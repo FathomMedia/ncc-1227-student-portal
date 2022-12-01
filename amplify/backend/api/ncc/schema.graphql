@@ -1,0 +1,126 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Attachment @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  cprDoc: String
+  acceptanceLetterDoc: String
+  transcriptDoc: String
+  signedContractDoc: String
+}
+
+type Application @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  gpa: Int
+  status: Status
+  attachmentID: String
+  studentID: String
+  adminLogs: [AdminLog] @hasMany(indexName: "byApplication", fields: ["id"])
+  attachment: Attachment @hasOne
+  programs: [ProgramChoice] @hasMany
+}
+
+type ProgramChoice @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  programID: ID! @index(name: "byProgram")
+  applicationID: ID! @index(name: "byApplication")
+  program: Program @belongsTo(fields: ["programID"])
+  application: Application @belongsTo(fields: ["applicationID"])
+  choiceOrder: Int
+}
+
+type Program @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  requirements: String
+  availability: Int
+  universityID: ID! @index(name: "byUniversity")
+  university: University @belongsTo(fields: ["universityID"])
+  applications: [ProgramChoice] @hasMany
+}
+
+type University @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String
+  Programs: [Program] @hasMany(indexName: "byUniversity", fields: ["id"])
+}
+
+type AdminLog @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  applicationID: ID! @index(name: "byApplication")
+  adminID: ID! @index(name: "byAdmin")
+  dateTime: AWSDateTime
+  snapshot: String
+}
+
+type Admin @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  cpr: String
+  fullName: String
+  email: String
+  AdminLogs: [AdminLog] @hasMany(indexName: "byAdmin", fields: ["id"])
+}
+
+enum Status {
+  APPROVED
+  REJECTED
+  CANCELED
+  REVIEW
+  WITHDRAWN
+  ELIGIBLE
+}
+
+type ParentInfo @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  guardianFullName: String
+  relation: String
+  guardianCPR: String
+  primaryMobile: String
+  secondaryMobile: String
+  fatherFullName: String
+  fatherCPR: String
+  motherFullName: String
+  motherCPR: String
+  numberOfFamilyMembers: Int
+  Address: Address @hasOne
+}
+
+enum Language {
+  ARABIC
+  ENGLISH
+}
+
+enum Gender {
+  FEMALE
+  MALE
+}
+
+type Student @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  cpr: String
+  fullName: String
+  email: String
+  phone: String
+  gender: Gender
+  schoolName: String
+  specialization: String
+  placeOfBirth: String
+  studentOrderAmongSiblings: Int
+  householdIncome: Float
+  addressID: String
+  preferredLanguage: Language
+  graduationDate: AWSDate
+  Address: Address @hasOne
+  ParentInfo: ParentInfo @hasOne
+  parentInfoID: String
+}
+
+type Address @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  type: String
+  buildingNumber: String
+  roadNumber: String
+  blockNumber: String
+  city: String
+}
