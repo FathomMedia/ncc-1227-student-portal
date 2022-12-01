@@ -77,6 +77,8 @@ export const onCreateApplication = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          applicationAdminLogsId
+          adminAdminLogsId
         }
         nextToken
         startedAt
@@ -141,6 +143,8 @@ export const onUpdateApplication = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          applicationAdminLogsId
+          adminAdminLogsId
         }
         nextToken
         startedAt
@@ -205,6 +209,8 @@ export const onDeleteApplication = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          applicationAdminLogsId
+          adminAdminLogsId
         }
         nextToken
         startedAt
@@ -278,6 +284,7 @@ export const onCreateProgramChoice = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        universityProgramsId
       }
       application {
         id
@@ -354,6 +361,7 @@ export const onUpdateProgramChoice = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        universityProgramsId
       }
       application {
         id
@@ -430,6 +438,7 @@ export const onDeleteProgramChoice = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        universityProgramsId
       }
       application {
         id
@@ -517,6 +526,7 @@ export const onCreateProgram = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      universityProgramsId
     }
   }
 `;
@@ -562,6 +572,7 @@ export const onUpdateProgram = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      universityProgramsId
     }
   }
 `;
@@ -607,6 +618,7 @@ export const onDeleteProgram = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      universityProgramsId
     }
   }
 `;
@@ -628,6 +640,7 @@ export const onCreateUniversity = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          universityProgramsId
         }
         nextToken
         startedAt
@@ -658,6 +671,7 @@ export const onUpdateUniversity = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          universityProgramsId
         }
         nextToken
         startedAt
@@ -688,6 +702,7 @@ export const onDeleteUniversity = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          universityProgramsId
         }
         nextToken
         startedAt
@@ -713,6 +728,8 @@ export const onCreateAdminLog = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      applicationAdminLogsId
+      adminAdminLogsId
     }
   }
 `;
@@ -729,6 +746,8 @@ export const onUpdateAdminLog = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      applicationAdminLogsId
+      adminAdminLogsId
     }
   }
 `;
@@ -745,6 +764,8 @@ export const onDeleteAdminLog = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      applicationAdminLogsId
+      adminAdminLogsId
     }
   }
 `;
@@ -767,6 +788,8 @@ export const onCreateAdmin = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          applicationAdminLogsId
+          adminAdminLogsId
         }
         nextToken
         startedAt
@@ -798,6 +821,8 @@ export const onUpdateAdmin = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          applicationAdminLogsId
+          adminAdminLogsId
         }
         nextToken
         startedAt
@@ -829,6 +854,8 @@ export const onDeleteAdmin = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          applicationAdminLogsId
+          adminAdminLogsId
         }
         nextToken
         startedAt

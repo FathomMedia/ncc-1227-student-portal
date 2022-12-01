@@ -91,6 +91,8 @@ export const getApplication = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          applicationAdminLogsId
+          adminAdminLogsId
         }
         nextToken
         startedAt
@@ -258,6 +260,7 @@ export const getProgramChoice = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        universityProgramsId
       }
       application {
         id
@@ -324,6 +327,7 @@ export const listProgramChoices = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          universityProgramsId
         }
         application {
           id
@@ -379,6 +383,7 @@ export const syncProgramChoices = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          universityProgramsId
         }
         application {
           id
@@ -449,6 +454,7 @@ export const getProgram = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      universityProgramsId
     }
   }
 `;
@@ -482,6 +488,7 @@ export const listPrograms = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        universityProgramsId
       }
       nextToken
       startedAt
@@ -524,6 +531,7 @@ export const syncPrograms = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        universityProgramsId
       }
       nextToken
       startedAt
@@ -546,6 +554,7 @@ export const getUniversity = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          universityProgramsId
         }
         nextToken
         startedAt
@@ -627,6 +636,8 @@ export const getAdminLog = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      applicationAdminLogsId
+      adminAdminLogsId
     }
   }
 `;
@@ -648,6 +659,8 @@ export const listAdminLogs = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        applicationAdminLogsId
+        adminAdminLogsId
       }
       nextToken
       startedAt
@@ -678,6 +691,8 @@ export const syncAdminLogs = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        applicationAdminLogsId
+        adminAdminLogsId
       }
       nextToken
       startedAt
@@ -703,6 +718,8 @@ export const getAdmin = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          applicationAdminLogsId
+          adminAdminLogsId
         }
         nextToken
         startedAt
@@ -1182,228 +1199,6 @@ export const syncAddresses = /* GraphQL */ `
         roadNumber
         blockNumber
         city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const programChoicesByProgramID = /* GraphQL */ `
-  query ProgramChoicesByProgramID(
-    $programID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelProgramChoiceFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    programChoicesByProgramID(
-      programID: $programID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        programID
-        applicationID
-        program {
-          id
-          requirements
-          availability
-          universityID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        application {
-          id
-          gpa
-          status
-          attachmentID
-          studentID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationAttachmentId
-        }
-        choiceOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        applicationProgramsId
-        programApplicationsId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const programChoicesByApplicationID = /* GraphQL */ `
-  query ProgramChoicesByApplicationID(
-    $applicationID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelProgramChoiceFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    programChoicesByApplicationID(
-      applicationID: $applicationID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        programID
-        applicationID
-        program {
-          id
-          requirements
-          availability
-          universityID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        application {
-          id
-          gpa
-          status
-          attachmentID
-          studentID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationAttachmentId
-        }
-        choiceOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        applicationProgramsId
-        programApplicationsId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const programsByUniversityID = /* GraphQL */ `
-  query ProgramsByUniversityID(
-    $universityID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelProgramFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    programsByUniversityID(
-      universityID: $universityID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        requirements
-        availability
-        universityID
-        university {
-          id
-          name
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        applications {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const adminLogsByApplicationID = /* GraphQL */ `
-  query AdminLogsByApplicationID(
-    $applicationID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelAdminLogFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    adminLogsByApplicationID(
-      applicationID: $applicationID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        applicationID
-        adminID
-        dateTime
-        snapshot
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const adminLogsByAdminID = /* GraphQL */ `
-  query AdminLogsByAdminID(
-    $adminID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelAdminLogFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    adminLogsByAdminID(
-      adminID: $adminID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        applicationID
-        adminID
-        dateTime
-        snapshot
         createdAt
         updatedAt
         _version

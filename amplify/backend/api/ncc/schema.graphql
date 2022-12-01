@@ -17,15 +17,15 @@ type Application @model @auth(rules: [{ allow: public }]) {
   status: Status
   attachmentID: String
   studentID: String
-  adminLogs: [AdminLog] @hasMany(indexName: "byApplication", fields: ["id"])
+  adminLogs: [AdminLog] @hasMany
   attachment: Attachment @hasOne
   programs: [ProgramChoice] @hasMany
 }
 
 type ProgramChoice @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  programID: ID! @index(name: "byProgram")
-  applicationID: ID! @index(name: "byApplication")
+  programID: ID!
+  applicationID: ID!
   program: Program @belongsTo(fields: ["programID"])
   application: Application @belongsTo(fields: ["applicationID"])
   choiceOrder: Int
@@ -35,7 +35,7 @@ type Program @model @auth(rules: [{ allow: public }]) {
   id: ID!
   requirements: String
   availability: Int
-  universityID: ID! @index(name: "byUniversity")
+  universityID: ID!
   university: University @belongsTo(fields: ["universityID"])
   applications: [ProgramChoice] @hasMany
 }
@@ -43,13 +43,13 @@ type Program @model @auth(rules: [{ allow: public }]) {
 type University @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String
-  Programs: [Program] @hasMany(indexName: "byUniversity", fields: ["id"])
+  Programs: [Program] @hasMany
 }
 
 type AdminLog @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  applicationID: ID! @index(name: "byApplication")
-  adminID: ID! @index(name: "byAdmin")
+  applicationID: ID!
+  adminID: ID!
   dateTime: AWSDateTime
   snapshot: String
 }
@@ -59,7 +59,7 @@ type Admin @model @auth(rules: [{ allow: public }]) {
   cpr: String
   fullName: String
   email: String
-  AdminLogs: [AdminLog] @hasMany(indexName: "byAdmin", fields: ["id"])
+  AdminLogs: [AdminLog] @hasMany
 }
 
 enum Status {

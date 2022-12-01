@@ -111,6 +111,8 @@ type EagerAdminLog = {
   readonly snapshot?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly applicationAdminLogsId?: string | null;
+  readonly adminAdminLogsId?: string | null;
 }
 
 type LazyAdminLog = {
@@ -125,6 +127,8 @@ type LazyAdminLog = {
   readonly snapshot?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly applicationAdminLogsId?: string | null;
+  readonly adminAdminLogsId?: string | null;
 }
 
 export declare type AdminLog = LazyLoading extends LazyLoadingDisabled ? EagerAdminLog : LazyAdminLog
@@ -186,6 +190,7 @@ type EagerProgram = {
   readonly applications?: (ProgramChoice | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly universityProgramsId?: string | null;
 }
 
 type LazyProgram = {
@@ -201,6 +206,7 @@ type LazyProgram = {
   readonly applications: AsyncCollection<ProgramChoice>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly universityProgramsId?: string | null;
 }
 
 export declare type Program = LazyLoading extends LazyLoadingDisabled ? EagerProgram : LazyProgram

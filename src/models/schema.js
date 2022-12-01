@@ -132,7 +132,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "applicationID"
+                            "applicationAdminLogsId"
                         ]
                     }
                 },
@@ -272,6 +272,20 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "applicationAdminLogsId": {
+                    "name": "applicationAdminLogsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "adminAdminLogsId": {
+                    "name": "adminAdminLogsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -284,18 +298,18 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byApplication",
+                        "name": "gsi-Application.adminLogs",
                         "fields": [
-                            "applicationID"
+                            "applicationAdminLogsId"
                         ]
                     }
                 },
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byAdmin",
+                        "name": "gsi-Admin.AdminLogs",
                         "fields": [
-                            "adminID"
+                            "adminAdminLogsId"
                         ]
                     }
                 },
@@ -417,24 +431,6 @@ export const schema = {
                     "properties": {}
                 },
                 {
-                    "type": "key",
-                    "properties": {
-                        "name": "byProgram",
-                        "fields": [
-                            "programID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byApplication",
-                        "fields": [
-                            "applicationID"
-                        ]
-                    }
-                },
-                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -529,6 +525,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "universityProgramsId": {
+                    "name": "universityProgramsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -537,15 +540,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byUniversity",
-                        "fields": [
-                            "universityID"
-                        ]
-                    }
                 },
                 {
                     "type": "auth",
@@ -594,7 +588,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "university"
+                            "universityProgramsId"
                         ]
                     }
                 },
@@ -683,7 +677,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "adminID"
+                            "adminAdminLogsId"
                         ]
                     }
                 },
@@ -1197,5 +1191,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "03d4476ea8d6f437c44fdab2395cc9ea"
+    "version": "7e91e8ab7921e7dc00c2ca614bbdd8a1"
 };
