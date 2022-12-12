@@ -389,8 +389,6 @@ type EagerStudent = {
   readonly parentInfoID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly studentAddressId?: string | null;
-  readonly studentParentInfoId?: string | null;
 }
 
 type LazyStudent = {
@@ -417,8 +415,6 @@ type LazyStudent = {
   readonly parentInfoID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly studentAddressId?: string | null;
-  readonly studentParentInfoId?: string | null;
 }
 
 export declare type Student = LazyLoading extends LazyLoadingDisabled ? EagerStudent : LazyStudent

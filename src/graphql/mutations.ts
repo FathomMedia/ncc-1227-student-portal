@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -70,20 +71,6 @@ export const createApplication = /* GraphQL */ `
       attachmentID
       studentID
       adminLogs {
-        items {
-          id
-          applicationID
-          adminID
-          dateTime
-          snapshot
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationAdminLogsId
-          adminAdminLogsId
-        }
         nextToken
         startedAt
       }
@@ -100,19 +87,6 @@ export const createApplication = /* GraphQL */ `
         _lastChangedAt
       }
       programs {
-        items {
-          id
-          programID
-          applicationID
-          choiceOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationProgramsId
-          programApplicationsId
-        }
         nextToken
         startedAt
       }
@@ -137,20 +111,6 @@ export const updateApplication = /* GraphQL */ `
       attachmentID
       studentID
       adminLogs {
-        items {
-          id
-          applicationID
-          adminID
-          dateTime
-          snapshot
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationAdminLogsId
-          adminAdminLogsId
-        }
         nextToken
         startedAt
       }
@@ -167,19 +127,6 @@ export const updateApplication = /* GraphQL */ `
         _lastChangedAt
       }
       programs {
-        items {
-          id
-          programID
-          applicationID
-          choiceOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationProgramsId
-          programApplicationsId
-        }
         nextToken
         startedAt
       }
@@ -204,20 +151,6 @@ export const deleteApplication = /* GraphQL */ `
       attachmentID
       studentID
       adminLogs {
-        items {
-          id
-          applicationID
-          adminID
-          dateTime
-          snapshot
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationAdminLogsId
-          adminAdminLogsId
-        }
         nextToken
         startedAt
       }
@@ -234,19 +167,6 @@ export const deleteApplication = /* GraphQL */ `
         _lastChangedAt
       }
       programs {
-        items {
-          id
-          programID
-          applicationID
-          choiceOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationProgramsId
-          programApplicationsId
-        }
         nextToken
         startedAt
       }
@@ -273,19 +193,6 @@ export const createProgramChoice = /* GraphQL */ `
         requirements
         availability
         universityID
-        university {
-          id
-          name
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        applications {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -299,26 +206,6 @@ export const createProgramChoice = /* GraphQL */ `
         status
         attachmentID
         studentID
-        adminLogs {
-          nextToken
-          startedAt
-        }
-        attachment {
-          id
-          cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          signedContractDoc
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        programs {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -351,19 +238,6 @@ export const updateProgramChoice = /* GraphQL */ `
         requirements
         availability
         universityID
-        university {
-          id
-          name
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        applications {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -377,26 +251,6 @@ export const updateProgramChoice = /* GraphQL */ `
         status
         attachmentID
         studentID
-        adminLogs {
-          nextToken
-          startedAt
-        }
-        attachment {
-          id
-          cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          signedContractDoc
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        programs {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -429,19 +283,6 @@ export const deleteProgramChoice = /* GraphQL */ `
         requirements
         availability
         universityID
-        university {
-          id
-          name
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        applications {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -455,26 +296,6 @@ export const deleteProgramChoice = /* GraphQL */ `
         status
         attachmentID
         studentID
-        adminLogs {
-          nextToken
-          startedAt
-        }
-        attachment {
-          id
-          cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          signedContractDoc
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        programs {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -506,10 +327,6 @@ export const createProgram = /* GraphQL */ `
       university {
         id
         name
-        Programs {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -517,19 +334,6 @@ export const createProgram = /* GraphQL */ `
         _lastChangedAt
       }
       applications {
-        items {
-          id
-          programID
-          applicationID
-          choiceOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationProgramsId
-          programApplicationsId
-        }
         nextToken
         startedAt
       }
@@ -555,10 +359,6 @@ export const updateProgram = /* GraphQL */ `
       university {
         id
         name
-        Programs {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -566,19 +366,6 @@ export const updateProgram = /* GraphQL */ `
         _lastChangedAt
       }
       applications {
-        items {
-          id
-          programID
-          applicationID
-          choiceOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationProgramsId
-          programApplicationsId
-        }
         nextToken
         startedAt
       }
@@ -604,10 +391,6 @@ export const deleteProgram = /* GraphQL */ `
       university {
         id
         name
-        Programs {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -615,19 +398,6 @@ export const deleteProgram = /* GraphQL */ `
         _lastChangedAt
       }
       applications {
-        items {
-          id
-          programID
-          applicationID
-          choiceOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationProgramsId
-          programApplicationsId
-        }
         nextToken
         startedAt
       }
@@ -649,18 +419,6 @@ export const createUniversity = /* GraphQL */ `
       id
       name
       Programs {
-        items {
-          id
-          requirements
-          availability
-          universityID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          universityProgramsId
-        }
         nextToken
         startedAt
       }
@@ -681,18 +439,6 @@ export const updateUniversity = /* GraphQL */ `
       id
       name
       Programs {
-        items {
-          id
-          requirements
-          availability
-          universityID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          universityProgramsId
-        }
         nextToken
         startedAt
       }
@@ -713,18 +459,6 @@ export const deleteUniversity = /* GraphQL */ `
       id
       name
       Programs {
-        items {
-          id
-          requirements
-          availability
-          universityID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          universityProgramsId
-        }
         nextToken
         startedAt
       }
@@ -810,20 +544,6 @@ export const createAdmin = /* GraphQL */ `
       fullName
       email
       AdminLogs {
-        items {
-          id
-          applicationID
-          adminID
-          dateTime
-          snapshot
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationAdminLogsId
-          adminAdminLogsId
-        }
         nextToken
         startedAt
       }
@@ -846,20 +566,6 @@ export const updateAdmin = /* GraphQL */ `
       fullName
       email
       AdminLogs {
-        items {
-          id
-          applicationID
-          adminID
-          dateTime
-          snapshot
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationAdminLogsId
-          adminAdminLogsId
-        }
         nextToken
         startedAt
       }
@@ -882,20 +588,6 @@ export const deleteAdmin = /* GraphQL */ `
       fullName
       email
       AdminLogs {
-        items {
-          id
-          applicationID
-          adminID
-          dateTime
-          snapshot
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          applicationAdminLogsId
-          adminAdminLogsId
-        }
         nextToken
         startedAt
       }
@@ -1069,19 +761,6 @@ export const createStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
-        Address {
-          id
-          type
-          buildingNumber
-          roadNumber
-          blockNumber
-          city
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1095,8 +774,6 @@ export const createStudent = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      studentAddressId
-      studentParentInfoId
     }
   }
 `;
@@ -1145,19 +822,6 @@ export const updateStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
-        Address {
-          id
-          type
-          buildingNumber
-          roadNumber
-          blockNumber
-          city
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1171,8 +835,6 @@ export const updateStudent = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      studentAddressId
-      studentParentInfoId
     }
   }
 `;
@@ -1221,19 +883,6 @@ export const deleteStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
-        Address {
-          id
-          type
-          buildingNumber
-          roadNumber
-          blockNumber
-          city
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1247,8 +896,6 @@ export const deleteStudent = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      studentAddressId
-      studentParentInfoId
     }
   }
 `;

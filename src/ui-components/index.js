@@ -5,6 +5,7 @@
  **************************************************************************/
 
 export { default as studioTheme } from "./studioTheme";
+export { default as StudentCreateForm } from "./StudentCreateForm";
 export { default as AttachmentCreateForm } from "./AttachmentCreateForm";
 export { default as AttachmentUpdateForm } from "./AttachmentUpdateForm";
 export { default as ApplicationCreateForm } from "./ApplicationCreateForm";
@@ -23,5 +24,4 @@ export { default as ParentInfoCreateForm } from "./ParentInfoCreateForm";
 export { default as ParentInfoUpdateForm } from "./ParentInfoUpdateForm";
 export { default as AddressCreateForm } from "./AddressCreateForm";
 export { default as AddressUpdateForm } from "./AddressUpdateForm";
-export { default as StudentCreateForm } from "./StudentCreateForm";
 export { default as StudentUpdateForm } from "./StudentUpdateForm";

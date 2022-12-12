@@ -29,8 +29,6 @@ export declare type StudentCreateFormInputValues = {
     Address?: string;
     ParentInfo?: string;
     parentInfoID?: string;
-    studentAddressId?: string;
-    studentParentInfoId?: string;
 };
 export declare type StudentCreateFormValidationValues = {
     cpr?: ValidationFunction<string>;
@@ -49,8 +47,6 @@ export declare type StudentCreateFormValidationValues = {
     Address?: ValidationFunction<string>;
     ParentInfo?: ValidationFunction<string>;
     parentInfoID?: ValidationFunction<string>;
-    studentAddressId?: ValidationFunction<string>;
-    studentParentInfoId?: ValidationFunction<string>;
 };
 export declare type FormProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type StudentCreateFormOverridesProps = {
@@ -71,8 +67,6 @@ export declare type StudentCreateFormOverridesProps = {
     Address?: FormProps<SelectFieldProps>;
     ParentInfo?: FormProps<SelectFieldProps>;
     parentInfoID?: FormProps<TextFieldProps>;
-    studentAddressId?: FormProps<TextFieldProps>;
-    studentParentInfoId?: FormProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type StudentCreateFormProps = React.PropsWithChildren<{
     overrides?: StudentCreateFormOverridesProps | undefined | null;

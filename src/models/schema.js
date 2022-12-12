@@ -1042,7 +1042,7 @@ export const schema = {
                 "addressID": {
                     "name": "addressID",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1076,7 +1076,7 @@ export const schema = {
                             "id"
                         ],
                         "targetNames": [
-                            "studentAddressId"
+                            "addressID"
                         ]
                     }
                 },
@@ -1094,14 +1094,14 @@ export const schema = {
                             "id"
                         ],
                         "targetNames": [
-                            "studentParentInfoId"
+                            "parentInfoID"
                         ]
                     }
                 },
                 "parentInfoID": {
                     "name": "parentInfoID",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1120,20 +1120,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "studentAddressId": {
-                    "name": "studentAddressId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "studentParentInfoId": {
-                    "name": "studentParentInfoId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1191,5 +1177,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "7e91e8ab7921e7dc00c2ca614bbdd8a1"
+    "version": "c20a985344982f88e38f96a64a63300e"
 };

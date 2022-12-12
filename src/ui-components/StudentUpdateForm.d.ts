@@ -30,8 +30,6 @@ export declare type StudentUpdateFormInputValues = {
     Address?: string;
     ParentInfo?: string;
     parentInfoID?: string;
-    studentAddressId?: string;
-    studentParentInfoId?: string;
 };
 export declare type StudentUpdateFormValidationValues = {
     cpr?: ValidationFunction<string>;
@@ -50,8 +48,6 @@ export declare type StudentUpdateFormValidationValues = {
     Address?: ValidationFunction<string>;
     ParentInfo?: ValidationFunction<string>;
     parentInfoID?: ValidationFunction<string>;
-    studentAddressId?: ValidationFunction<string>;
-    studentParentInfoId?: ValidationFunction<string>;
 };
 export declare type FormProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type StudentUpdateFormOverridesProps = {
@@ -72,8 +68,6 @@ export declare type StudentUpdateFormOverridesProps = {
     Address?: FormProps<SelectFieldProps>;
     ParentInfo?: FormProps<SelectFieldProps>;
     parentInfoID?: FormProps<TextFieldProps>;
-    studentAddressId?: FormProps<TextFieldProps>;
-    studentParentInfoId?: FormProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type StudentUpdateFormProps = React.PropsWithChildren<{
     overrides?: StudentUpdateFormOverridesProps | undefined | null;

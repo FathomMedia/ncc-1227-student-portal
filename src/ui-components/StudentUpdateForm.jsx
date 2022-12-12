@@ -47,8 +47,6 @@ export default function StudentUpdateForm(props) {
     Address: {},
     ParentInfo: {},
     parentInfoID: undefined,
-    studentAddressId: undefined,
-    studentParentInfoId: undefined,
   };
   const [cpr, setCpr] = React.useState(initialValues.cpr);
   const [fullName, setFullName] = React.useState(initialValues.fullName);
@@ -79,12 +77,6 @@ export default function StudentUpdateForm(props) {
   const [parentInfoID, setParentInfoID] = React.useState(
     initialValues.parentInfoID
   );
-  const [studentAddressId, setStudentAddressId] = React.useState(
-    initialValues.studentAddressId
-  );
-  const [studentParentInfoId, setStudentParentInfoId] = React.useState(
-    initialValues.studentParentInfoId
-  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = { ...initialValues, ...studentRecord };
@@ -104,8 +96,6 @@ export default function StudentUpdateForm(props) {
     setAddress(cleanValues.Address);
     setParentInfo(cleanValues.ParentInfo);
     setParentInfoID(cleanValues.parentInfoID);
-    setStudentAddressId(cleanValues.studentAddressId);
-    setStudentParentInfoId(cleanValues.studentParentInfoId);
     setErrors({});
   };
   const [studentRecord, setStudentRecord] = React.useState(student);
@@ -134,8 +124,6 @@ export default function StudentUpdateForm(props) {
     Address: [],
     ParentInfo: [],
     parentInfoID: [],
-    studentAddressId: [],
-    studentParentInfoId: [],
   };
   const runValidationTasks = async (fieldName, value) => {
     let validationResponse = validateField(value, validations[fieldName]);
@@ -171,8 +159,6 @@ export default function StudentUpdateForm(props) {
           Address,
           ParentInfo,
           parentInfoID,
-          studentAddressId,
-          studentParentInfoId,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -239,8 +225,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.cpr ?? value;
@@ -280,8 +264,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.fullName ?? value;
@@ -321,8 +303,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -362,8 +342,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.phone ?? value;
@@ -403,8 +381,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.gender ?? value;
@@ -455,8 +431,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.schoolName ?? value;
@@ -496,8 +470,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.specialization ?? value;
@@ -537,8 +509,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.placeOfBirth ?? value;
@@ -587,8 +557,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.studentOrderAmongSiblings ?? value;
@@ -642,8 +610,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.householdIncome ?? value;
@@ -683,8 +649,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.addressID ?? value;
@@ -724,8 +688,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.preferredLanguage ?? value;
@@ -779,8 +741,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.graduationDate ?? value;
@@ -820,8 +780,6 @@ export default function StudentUpdateForm(props) {
               Address: value,
               ParentInfo,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.Address ?? value;
@@ -861,8 +819,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo: value,
               parentInfoID,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.ParentInfo ?? value;
@@ -902,8 +858,6 @@ export default function StudentUpdateForm(props) {
               Address,
               ParentInfo,
               parentInfoID: value,
-              studentAddressId,
-              studentParentInfoId,
             };
             const result = onChange(modelFields);
             value = result?.parentInfoID ?? value;
@@ -917,90 +871,6 @@ export default function StudentUpdateForm(props) {
         errorMessage={errors.parentInfoID?.errorMessage}
         hasError={errors.parentInfoID?.hasError}
         {...getOverrideProps(overrides, "parentInfoID")}
-      ></TextField>
-      <TextField
-        label="Student address id"
-        isRequired={false}
-        isReadOnly={false}
-        defaultValue={studentAddressId}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              cpr,
-              fullName,
-              email,
-              phone,
-              gender,
-              schoolName,
-              specialization,
-              placeOfBirth,
-              studentOrderAmongSiblings,
-              householdIncome,
-              addressID,
-              preferredLanguage,
-              graduationDate,
-              Address,
-              ParentInfo,
-              parentInfoID,
-              studentAddressId: value,
-              studentParentInfoId,
-            };
-            const result = onChange(modelFields);
-            value = result?.studentAddressId ?? value;
-          }
-          if (errors.studentAddressId?.hasError) {
-            runValidationTasks("studentAddressId", value);
-          }
-          setStudentAddressId(value);
-        }}
-        onBlur={() => runValidationTasks("studentAddressId", studentAddressId)}
-        errorMessage={errors.studentAddressId?.errorMessage}
-        hasError={errors.studentAddressId?.hasError}
-        {...getOverrideProps(overrides, "studentAddressId")}
-      ></TextField>
-      <TextField
-        label="Student parent info id"
-        isRequired={false}
-        isReadOnly={false}
-        defaultValue={studentParentInfoId}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              cpr,
-              fullName,
-              email,
-              phone,
-              gender,
-              schoolName,
-              specialization,
-              placeOfBirth,
-              studentOrderAmongSiblings,
-              householdIncome,
-              addressID,
-              preferredLanguage,
-              graduationDate,
-              Address,
-              ParentInfo,
-              parentInfoID,
-              studentAddressId,
-              studentParentInfoId: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.studentParentInfoId ?? value;
-          }
-          if (errors.studentParentInfoId?.hasError) {
-            runValidationTasks("studentParentInfoId", value);
-          }
-          setStudentParentInfoId(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("studentParentInfoId", studentParentInfoId)
-        }
-        errorMessage={errors.studentParentInfoId?.errorMessage}
-        hasError={errors.studentParentInfoId?.hasError}
-        {...getOverrideProps(overrides, "studentParentInfoId")}
       ></TextField>
       <Flex
         justifyContent="space-between"
