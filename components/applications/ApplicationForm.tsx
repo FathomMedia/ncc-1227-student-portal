@@ -3,10 +3,11 @@ import { FC, useEffect, useState } from "react";
 import * as yup from "yup";
 import { useAppContext } from "../../contexts/AppContexts";
 import { useAuth } from "../../hooks/use-auth";
-import { API, Storage } from "aws-amplify";
+import { API, Storage, withSSRContext } from "aws-amplify";
 import { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
 
 import {
+  Application,
   CreateApplicationMutation,
   CreateApplicationMutationVariables,
   CreateAttachmentMutation,
@@ -22,6 +23,7 @@ import {
   createProgramChoice,
 } from "../../src/graphql/mutations";
 import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 
 export interface CreateApplicationFormValues {
   application: CreateApplicationMutationVariables;
@@ -47,7 +49,12 @@ enum DocType {
   SIGNED_CONTRACT,
 }
 
-export const ApplicationForm: FC = () => {
+interface Props {
+  application?: Application;
+  programs?: any;
+}
+
+export const ApplicationForm: FC<Props> = (props) => {
   const { user } = useAuth();
   const { push } = useRouter();
   const { student } = useAppContext();
@@ -63,58 +70,70 @@ export const ApplicationForm: FC = () => {
     undefined
   );
 
-  const [programs, setPrograms] = useState<any>(undefined);
+  // const [programs, setPrograms] = useState<any>(undefined);
+
+  useEffect(() => {
+    console.log("hi", props.application?.programs);
+
+    return () => {};
+  }, [props.application?.programs]);
 
   const initialValues: FormValues = {
-    gpa: undefined,
-    primaryProgramID: undefined,
-    secondaryProgramID: undefined,
+    gpa: props.application?.gpa ?? undefined,
+    primaryProgramID:
+      props.application?.programs?.items.sort(
+        (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+      )[0]?.program?.id ?? undefined,
+    secondaryProgramID:
+      props.application?.programs?.items.sort(
+        (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+      )[1]?.program?.id ?? undefined,
     cprDoc: undefined,
     acceptanceLetterDoc: undefined,
     transcriptDoc: undefined,
     signedContractDoc: undefined,
   };
 
-  useEffect(() => {
-    getPrograms();
+  // useEffect(() => {
+  //   getPrograms();
 
-    /**
-     * The function gets all the programs from the database and sets the state of the programs to the
-     * data that was retrieved
-     */
-    async function getPrograms() {
-      let q = `
-      query ListAllPrograms {
-        listPrograms {
-          items {
-            id
-            name
-            requirements
-            universityID
-            universityProgramsId
-            updatedAt
-            createdAt
-            availability
-            _version
-            _lastChangedAt
-            _deleted
-            university {
-              id
-              _deleted
-              _version
-              name
-            }
-          }
-        }
-      }
-      `;
+  //   /**
+  //    * The function gets all the programs from the database and sets the state of the programs to the
+  //    * data that was retrieved
+  //    */
+  //   async function getPrograms() {
+  //     let q = `
+  //     query ListAllPrograms {
+  //       listPrograms {
+  //         items {
+  //           id
+  //           name
+  //           requirements
+  //           universityID
+  //           universityProgramsId
+  //           updatedAt
+  //           createdAt
+  //           availability
+  //           _version
+  //           _lastChangedAt
+  //           _deleted
+  //           university {
+  //             id
+  //             _deleted
+  //             _version
+  //             name
+  //           }
+  //         }
+  //       }
+  //     }
+  //     `;
 
-      let res = (await API.graphql(graphqlOperation(q))) as GraphQLResult;
-      setPrograms(res.data);
-    }
+  //     let res = (await API.graphql(graphqlOperation(q))) as GraphQLResult;
+  //     setPrograms(res.data);
+  //   }
 
-    return () => {};
-  }, []);
+  //   return () => {};
+  // }, []);
 
   /**
    * It takes a file and a document type, and uploads the file to the AWS S3 bucket, and returns the
@@ -126,7 +145,9 @@ export const ApplicationForm: FC = () => {
   async function uploadFile(file: File, type: DocType) {
     try {
       let res = await Storage.put(
-        `Student${student?.getStudent?.cpr}/${student?.getStudent?.cpr}#${DocType[type]}`,
+        `Student${student?.getStudent?.cpr}/${student?.getStudent?.cpr}#${
+          DocType[type]
+        }#${new Date().getDate()}`,
         file,
         {
           contentType: file.type,
@@ -375,31 +396,6 @@ export const ApplicationForm: FC = () => {
             error: "Application creation failed",
           });
 
-          // let userAlreadyExists = await auth.checkIfCprExist(
-          //   values.cpr.trim()
-          // );
-
-          // if (userAlreadyExists) {
-          //   toast.error("User already exists");
-          //   return;
-          // }
-
-          // const createdDatabaseUser = await createDatabaseStudent(values);
-          // if (createdDatabaseUser?.data == null) {
-          //   toast.error("Error creating the user");
-          //   return;
-          // }
-
-          // const createCognitoUserResult = await createCognitoUser(values);
-
-          // if (createCognitoUserResult?.user) {
-          //   router.push({ pathname: "/signUp", query: { cpr: values.cpr } });
-          //   toast("email need to be verified");
-          // } else {
-          //   toast.error("Error creating the user");
-          //   await deleteCreatedUser(createdDatabaseUser.data);
-          // }
-
           actions.setSubmitting(false);
         }}
       >
@@ -480,10 +476,14 @@ export const ApplicationForm: FC = () => {
                   onBlur={handleBlur}
                   value={values.primaryProgramID}
                 >
-                  <option selected disabled value={undefined}>
+                  <option
+                    selected={props.application === undefined}
+                    disabled
+                    value={undefined}
+                  >
                     Select
                   </option>
-                  {programs?.listPrograms?.items.map(
+                  {props.programs?.listPrograms?.items.map(
                     (program: any) =>
                       program?.id !== values.secondaryProgramID && (
                         <option key={program?.id} value={program?.id}>
@@ -515,10 +515,14 @@ export const ApplicationForm: FC = () => {
                   onBlur={handleBlur}
                   value={values.secondaryProgramID}
                 >
-                  <option selected disabled value={undefined}>
+                  <option
+                    selected={props.application === undefined}
+                    disabled
+                    value={undefined}
+                  >
                     Select
                   </option>
-                  {programs?.listPrograms?.items.map(
+                  {props.programs?.listPrograms?.items.map(
                     (program: any) =>
                       program?.id !== values.primaryProgramID && (
                         <option key={program?.id} value={program?.id}>

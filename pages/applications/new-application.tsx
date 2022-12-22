@@ -8,13 +8,13 @@ export default function NewApplicationPage() {
   const { haveActiveApplication } = useAppContext();
   const { push } = useRouter();
 
-  useEffect(() => {
-    if (haveActiveApplication) {
-      push("/");
-    }
+  // useEffect(() => {
+  //   if (haveActiveApplication) {
+  //     push("/");
+  //   }
 
-    return () => {};
-  }, [haveActiveApplication, push]);
+  //   return () => {};
+  // }, [haveActiveApplication, push]);
 
   return (
     <PageComponent title="New Application" authRequired>

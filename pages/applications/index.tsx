@@ -67,7 +67,7 @@ export default function ApplicationsPage() {
                     (undefined || null) ? (
                     <span className="text-error">Not Completed</span>
                   ) : (
-                    <span className="text-success">Not Completed</span>
+                    <span className="text-success">Completed</span>
                   )}
                 </div>
               </div>
