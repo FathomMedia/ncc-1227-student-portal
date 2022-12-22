@@ -16,5 +16,11 @@ export type AmplifyDependentResourcesAttributes = {
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
+    },
+    "storage": {
+        "ncc1227storage": {
+            "BucketName": "string",
+            "Region": "string"
+        }
     }
 }

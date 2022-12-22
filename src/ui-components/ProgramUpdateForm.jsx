@@ -25,10 +25,12 @@ export default function ProgramUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    name: undefined,
     requirements: undefined,
     availability: undefined,
     universityID: undefined,
   };
+  const [name, setName] = React.useState(initialValues.name);
   const [requirements, setRequirements] = React.useState(
     initialValues.requirements
   );
@@ -41,6 +43,7 @@ export default function ProgramUpdateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = { ...initialValues, ...programRecord };
+    setName(cleanValues.name);
     setRequirements(cleanValues.requirements);
     setAvailability(cleanValues.availability);
     setUniversityID(cleanValues.universityID);
@@ -56,6 +59,7 @@ export default function ProgramUpdateForm(props) {
   }, [id, program]);
   React.useEffect(resetStateValues, [programRecord]);
   const validations = {
+    name: [],
     requirements: [],
     availability: [],
     universityID: [{ type: "Required" }],
@@ -78,6 +82,7 @@ export default function ProgramUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          name,
           requirements,
           availability,
           universityID,
@@ -123,6 +128,33 @@ export default function ProgramUpdateForm(props) {
       {...getOverrideProps(overrides, "ProgramUpdateForm")}
     >
       <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        defaultValue={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name: value,
+              requirements,
+              availability,
+              universityID,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
         label="Requirements"
         isRequired={false}
         isReadOnly={false}
@@ -131,6 +163,7 @@ export default function ProgramUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               requirements: value,
               availability,
               universityID,
@@ -166,6 +199,7 @@ export default function ProgramUpdateForm(props) {
           }
           if (onChange) {
             const modelFields = {
+              name,
               requirements,
               availability: value,
               universityID,
@@ -192,6 +226,7 @@ export default function ProgramUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               requirements,
               availability,
               universityID: value,

@@ -21,18 +21,18 @@ const Gender = {
   "MALE": "MALE"
 };
 
-const { Attachment, Application, AdminLog, ProgramChoice, Program, University, Admin, ParentInfo, Address, Student } = initSchema(schema);
+const { Attachment, Application, AdminLog, StudentLog, ProgramChoice, Program, University, Admin, ParentInfo, Student } = initSchema(schema);
 
 export {
   Attachment,
   Application,
   AdminLog,
+  StudentLog,
   ProgramChoice,
   Program,
   University,
   Admin,
   ParentInfo,
-  Address,
   Student,
   Status,
   Language,

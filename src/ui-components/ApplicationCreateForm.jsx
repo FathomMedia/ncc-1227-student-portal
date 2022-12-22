@@ -33,7 +33,7 @@ export default function ApplicationCreateForm(props) {
     gpa: undefined,
     status: undefined,
     attachmentID: undefined,
-    studentID: undefined,
+    studentCPR: undefined,
     attachment: {},
     applicationAttachmentId: undefined,
   };
@@ -42,7 +42,7 @@ export default function ApplicationCreateForm(props) {
   const [attachmentID, setAttachmentID] = React.useState(
     initialValues.attachmentID
   );
-  const [studentID, setStudentID] = React.useState(initialValues.studentID);
+  const [studentCPR, setStudentCPR] = React.useState(initialValues.studentCPR);
   const [attachment, setAttachment] = React.useState(initialValues.attachment);
   const [applicationAttachmentId, setApplicationAttachmentId] = React.useState(
     initialValues.applicationAttachmentId
@@ -52,7 +52,7 @@ export default function ApplicationCreateForm(props) {
     setGpa(initialValues.gpa);
     setStatus(initialValues.status);
     setAttachmentID(initialValues.attachmentID);
-    setStudentID(initialValues.studentID);
+    setStudentCPR(initialValues.studentCPR);
     setAttachment(initialValues.attachment);
     setApplicationAttachmentId(initialValues.applicationAttachmentId);
     setErrors({});
@@ -61,7 +61,7 @@ export default function ApplicationCreateForm(props) {
     gpa: [],
     status: [],
     attachmentID: [],
-    studentID: [],
+    studentCPR: [{ type: "Required" }],
     attachment: [],
     applicationAttachmentId: [],
   };
@@ -86,7 +86,7 @@ export default function ApplicationCreateForm(props) {
           gpa,
           status,
           attachmentID,
-          studentID,
+          studentCPR,
           attachment,
           applicationAttachmentId,
         };
@@ -149,7 +149,7 @@ export default function ApplicationCreateForm(props) {
               gpa: value,
               status,
               attachmentID,
-              studentID,
+              studentCPR,
               attachment,
               applicationAttachmentId,
             };
@@ -178,7 +178,7 @@ export default function ApplicationCreateForm(props) {
               gpa,
               status: value,
               attachmentID,
-              studentID,
+              studentCPR,
               attachment,
               applicationAttachmentId,
             };
@@ -237,7 +237,7 @@ export default function ApplicationCreateForm(props) {
               gpa,
               status,
               attachmentID: value,
-              studentID,
+              studentCPR,
               attachment,
               applicationAttachmentId,
             };
@@ -255,8 +255,8 @@ export default function ApplicationCreateForm(props) {
         {...getOverrideProps(overrides, "attachmentID")}
       ></TextField>
       <TextField
-        label="Student id"
-        isRequired={false}
+        label="Student cpr"
+        isRequired={true}
         isReadOnly={false}
         onChange={(e) => {
           let { value } = e.target;
@@ -265,22 +265,22 @@ export default function ApplicationCreateForm(props) {
               gpa,
               status,
               attachmentID,
-              studentID: value,
+              studentCPR: value,
               attachment,
               applicationAttachmentId,
             };
             const result = onChange(modelFields);
-            value = result?.studentID ?? value;
+            value = result?.studentCPR ?? value;
           }
-          if (errors.studentID?.hasError) {
-            runValidationTasks("studentID", value);
+          if (errors.studentCPR?.hasError) {
+            runValidationTasks("studentCPR", value);
           }
-          setStudentID(value);
+          setStudentCPR(value);
         }}
-        onBlur={() => runValidationTasks("studentID", studentID)}
-        errorMessage={errors.studentID?.errorMessage}
-        hasError={errors.studentID?.hasError}
-        {...getOverrideProps(overrides, "studentID")}
+        onBlur={() => runValidationTasks("studentCPR", studentCPR)}
+        errorMessage={errors.studentCPR?.errorMessage}
+        hasError={errors.studentCPR?.hasError}
+        {...getOverrideProps(overrides, "studentCPR")}
       ></TextField>
       <SelectField
         label="Attachment"
@@ -294,7 +294,7 @@ export default function ApplicationCreateForm(props) {
               gpa,
               status,
               attachmentID,
-              studentID,
+              studentCPR,
               attachment: value,
               applicationAttachmentId,
             };
@@ -322,7 +322,7 @@ export default function ApplicationCreateForm(props) {
               gpa,
               status,
               attachmentID,
-              studentID,
+              studentCPR,
               attachment,
               applicationAttachmentId: value,
             };

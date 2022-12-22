@@ -113,11 +113,11 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "studentID": {
-                    "name": "studentID",
+                "studentCPR": {
+                    "name": "studentCPR",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "adminLogs": {
@@ -133,6 +133,22 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
                             "applicationAdminLogsId"
+                        ]
+                    }
+                },
+                "studentLogs": {
+                    "name": "studentLogs",
+                    "isArray": true,
+                    "type": {
+                        "model": "StudentLog"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "applicationStudentLogsId"
                         ]
                     }
                 },
@@ -202,6 +218,16 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "byCPR",
+                        "fields": [
+                            "studentCPR",
+                            "gpa"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -236,10 +262,10 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "adminID": {
-                    "name": "adminID",
+                "adminCPR": {
+                    "name": "adminCPR",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -280,10 +306,10 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "adminAdminLogsId": {
-                    "name": "adminAdminLogsId",
+                "adminAdminLogsCpr": {
+                    "name": "adminAdminLogsCpr",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 }
@@ -309,7 +335,110 @@ export const schema = {
                     "properties": {
                         "name": "gsi-Admin.AdminLogs",
                         "fields": [
-                            "adminAdminLogsId"
+                            "adminAdminLogsCpr"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "StudentLog": {
+            "name": "StudentLog",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "applicationID": {
+                    "name": "applicationID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "studentCPR": {
+                    "name": "studentCPR",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "dateTime": {
+                    "name": "dateTime",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "snapshot": {
+                    "name": "snapshot",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "reason": {
+                    "name": "reason",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "applicationStudentLogsId": {
+                    "name": "applicationStudentLogsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "StudentLogs",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Application.studentLogs",
+                        "fields": [
+                            "applicationStudentLogsId"
                         ]
                     }
                 },
@@ -456,6 +585,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "requirements": {
@@ -637,18 +773,11 @@ export const schema = {
         "Admin": {
             "name": "Admin",
             "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "cpr": {
                     "name": "cpr",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "fullName": {
@@ -677,7 +806,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "adminAdminLogsId"
+                            "adminAdminLogsCpr"
                         ]
                     }
                 },
@@ -704,6 +833,14 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "cpr"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -803,23 +940,12 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "Address": {
-                    "name": "Address",
+                "address": {
+                    "name": "address",
                     "isArray": false,
-                    "type": {
-                        "model": "Address"
-                    },
+                    "type": "String",
                     "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "parentInfoAddressId"
-                        ]
-                    }
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -836,13 +962,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "parentInfoAddressId": {
-                    "name": "parentInfoAddressId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -870,108 +989,14 @@ export const schema = {
                 }
             ]
         },
-        "Address": {
-            "name": "Address",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "type": {
-                    "name": "type",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "buildingNumber": {
-                    "name": "buildingNumber",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "roadNumber": {
-                    "name": "roadNumber",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "blockNumber": {
-                    "name": "blockNumber",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "city": {
-                    "name": "city",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Addresses",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
         "Student": {
             "name": "Student",
             "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "cpr": {
                     "name": "cpr",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "fullName": {
@@ -1039,13 +1064,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "addressID": {
-                    "name": "addressID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "preferredLanguage": {
                     "name": "preferredLanguage",
                     "isArray": false,
@@ -1062,21 +1080,26 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "Address": {
-                    "name": "Address",
+                "address": {
+                    "name": "address",
                     "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "applications": {
+                    "name": "applications",
+                    "isArray": true,
                     "type": {
-                        "model": "Address"
+                        "model": "Application"
                     },
                     "isRequired": false,
                     "attributes": [],
+                    "isArrayNullable": true,
                     "association": {
-                        "connectionType": "HAS_ONE",
+                        "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "addressID"
+                            "studentCPR"
                         ]
                     }
                 },
@@ -1130,6 +1153,14 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "cpr"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -1177,5 +1208,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "c20a985344982f88e38f96a64a63300e"
+    "version": "3b26c50e1c12f31f5533ae2f39653e71"
 };

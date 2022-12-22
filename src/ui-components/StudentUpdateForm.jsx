@@ -41,10 +41,9 @@ export default function StudentUpdateForm(props) {
     placeOfBirth: undefined,
     studentOrderAmongSiblings: undefined,
     householdIncome: undefined,
-    addressID: undefined,
     preferredLanguage: undefined,
     graduationDate: undefined,
-    Address: {},
+    address: undefined,
     ParentInfo: {},
     parentInfoID: undefined,
   };
@@ -65,14 +64,13 @@ export default function StudentUpdateForm(props) {
   const [householdIncome, setHouseholdIncome] = React.useState(
     initialValues.householdIncome
   );
-  const [addressID, setAddressID] = React.useState(initialValues.addressID);
   const [preferredLanguage, setPreferredLanguage] = React.useState(
     initialValues.preferredLanguage
   );
   const [graduationDate, setGraduationDate] = React.useState(
     initialValues.graduationDate
   );
-  const [Address, setAddress] = React.useState(initialValues.Address);
+  const [address, setAddress] = React.useState(initialValues.address);
   const [ParentInfo, setParentInfo] = React.useState(initialValues.ParentInfo);
   const [parentInfoID, setParentInfoID] = React.useState(
     initialValues.parentInfoID
@@ -90,10 +88,9 @@ export default function StudentUpdateForm(props) {
     setPlaceOfBirth(cleanValues.placeOfBirth);
     setStudentOrderAmongSiblings(cleanValues.studentOrderAmongSiblings);
     setHouseholdIncome(cleanValues.householdIncome);
-    setAddressID(cleanValues.addressID);
     setPreferredLanguage(cleanValues.preferredLanguage);
     setGraduationDate(cleanValues.graduationDate);
-    setAddress(cleanValues.Address);
+    setAddress(cleanValues.address);
     setParentInfo(cleanValues.ParentInfo);
     setParentInfoID(cleanValues.parentInfoID);
     setErrors({});
@@ -108,7 +105,7 @@ export default function StudentUpdateForm(props) {
   }, [id, student]);
   React.useEffect(resetStateValues, [studentRecord]);
   const validations = {
-    cpr: [],
+    cpr: [{ type: "Required" }],
     fullName: [],
     email: [],
     phone: [],
@@ -118,10 +115,9 @@ export default function StudentUpdateForm(props) {
     placeOfBirth: [],
     studentOrderAmongSiblings: [],
     householdIncome: [],
-    addressID: [],
     preferredLanguage: [],
     graduationDate: [],
-    Address: [],
+    address: [],
     ParentInfo: [],
     parentInfoID: [],
   };
@@ -153,10 +149,9 @@ export default function StudentUpdateForm(props) {
           placeOfBirth,
           studentOrderAmongSiblings,
           householdIncome,
-          addressID,
           preferredLanguage,
           graduationDate,
-          Address,
+          address,
           ParentInfo,
           parentInfoID,
         };
@@ -202,7 +197,7 @@ export default function StudentUpdateForm(props) {
     >
       <TextField
         label="Cpr"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         defaultValue={cpr}
         onChange={(e) => {
@@ -219,10 +214,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -258,10 +252,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -297,10 +290,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -336,10 +328,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -375,10 +366,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -425,10 +415,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -464,10 +453,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -503,10 +491,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth: value,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -551,10 +538,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings: value,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -604,10 +590,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome: value,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -623,45 +608,6 @@ export default function StudentUpdateForm(props) {
         errorMessage={errors.householdIncome?.errorMessage}
         hasError={errors.householdIncome?.hasError}
         {...getOverrideProps(overrides, "householdIncome")}
-      ></TextField>
-      <TextField
-        label="Address id"
-        isRequired={false}
-        isReadOnly={false}
-        defaultValue={addressID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              cpr,
-              fullName,
-              email,
-              phone,
-              gender,
-              schoolName,
-              specialization,
-              placeOfBirth,
-              studentOrderAmongSiblings,
-              householdIncome,
-              addressID: value,
-              preferredLanguage,
-              graduationDate,
-              Address,
-              ParentInfo,
-              parentInfoID,
-            };
-            const result = onChange(modelFields);
-            value = result?.addressID ?? value;
-          }
-          if (errors.addressID?.hasError) {
-            runValidationTasks("addressID", value);
-          }
-          setAddressID(value);
-        }}
-        onBlur={() => runValidationTasks("addressID", addressID)}
-        errorMessage={errors.addressID?.errorMessage}
-        hasError={errors.addressID?.hasError}
-        {...getOverrideProps(overrides, "addressID")}
       ></TextField>
       <SelectField
         label="Preferred language"
@@ -682,10 +628,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage: value,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -735,10 +680,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate: value,
-              Address,
+              address,
               ParentInfo,
               parentInfoID,
             };
@@ -755,11 +699,11 @@ export default function StudentUpdateForm(props) {
         hasError={errors.graduationDate?.hasError}
         {...getOverrideProps(overrides, "graduationDate")}
       ></TextField>
-      <SelectField
+      <TextField
         label="Address"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={Address}
+        isRequired={false}
+        isReadOnly={false}
+        defaultValue={address}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -774,26 +718,25 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address: value,
+              address: value,
               ParentInfo,
               parentInfoID,
             };
             const result = onChange(modelFields);
-            value = result?.Address ?? value;
+            value = result?.address ?? value;
           }
-          if (errors.Address?.hasError) {
-            runValidationTasks("Address", value);
+          if (errors.address?.hasError) {
+            runValidationTasks("address", value);
           }
           setAddress(value);
         }}
-        onBlur={() => runValidationTasks("Address", Address)}
-        errorMessage={errors.Address?.errorMessage}
-        hasError={errors.Address?.hasError}
-        {...getOverrideProps(overrides, "Address")}
-      ></SelectField>
+        onBlur={() => runValidationTasks("address", address)}
+        errorMessage={errors.address?.errorMessage}
+        hasError={errors.address?.hasError}
+        {...getOverrideProps(overrides, "address")}
+      ></TextField>
       <SelectField
         label="Parent info"
         placeholder="Please select an option"
@@ -813,10 +756,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo: value,
               parentInfoID,
             };
@@ -852,10 +794,9 @@ export default function StudentUpdateForm(props) {
               placeOfBirth,
               studentOrderAmongSiblings,
               householdIncome,
-              addressID,
               preferredLanguage,
               graduationDate,
-              Address,
+              address,
               ParentInfo,
               parentInfoID: value,
             };

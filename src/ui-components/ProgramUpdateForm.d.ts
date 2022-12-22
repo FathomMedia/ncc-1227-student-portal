@@ -14,11 +14,13 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ProgramUpdateFormInputValues = {
+    name?: string;
     requirements?: string;
     availability?: number;
     universityID?: string;
 };
 export declare type ProgramUpdateFormValidationValues = {
+    name?: ValidationFunction<string>;
     requirements?: ValidationFunction<string>;
     availability?: ValidationFunction<number>;
     universityID?: ValidationFunction<string>;
@@ -26,6 +28,7 @@ export declare type ProgramUpdateFormValidationValues = {
 export declare type FormProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ProgramUpdateFormOverridesProps = {
     ProgramUpdateFormGrid?: FormProps<GridProps>;
+    name?: FormProps<TextFieldProps>;
     requirements?: FormProps<TextFieldProps>;
     availability?: FormProps<TextFieldProps>;
     universityID?: FormProps<TextFieldProps>;

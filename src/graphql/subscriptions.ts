@@ -65,8 +65,12 @@ export const onCreateApplication = /* GraphQL */ `
       gpa
       status
       attachmentID
-      studentID
+      studentCPR
       adminLogs {
+        nextToken
+        startedAt
+      }
+      studentLogs {
         nextToken
         startedAt
       }
@@ -104,8 +108,12 @@ export const onUpdateApplication = /* GraphQL */ `
       gpa
       status
       attachmentID
-      studentID
+      studentCPR
       adminLogs {
+        nextToken
+        startedAt
+      }
+      studentLogs {
         nextToken
         startedAt
       }
@@ -143,8 +151,12 @@ export const onDeleteApplication = /* GraphQL */ `
       gpa
       status
       attachmentID
-      studentID
+      studentCPR
       adminLogs {
+        nextToken
+        startedAt
+      }
+      studentLogs {
         nextToken
         startedAt
       }
@@ -183,6 +195,7 @@ export const onCreateProgramChoice = /* GraphQL */ `
       applicationID
       program {
         id
+        name
         requirements
         availability
         universityID
@@ -198,7 +211,7 @@ export const onCreateProgramChoice = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -227,6 +240,7 @@ export const onUpdateProgramChoice = /* GraphQL */ `
       applicationID
       program {
         id
+        name
         requirements
         availability
         universityID
@@ -242,7 +256,7 @@ export const onUpdateProgramChoice = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -271,6 +285,7 @@ export const onDeleteProgramChoice = /* GraphQL */ `
       applicationID
       program {
         id
+        name
         requirements
         availability
         universityID
@@ -286,7 +301,7 @@ export const onDeleteProgramChoice = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -309,6 +324,7 @@ export const onCreateProgram = /* GraphQL */ `
   subscription OnCreateProgram($filter: ModelSubscriptionProgramFilterInput) {
     onCreateProgram(filter: $filter) {
       id
+      name
       requirements
       availability
       universityID
@@ -338,6 +354,7 @@ export const onUpdateProgram = /* GraphQL */ `
   subscription OnUpdateProgram($filter: ModelSubscriptionProgramFilterInput) {
     onUpdateProgram(filter: $filter) {
       id
+      name
       requirements
       availability
       universityID
@@ -367,6 +384,7 @@ export const onDeleteProgram = /* GraphQL */ `
   subscription OnDeleteProgram($filter: ModelSubscriptionProgramFilterInput) {
     onDeleteProgram(filter: $filter) {
       id
+      name
       requirements
       availability
       universityID
@@ -454,7 +472,7 @@ export const onCreateAdminLog = /* GraphQL */ `
     onCreateAdminLog(filter: $filter) {
       id
       applicationID
-      adminID
+      adminCPR
       dateTime
       snapshot
       createdAt
@@ -463,7 +481,7 @@ export const onCreateAdminLog = /* GraphQL */ `
       _deleted
       _lastChangedAt
       applicationAdminLogsId
-      adminAdminLogsId
+      adminAdminLogsCpr
     }
   }
 `;
@@ -472,7 +490,7 @@ export const onUpdateAdminLog = /* GraphQL */ `
     onUpdateAdminLog(filter: $filter) {
       id
       applicationID
-      adminID
+      adminCPR
       dateTime
       snapshot
       createdAt
@@ -481,7 +499,7 @@ export const onUpdateAdminLog = /* GraphQL */ `
       _deleted
       _lastChangedAt
       applicationAdminLogsId
-      adminAdminLogsId
+      adminAdminLogsCpr
     }
   }
 `;
@@ -490,7 +508,7 @@ export const onDeleteAdminLog = /* GraphQL */ `
     onDeleteAdminLog(filter: $filter) {
       id
       applicationID
-      adminID
+      adminCPR
       dateTime
       snapshot
       createdAt
@@ -499,14 +517,73 @@ export const onDeleteAdminLog = /* GraphQL */ `
       _deleted
       _lastChangedAt
       applicationAdminLogsId
-      adminAdminLogsId
+      adminAdminLogsCpr
+    }
+  }
+`;
+export const onCreateStudentLog = /* GraphQL */ `
+  subscription OnCreateStudentLog(
+    $filter: ModelSubscriptionStudentLogFilterInput
+  ) {
+    onCreateStudentLog(filter: $filter) {
+      id
+      applicationID
+      studentCPR
+      dateTime
+      snapshot
+      reason
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      applicationStudentLogsId
+    }
+  }
+`;
+export const onUpdateStudentLog = /* GraphQL */ `
+  subscription OnUpdateStudentLog(
+    $filter: ModelSubscriptionStudentLogFilterInput
+  ) {
+    onUpdateStudentLog(filter: $filter) {
+      id
+      applicationID
+      studentCPR
+      dateTime
+      snapshot
+      reason
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      applicationStudentLogsId
+    }
+  }
+`;
+export const onDeleteStudentLog = /* GraphQL */ `
+  subscription OnDeleteStudentLog(
+    $filter: ModelSubscriptionStudentLogFilterInput
+  ) {
+    onDeleteStudentLog(filter: $filter) {
+      id
+      applicationID
+      studentCPR
+      dateTime
+      snapshot
+      reason
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      applicationStudentLogsId
     }
   }
 `;
 export const onCreateAdmin = /* GraphQL */ `
   subscription OnCreateAdmin($filter: ModelSubscriptionAdminFilterInput) {
     onCreateAdmin(filter: $filter) {
-      id
       cpr
       fullName
       email
@@ -525,7 +602,6 @@ export const onCreateAdmin = /* GraphQL */ `
 export const onUpdateAdmin = /* GraphQL */ `
   subscription OnUpdateAdmin($filter: ModelSubscriptionAdminFilterInput) {
     onUpdateAdmin(filter: $filter) {
-      id
       cpr
       fullName
       email
@@ -544,7 +620,6 @@ export const onUpdateAdmin = /* GraphQL */ `
 export const onDeleteAdmin = /* GraphQL */ `
   subscription OnDeleteAdmin($filter: ModelSubscriptionAdminFilterInput) {
     onDeleteAdmin(filter: $filter) {
-      id
       cpr
       fullName
       email
@@ -576,25 +651,12 @@ export const onCreateParentInfo = /* GraphQL */ `
       motherFullName
       motherCPR
       numberOfFamilyMembers
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      address
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      parentInfoAddressId
     }
   }
 `;
@@ -614,25 +676,12 @@ export const onUpdateParentInfo = /* GraphQL */ `
       motherFullName
       motherCPR
       numberOfFamilyMembers
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      address
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      parentInfoAddressId
     }
   }
 `;
@@ -652,32 +701,18 @@ export const onDeleteParentInfo = /* GraphQL */ `
       motherFullName
       motherCPR
       numberOfFamilyMembers
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      address
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      parentInfoAddressId
     }
   }
 `;
 export const onCreateStudent = /* GraphQL */ `
   subscription OnCreateStudent($filter: ModelSubscriptionStudentFilterInput) {
     onCreateStudent(filter: $filter) {
-      id
       cpr
       fullName
       email
@@ -688,21 +723,12 @@ export const onCreateStudent = /* GraphQL */ `
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
-      addressID
       preferredLanguage
       graduationDate
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      address
+      applications {
+        nextToken
+        startedAt
       }
       ParentInfo {
         id
@@ -716,12 +742,12 @@ export const onCreateStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       parentInfoID
       createdAt
@@ -735,7 +761,6 @@ export const onCreateStudent = /* GraphQL */ `
 export const onUpdateStudent = /* GraphQL */ `
   subscription OnUpdateStudent($filter: ModelSubscriptionStudentFilterInput) {
     onUpdateStudent(filter: $filter) {
-      id
       cpr
       fullName
       email
@@ -746,21 +771,12 @@ export const onUpdateStudent = /* GraphQL */ `
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
-      addressID
       preferredLanguage
       graduationDate
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      address
+      applications {
+        nextToken
+        startedAt
       }
       ParentInfo {
         id
@@ -774,12 +790,12 @@ export const onUpdateStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       parentInfoID
       createdAt
@@ -793,7 +809,6 @@ export const onUpdateStudent = /* GraphQL */ `
 export const onDeleteStudent = /* GraphQL */ `
   subscription OnDeleteStudent($filter: ModelSubscriptionStudentFilterInput) {
     onDeleteStudent(filter: $filter) {
-      id
       cpr
       fullName
       email
@@ -804,21 +819,12 @@ export const onDeleteStudent = /* GraphQL */ `
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
-      addressID
       preferredLanguage
       graduationDate
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      address
+      applications {
+        nextToken
+        startedAt
       }
       ParentInfo {
         id
@@ -832,65 +838,14 @@ export const onDeleteStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       parentInfoID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onCreateAddress = /* GraphQL */ `
-  subscription OnCreateAddress($filter: ModelSubscriptionAddressFilterInput) {
-    onCreateAddress(filter: $filter) {
-      id
-      type
-      buildingNumber
-      roadNumber
-      blockNumber
-      city
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onUpdateAddress = /* GraphQL */ `
-  subscription OnUpdateAddress($filter: ModelSubscriptionAddressFilterInput) {
-    onUpdateAddress(filter: $filter) {
-      id
-      type
-      buildingNumber
-      roadNumber
-      blockNumber
-      city
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onDeleteAddress = /* GraphQL */ `
-  subscription OnDeleteAddress($filter: ModelSubscriptionAddressFilterInput) {
-    onDeleteAddress(filter: $filter) {
-      id
-      type
-      buildingNumber
-      roadNumber
-      blockNumber
-      city
       createdAt
       updatedAt
       _version

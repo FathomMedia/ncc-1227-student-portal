@@ -3,11 +3,16 @@ import { Field, Form, Formik } from "formik";
 import toast from "react-hot-toast";
 
 import * as yup from "yup";
-import { ListStudentsQuery } from "../src/API";
+import {
+  GetStudentQuery,
+  GetStudentQueryVariables,
+  ListStudentsQuery,
+} from "../../src/API";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { useEffect, useState } from "react";
-import AppLoader from "./App-loader";
+import AppLoader from "./../App-loader";
 import { useRouter } from "next/router";
+import { getStudent } from "../../src/graphql/queries";
 
 interface Props {
   cpr: string;
@@ -83,33 +88,21 @@ export const VerifyEmail = ({ cpr }: Props) => {
   }
 
   /**
-   * It queries the database for a user with the given CPR number, and returns the user's email address
-   * if found, or null if not found
-   * @param {string} cpr - The CPR number of the user.
-   * @returns The email of the user with the given CPR number.
+   * It takes a CPR number as input, and returns the email address of the student with that CPR number
+   * @param {string} cpr - The CPR number of the student.
+   * @returns The email of the student with the given CPR number.
    */
   async function getUserEmail(cpr: string): Promise<string | null> {
-    let query = `
-    query GetUserEmail {
-      listStudents(filter: {cpr: {eq: "${cpr}"}}) {
-        items {
-          _version
-          _deleted
-          id
-          cpr
-          email
-        }
-      }
-    }
-    `;
+    let queryInput: GetStudentQueryVariables = {
+      cpr: cpr,
+    };
 
-    let res = (await API.graphql(
-      graphqlOperation(query)
-    )) as GraphQLResult<ListStudentsQuery>;
+    let res = (await API.graphql({
+      query: getStudent,
+      variables: queryInput,
+    })) as GraphQLResult<GetStudentQuery>;
 
-    return (res.data?.listStudents?.items ?? []).length > 0
-      ? res.data?.listStudents?.items[0]?.email ?? null
-      : null;
+    return res.data?.getStudent?.email ?? null;
   }
 
   return loading ? (
@@ -193,7 +186,7 @@ export const VerifyEmail = ({ cpr }: Props) => {
               >
                 {"Resend code"}
                 {countdown > 0 && (
-                  <span className="countdown mx-2">
+                  <span className="mx-2 countdown">
                     <span style={{ ["--value" as any]: countdown }}></span>
                   </span>
                 )}

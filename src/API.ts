@@ -94,7 +94,7 @@ export type CreateApplicationInput = {
   gpa?: number | null,
   status?: Status | null,
   attachmentID?: string | null,
-  studentID?: string | null,
+  studentCPR: string,
   _version?: number | null,
   applicationAttachmentId?: string | null,
 };
@@ -113,7 +113,7 @@ export type ModelApplicationConditionInput = {
   gpa?: ModelIntInput | null,
   status?: ModelStatusInput | null,
   attachmentID?: ModelStringInput | null,
-  studentID?: ModelStringInput | null,
+  studentCPR?: ModelStringInput | null,
   and?: Array< ModelApplicationConditionInput | null > | null,
   or?: Array< ModelApplicationConditionInput | null > | null,
   not?: ModelApplicationConditionInput | null,
@@ -159,8 +159,9 @@ export type Application = {
   gpa?: number | null,
   status?: Status | null,
   attachmentID?: string | null,
-  studentID?: string | null,
+  studentCPR: string,
   adminLogs?: ModelAdminLogConnection | null,
+  studentLogs?: ModelStudentLogConnection | null,
   attachment?: Attachment | null,
   programs?: ModelProgramChoiceConnection | null,
   createdAt: string,
@@ -182,7 +183,7 @@ export type AdminLog = {
   __typename: "AdminLog",
   id: string,
   applicationID: string,
-  adminID: string,
+  adminCPR: string,
   dateTime?: string | null,
   snapshot?: string | null,
   createdAt: string,
@@ -191,7 +192,30 @@ export type AdminLog = {
   _deleted?: boolean | null,
   _lastChangedAt: number,
   applicationAdminLogsId?: string | null,
-  adminAdminLogsId?: string | null,
+  adminAdminLogsCpr?: string | null,
+};
+
+export type ModelStudentLogConnection = {
+  __typename: "ModelStudentLogConnection",
+  items:  Array<StudentLog | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type StudentLog = {
+  __typename: "StudentLog",
+  id: string,
+  applicationID: string,
+  studentCPR: string,
+  dateTime?: string | null,
+  snapshot?: string | null,
+  reason?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+  applicationStudentLogsId?: string | null,
 };
 
 export type ModelProgramChoiceConnection = {
@@ -221,6 +245,7 @@ export type ProgramChoice = {
 export type Program = {
   __typename: "Program",
   id: string,
+  name?: string | null,
   requirements?: string | null,
   availability?: number | null,
   universityID: string,
@@ -258,7 +283,7 @@ export type UpdateApplicationInput = {
   gpa?: number | null,
   status?: Status | null,
   attachmentID?: string | null,
-  studentID?: string | null,
+  studentCPR?: string | null,
   _version?: number | null,
   applicationAttachmentId?: string | null,
 };
@@ -306,6 +331,7 @@ export type DeleteProgramChoiceInput = {
 
 export type CreateProgramInput = {
   id?: string | null,
+  name?: string | null,
   requirements?: string | null,
   availability?: number | null,
   universityID: string,
@@ -314,6 +340,7 @@ export type CreateProgramInput = {
 };
 
 export type ModelProgramConditionInput = {
+  name?: ModelStringInput | null,
   requirements?: ModelStringInput | null,
   availability?: ModelIntInput | null,
   universityID?: ModelIDInput | null,
@@ -325,6 +352,7 @@ export type ModelProgramConditionInput = {
 
 export type UpdateProgramInput = {
   id: string,
+  name?: string | null,
   requirements?: string | null,
   availability?: number | null,
   universityID?: string | null,
@@ -364,35 +392,35 @@ export type DeleteUniversityInput = {
 export type CreateAdminLogInput = {
   id?: string | null,
   applicationID: string,
-  adminID: string,
+  adminCPR: string,
   dateTime?: string | null,
   snapshot?: string | null,
   _version?: number | null,
   applicationAdminLogsId?: string | null,
-  adminAdminLogsId?: string | null,
+  adminAdminLogsCpr?: string | null,
 };
 
 export type ModelAdminLogConditionInput = {
   applicationID?: ModelIDInput | null,
-  adminID?: ModelIDInput | null,
+  adminCPR?: ModelStringInput | null,
   dateTime?: ModelStringInput | null,
   snapshot?: ModelStringInput | null,
   and?: Array< ModelAdminLogConditionInput | null > | null,
   or?: Array< ModelAdminLogConditionInput | null > | null,
   not?: ModelAdminLogConditionInput | null,
   applicationAdminLogsId?: ModelIDInput | null,
-  adminAdminLogsId?: ModelIDInput | null,
+  adminAdminLogsCpr?: ModelStringInput | null,
 };
 
 export type UpdateAdminLogInput = {
   id: string,
   applicationID?: string | null,
-  adminID?: string | null,
+  adminCPR?: string | null,
   dateTime?: string | null,
   snapshot?: string | null,
   _version?: number | null,
   applicationAdminLogsId?: string | null,
-  adminAdminLogsId?: string | null,
+  adminAdminLogsCpr?: string | null,
 };
 
 export type DeleteAdminLogInput = {
@@ -400,16 +428,53 @@ export type DeleteAdminLogInput = {
   _version?: number | null,
 };
 
-export type CreateAdminInput = {
+export type CreateStudentLogInput = {
   id?: string | null,
-  cpr?: string | null,
+  applicationID: string,
+  studentCPR: string,
+  dateTime?: string | null,
+  snapshot?: string | null,
+  reason?: string | null,
+  _version?: number | null,
+  applicationStudentLogsId?: string | null,
+};
+
+export type ModelStudentLogConditionInput = {
+  applicationID?: ModelIDInput | null,
+  studentCPR?: ModelStringInput | null,
+  dateTime?: ModelStringInput | null,
+  snapshot?: ModelStringInput | null,
+  reason?: ModelStringInput | null,
+  and?: Array< ModelStudentLogConditionInput | null > | null,
+  or?: Array< ModelStudentLogConditionInput | null > | null,
+  not?: ModelStudentLogConditionInput | null,
+  applicationStudentLogsId?: ModelIDInput | null,
+};
+
+export type UpdateStudentLogInput = {
+  id: string,
+  applicationID?: string | null,
+  studentCPR?: string | null,
+  dateTime?: string | null,
+  snapshot?: string | null,
+  reason?: string | null,
+  _version?: number | null,
+  applicationStudentLogsId?: string | null,
+};
+
+export type DeleteStudentLogInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateAdminInput = {
+  cpr: string,
   fullName?: string | null,
   email?: string | null,
   _version?: number | null,
 };
 
 export type ModelAdminConditionInput = {
-  cpr?: ModelStringInput | null,
   fullName?: ModelStringInput | null,
   email?: ModelStringInput | null,
   and?: Array< ModelAdminConditionInput | null > | null,
@@ -419,8 +484,7 @@ export type ModelAdminConditionInput = {
 
 export type Admin = {
   __typename: "Admin",
-  id: string,
-  cpr?: string | null,
+  cpr: string,
   fullName?: string | null,
   email?: string | null,
   AdminLogs?: ModelAdminLogConnection | null,
@@ -432,15 +496,14 @@ export type Admin = {
 };
 
 export type UpdateAdminInput = {
-  id: string,
-  cpr?: string | null,
+  cpr: string,
   fullName?: string | null,
   email?: string | null,
   _version?: number | null,
 };
 
 export type DeleteAdminInput = {
-  id: string,
+  cpr: string,
   _version?: number | null,
 };
 
@@ -456,8 +519,8 @@ export type CreateParentInfoInput = {
   motherFullName?: string | null,
   motherCPR?: string | null,
   numberOfFamilyMembers?: number | null,
+  address?: string | null,
   _version?: number | null,
-  parentInfoAddressId?: string | null,
 };
 
 export type ModelParentInfoConditionInput = {
@@ -471,10 +534,10 @@ export type ModelParentInfoConditionInput = {
   motherFullName?: ModelStringInput | null,
   motherCPR?: ModelStringInput | null,
   numberOfFamilyMembers?: ModelIntInput | null,
+  address?: ModelStringInput | null,
   and?: Array< ModelParentInfoConditionInput | null > | null,
   or?: Array< ModelParentInfoConditionInput | null > | null,
   not?: ModelParentInfoConditionInput | null,
-  parentInfoAddressId?: ModelIDInput | null,
 };
 
 export type ParentInfo = {
@@ -490,23 +553,7 @@ export type ParentInfo = {
   motherFullName?: string | null,
   motherCPR?: string | null,
   numberOfFamilyMembers?: number | null,
-  Address?: Address | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  parentInfoAddressId?: string | null,
-};
-
-export type Address = {
-  __typename: "Address",
-  id: string,
-  type?: string | null,
-  buildingNumber?: string | null,
-  roadNumber?: string | null,
-  blockNumber?: string | null,
-  city?: string | null,
+  address?: string | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -526,8 +573,8 @@ export type UpdateParentInfoInput = {
   motherFullName?: string | null,
   motherCPR?: string | null,
   numberOfFamilyMembers?: number | null,
+  address?: string | null,
   _version?: number | null,
-  parentInfoAddressId?: string | null,
 };
 
 export type DeleteParentInfoInput = {
@@ -536,8 +583,7 @@ export type DeleteParentInfoInput = {
 };
 
 export type CreateStudentInput = {
-  id?: string | null,
-  cpr?: string | null,
+  cpr: string,
   fullName?: string | null,
   email?: string | null,
   phone?: string | null,
@@ -547,9 +593,9 @@ export type CreateStudentInput = {
   placeOfBirth?: string | null,
   studentOrderAmongSiblings?: number | null,
   householdIncome?: number | null,
-  addressID?: string | null,
   preferredLanguage?: Language | null,
   graduationDate?: string | null,
+  address?: string | null,
   parentInfoID?: string | null,
   _version?: number | null,
 };
@@ -567,7 +613,6 @@ export enum Language {
 
 
 export type ModelStudentConditionInput = {
-  cpr?: ModelStringInput | null,
   fullName?: ModelStringInput | null,
   email?: ModelStringInput | null,
   phone?: ModelStringInput | null,
@@ -577,9 +622,9 @@ export type ModelStudentConditionInput = {
   placeOfBirth?: ModelStringInput | null,
   studentOrderAmongSiblings?: ModelIntInput | null,
   householdIncome?: ModelFloatInput | null,
-  addressID?: ModelIDInput | null,
   preferredLanguage?: ModelLanguageInput | null,
   graduationDate?: ModelStringInput | null,
+  address?: ModelStringInput | null,
   parentInfoID?: ModelIDInput | null,
   and?: Array< ModelStudentConditionInput | null > | null,
   or?: Array< ModelStudentConditionInput | null > | null,
@@ -610,8 +655,7 @@ export type ModelLanguageInput = {
 
 export type Student = {
   __typename: "Student",
-  id: string,
-  cpr?: string | null,
+  cpr: string,
   fullName?: string | null,
   email?: string | null,
   phone?: string | null,
@@ -621,10 +665,10 @@ export type Student = {
   placeOfBirth?: string | null,
   studentOrderAmongSiblings?: number | null,
   householdIncome?: number | null,
-  addressID?: string | null,
   preferredLanguage?: Language | null,
   graduationDate?: string | null,
-  Address?: Address | null,
+  address?: string | null,
+  applications?: ModelApplicationConnection | null,
   ParentInfo?: ParentInfo | null,
   parentInfoID?: string | null,
   createdAt: string,
@@ -634,9 +678,15 @@ export type Student = {
   _lastChangedAt: number,
 };
 
+export type ModelApplicationConnection = {
+  __typename: "ModelApplicationConnection",
+  items:  Array<Application | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type UpdateStudentInput = {
-  id: string,
-  cpr?: string | null,
+  cpr: string,
   fullName?: string | null,
   email?: string | null,
   phone?: string | null,
@@ -646,51 +696,15 @@ export type UpdateStudentInput = {
   placeOfBirth?: string | null,
   studentOrderAmongSiblings?: number | null,
   householdIncome?: number | null,
-  addressID?: string | null,
   preferredLanguage?: Language | null,
   graduationDate?: string | null,
+  address?: string | null,
   parentInfoID?: string | null,
   _version?: number | null,
 };
 
 export type DeleteStudentInput = {
-  id: string,
-  _version?: number | null,
-};
-
-export type CreateAddressInput = {
-  id?: string | null,
-  type?: string | null,
-  buildingNumber?: string | null,
-  roadNumber?: string | null,
-  blockNumber?: string | null,
-  city?: string | null,
-  _version?: number | null,
-};
-
-export type ModelAddressConditionInput = {
-  type?: ModelStringInput | null,
-  buildingNumber?: ModelStringInput | null,
-  roadNumber?: ModelStringInput | null,
-  blockNumber?: ModelStringInput | null,
-  city?: ModelStringInput | null,
-  and?: Array< ModelAddressConditionInput | null > | null,
-  or?: Array< ModelAddressConditionInput | null > | null,
-  not?: ModelAddressConditionInput | null,
-};
-
-export type UpdateAddressInput = {
-  id: string,
-  type?: string | null,
-  buildingNumber?: string | null,
-  roadNumber?: string | null,
-  blockNumber?: string | null,
-  city?: string | null,
-  _version?: number | null,
-};
-
-export type DeleteAddressInput = {
-  id: string,
+  cpr: string,
   _version?: number | null,
 };
 
@@ -717,19 +731,27 @@ export type ModelApplicationFilterInput = {
   gpa?: ModelIntInput | null,
   status?: ModelStatusInput | null,
   attachmentID?: ModelStringInput | null,
-  studentID?: ModelStringInput | null,
+  studentCPR?: ModelStringInput | null,
   and?: Array< ModelApplicationFilterInput | null > | null,
   or?: Array< ModelApplicationFilterInput | null > | null,
   not?: ModelApplicationFilterInput | null,
   applicationAttachmentId?: ModelIDInput | null,
 };
 
-export type ModelApplicationConnection = {
-  __typename: "ModelApplicationConnection",
-  items:  Array<Application | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
+export type ModelIntKeyConditionInput = {
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
 };
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelProgramChoiceFilterInput = {
   id?: ModelIDInput | null,
@@ -745,6 +767,7 @@ export type ModelProgramChoiceFilterInput = {
 
 export type ModelProgramFilterInput = {
   id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
   requirements?: ModelStringInput | null,
   availability?: ModelIntInput | null,
   universityID?: ModelIDInput | null,
@@ -772,18 +795,30 @@ export type ModelUniversityConnection = {
 export type ModelAdminLogFilterInput = {
   id?: ModelIDInput | null,
   applicationID?: ModelIDInput | null,
-  adminID?: ModelIDInput | null,
+  adminCPR?: ModelStringInput | null,
   dateTime?: ModelStringInput | null,
   snapshot?: ModelStringInput | null,
   and?: Array< ModelAdminLogFilterInput | null > | null,
   or?: Array< ModelAdminLogFilterInput | null > | null,
   not?: ModelAdminLogFilterInput | null,
   applicationAdminLogsId?: ModelIDInput | null,
-  adminAdminLogsId?: ModelIDInput | null,
+  adminAdminLogsCpr?: ModelStringInput | null,
+};
+
+export type ModelStudentLogFilterInput = {
+  id?: ModelIDInput | null,
+  applicationID?: ModelIDInput | null,
+  studentCPR?: ModelStringInput | null,
+  dateTime?: ModelStringInput | null,
+  snapshot?: ModelStringInput | null,
+  reason?: ModelStringInput | null,
+  and?: Array< ModelStudentLogFilterInput | null > | null,
+  or?: Array< ModelStudentLogFilterInput | null > | null,
+  not?: ModelStudentLogFilterInput | null,
+  applicationStudentLogsId?: ModelIDInput | null,
 };
 
 export type ModelAdminFilterInput = {
-  id?: ModelIDInput | null,
   cpr?: ModelStringInput | null,
   fullName?: ModelStringInput | null,
   email?: ModelStringInput | null,
@@ -811,10 +846,10 @@ export type ModelParentInfoFilterInput = {
   motherFullName?: ModelStringInput | null,
   motherCPR?: ModelStringInput | null,
   numberOfFamilyMembers?: ModelIntInput | null,
+  address?: ModelStringInput | null,
   and?: Array< ModelParentInfoFilterInput | null > | null,
   or?: Array< ModelParentInfoFilterInput | null > | null,
   not?: ModelParentInfoFilterInput | null,
-  parentInfoAddressId?: ModelIDInput | null,
 };
 
 export type ModelParentInfoConnection = {
@@ -825,7 +860,6 @@ export type ModelParentInfoConnection = {
 };
 
 export type ModelStudentFilterInput = {
-  id?: ModelIDInput | null,
   cpr?: ModelStringInput | null,
   fullName?: ModelStringInput | null,
   email?: ModelStringInput | null,
@@ -836,9 +870,9 @@ export type ModelStudentFilterInput = {
   placeOfBirth?: ModelStringInput | null,
   studentOrderAmongSiblings?: ModelIntInput | null,
   householdIncome?: ModelFloatInput | null,
-  addressID?: ModelIDInput | null,
   preferredLanguage?: ModelLanguageInput | null,
   graduationDate?: ModelStringInput | null,
+  address?: ModelStringInput | null,
   parentInfoID?: ModelIDInput | null,
   and?: Array< ModelStudentFilterInput | null > | null,
   or?: Array< ModelStudentFilterInput | null > | null,
@@ -848,25 +882,6 @@ export type ModelStudentFilterInput = {
 export type ModelStudentConnection = {
   __typename: "ModelStudentConnection",
   items:  Array<Student | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type ModelAddressFilterInput = {
-  id?: ModelIDInput | null,
-  type?: ModelStringInput | null,
-  buildingNumber?: ModelStringInput | null,
-  roadNumber?: ModelStringInput | null,
-  blockNumber?: ModelStringInput | null,
-  city?: ModelStringInput | null,
-  and?: Array< ModelAddressFilterInput | null > | null,
-  or?: Array< ModelAddressFilterInput | null > | null,
-  not?: ModelAddressFilterInput | null,
-};
-
-export type ModelAddressConnection = {
-  __typename: "ModelAddressConnection",
-  items:  Array<Address | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -916,7 +931,7 @@ export type ModelSubscriptionApplicationFilterInput = {
   gpa?: ModelSubscriptionIntInput | null,
   status?: ModelSubscriptionStringInput | null,
   attachmentID?: ModelSubscriptionStringInput | null,
-  studentID?: ModelSubscriptionStringInput | null,
+  studentCPR?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionApplicationFilterInput | null > | null,
   or?: Array< ModelSubscriptionApplicationFilterInput | null > | null,
 };
@@ -944,6 +959,7 @@ export type ModelSubscriptionProgramChoiceFilterInput = {
 
 export type ModelSubscriptionProgramFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
   requirements?: ModelSubscriptionStringInput | null,
   availability?: ModelSubscriptionIntInput | null,
   universityID?: ModelSubscriptionIDInput | null,
@@ -961,15 +977,25 @@ export type ModelSubscriptionUniversityFilterInput = {
 export type ModelSubscriptionAdminLogFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   applicationID?: ModelSubscriptionIDInput | null,
-  adminID?: ModelSubscriptionIDInput | null,
+  adminCPR?: ModelSubscriptionStringInput | null,
   dateTime?: ModelSubscriptionStringInput | null,
   snapshot?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionAdminLogFilterInput | null > | null,
   or?: Array< ModelSubscriptionAdminLogFilterInput | null > | null,
 };
 
-export type ModelSubscriptionAdminFilterInput = {
+export type ModelSubscriptionStudentLogFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  applicationID?: ModelSubscriptionIDInput | null,
+  studentCPR?: ModelSubscriptionStringInput | null,
+  dateTime?: ModelSubscriptionStringInput | null,
+  snapshot?: ModelSubscriptionStringInput | null,
+  reason?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionStudentLogFilterInput | null > | null,
+  or?: Array< ModelSubscriptionStudentLogFilterInput | null > | null,
+};
+
+export type ModelSubscriptionAdminFilterInput = {
   cpr?: ModelSubscriptionStringInput | null,
   fullName?: ModelSubscriptionStringInput | null,
   email?: ModelSubscriptionStringInput | null,
@@ -989,12 +1015,12 @@ export type ModelSubscriptionParentInfoFilterInput = {
   motherFullName?: ModelSubscriptionStringInput | null,
   motherCPR?: ModelSubscriptionStringInput | null,
   numberOfFamilyMembers?: ModelSubscriptionIntInput | null,
+  address?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionParentInfoFilterInput | null > | null,
   or?: Array< ModelSubscriptionParentInfoFilterInput | null > | null,
 };
 
 export type ModelSubscriptionStudentFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
   cpr?: ModelSubscriptionStringInput | null,
   fullName?: ModelSubscriptionStringInput | null,
   email?: ModelSubscriptionStringInput | null,
@@ -1005,9 +1031,9 @@ export type ModelSubscriptionStudentFilterInput = {
   placeOfBirth?: ModelSubscriptionStringInput | null,
   studentOrderAmongSiblings?: ModelSubscriptionIntInput | null,
   householdIncome?: ModelSubscriptionFloatInput | null,
-  addressID?: ModelSubscriptionIDInput | null,
   preferredLanguage?: ModelSubscriptionStringInput | null,
   graduationDate?: ModelSubscriptionStringInput | null,
+  address?: ModelSubscriptionStringInput | null,
   parentInfoID?: ModelSubscriptionIDInput | null,
   and?: Array< ModelSubscriptionStudentFilterInput | null > | null,
   or?: Array< ModelSubscriptionStudentFilterInput | null > | null,
@@ -1023,17 +1049,6 @@ export type ModelSubscriptionFloatInput = {
   between?: Array< number | null > | null,
   in?: Array< number | null > | null,
   notIn?: Array< number | null > | null,
-};
-
-export type ModelSubscriptionAddressFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  type?: ModelSubscriptionStringInput | null,
-  buildingNumber?: ModelSubscriptionStringInput | null,
-  roadNumber?: ModelSubscriptionStringInput | null,
-  blockNumber?: ModelSubscriptionStringInput | null,
-  city?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionAddressFilterInput | null > | null,
-  or?: Array< ModelSubscriptionAddressFilterInput | null > | null,
 };
 
 export type CreateAttachmentMutationVariables = {
@@ -1111,9 +1126,14 @@ export type CreateApplicationMutation = {
     gpa?: number | null,
     status?: Status | null,
     attachmentID?: string | null,
-    studentID?: string | null,
+    studentCPR: string,
     adminLogs?:  {
       __typename: "ModelAdminLogConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    studentLogs?:  {
+      __typename: "ModelStudentLogConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1156,9 +1176,14 @@ export type UpdateApplicationMutation = {
     gpa?: number | null,
     status?: Status | null,
     attachmentID?: string | null,
-    studentID?: string | null,
+    studentCPR: string,
     adminLogs?:  {
       __typename: "ModelAdminLogConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    studentLogs?:  {
+      __typename: "ModelStudentLogConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1201,9 +1226,14 @@ export type DeleteApplicationMutation = {
     gpa?: number | null,
     status?: Status | null,
     attachmentID?: string | null,
-    studentID?: string | null,
+    studentCPR: string,
     adminLogs?:  {
       __typename: "ModelAdminLogConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    studentLogs?:  {
+      __typename: "ModelStudentLogConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1248,6 +1278,7 @@ export type CreateProgramChoiceMutation = {
     program?:  {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -1264,7 +1295,7 @@ export type CreateProgramChoiceMutation = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1297,6 +1328,7 @@ export type UpdateProgramChoiceMutation = {
     program?:  {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -1313,7 +1345,7 @@ export type UpdateProgramChoiceMutation = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1346,6 +1378,7 @@ export type DeleteProgramChoiceMutation = {
     program?:  {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -1362,7 +1395,7 @@ export type DeleteProgramChoiceMutation = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1390,6 +1423,7 @@ export type CreateProgramMutation = {
   createProgram?:  {
     __typename: "Program",
     id: string,
+    name?: string | null,
     requirements?: string | null,
     availability?: number | null,
     universityID: string,
@@ -1426,6 +1460,7 @@ export type UpdateProgramMutation = {
   updateProgram?:  {
     __typename: "Program",
     id: string,
+    name?: string | null,
     requirements?: string | null,
     availability?: number | null,
     universityID: string,
@@ -1462,6 +1497,7 @@ export type DeleteProgramMutation = {
   deleteProgram?:  {
     __typename: "Program",
     id: string,
+    name?: string | null,
     requirements?: string | null,
     availability?: number | null,
     universityID: string,
@@ -1568,7 +1604,7 @@ export type CreateAdminLogMutation = {
     __typename: "AdminLog",
     id: string,
     applicationID: string,
-    adminID: string,
+    adminCPR: string,
     dateTime?: string | null,
     snapshot?: string | null,
     createdAt: string,
@@ -1577,7 +1613,7 @@ export type CreateAdminLogMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     applicationAdminLogsId?: string | null,
-    adminAdminLogsId?: string | null,
+    adminAdminLogsCpr?: string | null,
   } | null,
 };
 
@@ -1591,7 +1627,7 @@ export type UpdateAdminLogMutation = {
     __typename: "AdminLog",
     id: string,
     applicationID: string,
-    adminID: string,
+    adminCPR: string,
     dateTime?: string | null,
     snapshot?: string | null,
     createdAt: string,
@@ -1600,7 +1636,7 @@ export type UpdateAdminLogMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     applicationAdminLogsId?: string | null,
-    adminAdminLogsId?: string | null,
+    adminAdminLogsCpr?: string | null,
   } | null,
 };
 
@@ -1614,7 +1650,7 @@ export type DeleteAdminLogMutation = {
     __typename: "AdminLog",
     id: string,
     applicationID: string,
-    adminID: string,
+    adminCPR: string,
     dateTime?: string | null,
     snapshot?: string | null,
     createdAt: string,
@@ -1623,7 +1659,76 @@ export type DeleteAdminLogMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     applicationAdminLogsId?: string | null,
-    adminAdminLogsId?: string | null,
+    adminAdminLogsCpr?: string | null,
+  } | null,
+};
+
+export type CreateStudentLogMutationVariables = {
+  input: CreateStudentLogInput,
+  condition?: ModelStudentLogConditionInput | null,
+};
+
+export type CreateStudentLogMutation = {
+  createStudentLog?:  {
+    __typename: "StudentLog",
+    id: string,
+    applicationID: string,
+    studentCPR: string,
+    dateTime?: string | null,
+    snapshot?: string | null,
+    reason?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    applicationStudentLogsId?: string | null,
+  } | null,
+};
+
+export type UpdateStudentLogMutationVariables = {
+  input: UpdateStudentLogInput,
+  condition?: ModelStudentLogConditionInput | null,
+};
+
+export type UpdateStudentLogMutation = {
+  updateStudentLog?:  {
+    __typename: "StudentLog",
+    id: string,
+    applicationID: string,
+    studentCPR: string,
+    dateTime?: string | null,
+    snapshot?: string | null,
+    reason?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    applicationStudentLogsId?: string | null,
+  } | null,
+};
+
+export type DeleteStudentLogMutationVariables = {
+  input: DeleteStudentLogInput,
+  condition?: ModelStudentLogConditionInput | null,
+};
+
+export type DeleteStudentLogMutation = {
+  deleteStudentLog?:  {
+    __typename: "StudentLog",
+    id: string,
+    applicationID: string,
+    studentCPR: string,
+    dateTime?: string | null,
+    snapshot?: string | null,
+    reason?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    applicationStudentLogsId?: string | null,
   } | null,
 };
 
@@ -1635,8 +1740,7 @@ export type CreateAdminMutationVariables = {
 export type CreateAdminMutation = {
   createAdmin?:  {
     __typename: "Admin",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     AdminLogs?:  {
@@ -1660,8 +1764,7 @@ export type UpdateAdminMutationVariables = {
 export type UpdateAdminMutation = {
   updateAdmin?:  {
     __typename: "Admin",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     AdminLogs?:  {
@@ -1685,8 +1788,7 @@ export type DeleteAdminMutationVariables = {
 export type DeleteAdminMutation = {
   deleteAdmin?:  {
     __typename: "Admin",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     AdminLogs?:  {
@@ -1721,26 +1823,12 @@ export type CreateParentInfoMutation = {
     motherFullName?: string | null,
     motherCPR?: string | null,
     numberOfFamilyMembers?: number | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
+    address?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    parentInfoAddressId?: string | null,
   } | null,
 };
 
@@ -1763,26 +1851,12 @@ export type UpdateParentInfoMutation = {
     motherFullName?: string | null,
     motherCPR?: string | null,
     numberOfFamilyMembers?: number | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
+    address?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    parentInfoAddressId?: string | null,
   } | null,
 };
 
@@ -1805,26 +1879,12 @@ export type DeleteParentInfoMutation = {
     motherFullName?: string | null,
     motherCPR?: string | null,
     numberOfFamilyMembers?: number | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
+    address?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    parentInfoAddressId?: string | null,
   } | null,
 };
 
@@ -1836,8 +1896,7 @@ export type CreateStudentMutationVariables = {
 export type CreateStudentMutation = {
   createStudent?:  {
     __typename: "Student",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     phone?: string | null,
@@ -1847,22 +1906,13 @@ export type CreateStudentMutation = {
     placeOfBirth?: string | null,
     studentOrderAmongSiblings?: number | null,
     householdIncome?: number | null,
-    addressID?: string | null,
     preferredLanguage?: Language | null,
     graduationDate?: string | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    address?: string | null,
+    applications?:  {
+      __typename: "ModelApplicationConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     ParentInfo?:  {
       __typename: "ParentInfo",
@@ -1877,12 +1927,12 @@ export type CreateStudentMutation = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null,
     parentInfoID?: string | null,
     createdAt: string,
@@ -1901,8 +1951,7 @@ export type UpdateStudentMutationVariables = {
 export type UpdateStudentMutation = {
   updateStudent?:  {
     __typename: "Student",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     phone?: string | null,
@@ -1912,22 +1961,13 @@ export type UpdateStudentMutation = {
     placeOfBirth?: string | null,
     studentOrderAmongSiblings?: number | null,
     householdIncome?: number | null,
-    addressID?: string | null,
     preferredLanguage?: Language | null,
     graduationDate?: string | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    address?: string | null,
+    applications?:  {
+      __typename: "ModelApplicationConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     ParentInfo?:  {
       __typename: "ParentInfo",
@@ -1942,12 +1982,12 @@ export type UpdateStudentMutation = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null,
     parentInfoID?: string | null,
     createdAt: string,
@@ -1966,8 +2006,7 @@ export type DeleteStudentMutationVariables = {
 export type DeleteStudentMutation = {
   deleteStudent?:  {
     __typename: "Student",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     phone?: string | null,
@@ -1977,22 +2016,13 @@ export type DeleteStudentMutation = {
     placeOfBirth?: string | null,
     studentOrderAmongSiblings?: number | null,
     householdIncome?: number | null,
-    addressID?: string | null,
     preferredLanguage?: Language | null,
     graduationDate?: string | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    address?: string | null,
+    applications?:  {
+      __typename: "ModelApplicationConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     ParentInfo?:  {
       __typename: "ParentInfo",
@@ -2007,80 +2037,14 @@ export type DeleteStudentMutation = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null,
     parentInfoID?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type CreateAddressMutationVariables = {
-  input: CreateAddressInput,
-  condition?: ModelAddressConditionInput | null,
-};
-
-export type CreateAddressMutation = {
-  createAddress?:  {
-    __typename: "Address",
-    id: string,
-    type?: string | null,
-    buildingNumber?: string | null,
-    roadNumber?: string | null,
-    blockNumber?: string | null,
-    city?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type UpdateAddressMutationVariables = {
-  input: UpdateAddressInput,
-  condition?: ModelAddressConditionInput | null,
-};
-
-export type UpdateAddressMutation = {
-  updateAddress?:  {
-    __typename: "Address",
-    id: string,
-    type?: string | null,
-    buildingNumber?: string | null,
-    roadNumber?: string | null,
-    blockNumber?: string | null,
-    city?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type DeleteAddressMutationVariables = {
-  input: DeleteAddressInput,
-  condition?: ModelAddressConditionInput | null,
-};
-
-export type DeleteAddressMutation = {
-  deleteAddress?:  {
-    __typename: "Address",
-    id: string,
-    type?: string | null,
-    buildingNumber?: string | null,
-    roadNumber?: string | null,
-    blockNumber?: string | null,
-    city?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -2175,9 +2139,14 @@ export type GetApplicationQuery = {
     gpa?: number | null,
     status?: Status | null,
     attachmentID?: string | null,
-    studentID?: string | null,
+    studentCPR: string,
     adminLogs?:  {
       __typename: "ModelAdminLogConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    studentLogs?:  {
+      __typename: "ModelStudentLogConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -2223,7 +2192,7 @@ export type ListApplicationsQuery = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2252,7 +2221,38 @@ export type SyncApplicationsQuery = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      applicationAttachmentId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type ApplicationsByStudentCPRAndGpaQueryVariables = {
+  studentCPR: string,
+  gpa?: ModelIntKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelApplicationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ApplicationsByStudentCPRAndGpaQuery = {
+  applicationsByStudentCPRAndGpa?:  {
+    __typename: "ModelApplicationConnection",
+    items:  Array< {
+      __typename: "Application",
+      id: string,
+      gpa?: number | null,
+      status?: Status | null,
+      attachmentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2278,6 +2278,7 @@ export type GetProgramChoiceQuery = {
     program?:  {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -2294,7 +2295,7 @@ export type GetProgramChoiceQuery = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2378,6 +2379,7 @@ export type GetProgramQuery = {
   getProgram?:  {
     __typename: "Program",
     id: string,
+    name?: string | null,
     requirements?: string | null,
     availability?: number | null,
     universityID: string,
@@ -2417,6 +2419,7 @@ export type ListProgramsQuery = {
     items:  Array< {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -2445,6 +2448,7 @@ export type SyncProgramsQuery = {
     items:  Array< {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -2540,7 +2544,7 @@ export type GetAdminLogQuery = {
     __typename: "AdminLog",
     id: string,
     applicationID: string,
-    adminID: string,
+    adminCPR: string,
     dateTime?: string | null,
     snapshot?: string | null,
     createdAt: string,
@@ -2549,7 +2553,7 @@ export type GetAdminLogQuery = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     applicationAdminLogsId?: string | null,
-    adminAdminLogsId?: string | null,
+    adminAdminLogsCpr?: string | null,
   } | null,
 };
 
@@ -2566,7 +2570,7 @@ export type ListAdminLogsQuery = {
       __typename: "AdminLog",
       id: string,
       applicationID: string,
-      adminID: string,
+      adminCPR: string,
       dateTime?: string | null,
       snapshot?: string | null,
       createdAt: string,
@@ -2575,7 +2579,7 @@ export type ListAdminLogsQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       applicationAdminLogsId?: string | null,
-      adminAdminLogsId?: string | null,
+      adminAdminLogsCpr?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -2596,7 +2600,7 @@ export type SyncAdminLogsQuery = {
       __typename: "AdminLog",
       id: string,
       applicationID: string,
-      adminID: string,
+      adminCPR: string,
       dateTime?: string | null,
       snapshot?: string | null,
       createdAt: string,
@@ -2605,7 +2609,88 @@ export type SyncAdminLogsQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       applicationAdminLogsId?: string | null,
-      adminAdminLogsId?: string | null,
+      adminAdminLogsCpr?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetStudentLogQueryVariables = {
+  id: string,
+};
+
+export type GetStudentLogQuery = {
+  getStudentLog?:  {
+    __typename: "StudentLog",
+    id: string,
+    applicationID: string,
+    studentCPR: string,
+    dateTime?: string | null,
+    snapshot?: string | null,
+    reason?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    applicationStudentLogsId?: string | null,
+  } | null,
+};
+
+export type ListStudentLogsQueryVariables = {
+  filter?: ModelStudentLogFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListStudentLogsQuery = {
+  listStudentLogs?:  {
+    __typename: "ModelStudentLogConnection",
+    items:  Array< {
+      __typename: "StudentLog",
+      id: string,
+      applicationID: string,
+      studentCPR: string,
+      dateTime?: string | null,
+      snapshot?: string | null,
+      reason?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      applicationStudentLogsId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncStudentLogsQueryVariables = {
+  filter?: ModelStudentLogFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncStudentLogsQuery = {
+  syncStudentLogs?:  {
+    __typename: "ModelStudentLogConnection",
+    items:  Array< {
+      __typename: "StudentLog",
+      id: string,
+      applicationID: string,
+      studentCPR: string,
+      dateTime?: string | null,
+      snapshot?: string | null,
+      reason?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      applicationStudentLogsId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -2613,14 +2698,13 @@ export type SyncAdminLogsQuery = {
 };
 
 export type GetAdminQueryVariables = {
-  id: string,
+  cpr: string,
 };
 
 export type GetAdminQuery = {
   getAdmin?:  {
     __typename: "Admin",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     AdminLogs?:  {
@@ -2637,9 +2721,11 @@ export type GetAdminQuery = {
 };
 
 export type ListAdminsQueryVariables = {
+  cpr?: string | null,
   filter?: ModelAdminFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListAdminsQuery = {
@@ -2647,8 +2733,7 @@ export type ListAdminsQuery = {
     __typename: "ModelAdminConnection",
     items:  Array< {
       __typename: "Admin",
-      id: string,
-      cpr?: string | null,
+      cpr: string,
       fullName?: string | null,
       email?: string | null,
       createdAt: string,
@@ -2674,8 +2759,7 @@ export type SyncAdminsQuery = {
     __typename: "ModelAdminConnection",
     items:  Array< {
       __typename: "Admin",
-      id: string,
-      cpr?: string | null,
+      cpr: string,
       fullName?: string | null,
       email?: string | null,
       createdAt: string,
@@ -2707,26 +2791,12 @@ export type GetParentInfoQuery = {
     motherFullName?: string | null,
     motherCPR?: string | null,
     numberOfFamilyMembers?: number | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
+    address?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    parentInfoAddressId?: string | null,
   } | null,
 };
 
@@ -2752,12 +2822,12 @@ export type ListParentInfosQuery = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -2787,12 +2857,12 @@ export type SyncParentInfosQuery = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -2800,14 +2870,13 @@ export type SyncParentInfosQuery = {
 };
 
 export type GetStudentQueryVariables = {
-  id: string,
+  cpr: string,
 };
 
 export type GetStudentQuery = {
   getStudent?:  {
     __typename: "Student",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     phone?: string | null,
@@ -2817,22 +2886,13 @@ export type GetStudentQuery = {
     placeOfBirth?: string | null,
     studentOrderAmongSiblings?: number | null,
     householdIncome?: number | null,
-    addressID?: string | null,
     preferredLanguage?: Language | null,
     graduationDate?: string | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    address?: string | null,
+    applications?:  {
+      __typename: "ModelApplicationConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     ParentInfo?:  {
       __typename: "ParentInfo",
@@ -2847,12 +2907,12 @@ export type GetStudentQuery = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null,
     parentInfoID?: string | null,
     createdAt: string,
@@ -2864,9 +2924,11 @@ export type GetStudentQuery = {
 };
 
 export type ListStudentsQueryVariables = {
+  cpr?: string | null,
   filter?: ModelStudentFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListStudentsQuery = {
@@ -2874,8 +2936,7 @@ export type ListStudentsQuery = {
     __typename: "ModelStudentConnection",
     items:  Array< {
       __typename: "Student",
-      id: string,
-      cpr?: string | null,
+      cpr: string,
       fullName?: string | null,
       email?: string | null,
       phone?: string | null,
@@ -2885,9 +2946,9 @@ export type ListStudentsQuery = {
       placeOfBirth?: string | null,
       studentOrderAmongSiblings?: number | null,
       householdIncome?: number | null,
-      addressID?: string | null,
       preferredLanguage?: Language | null,
       graduationDate?: string | null,
+      address?: string | null,
       parentInfoID?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -2912,8 +2973,7 @@ export type SyncStudentsQuery = {
     __typename: "ModelStudentConnection",
     items:  Array< {
       __typename: "Student",
-      id: string,
-      cpr?: string | null,
+      cpr: string,
       fullName?: string | null,
       email?: string | null,
       phone?: string | null,
@@ -2923,88 +2983,10 @@ export type SyncStudentsQuery = {
       placeOfBirth?: string | null,
       studentOrderAmongSiblings?: number | null,
       householdIncome?: number | null,
-      addressID?: string | null,
       preferredLanguage?: Language | null,
       graduationDate?: string | null,
+      address?: string | null,
       parentInfoID?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type GetAddressQueryVariables = {
-  id: string,
-};
-
-export type GetAddressQuery = {
-  getAddress?:  {
-    __typename: "Address",
-    id: string,
-    type?: string | null,
-    buildingNumber?: string | null,
-    roadNumber?: string | null,
-    blockNumber?: string | null,
-    city?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type ListAddressesQueryVariables = {
-  filter?: ModelAddressFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListAddressesQuery = {
-  listAddresses?:  {
-    __typename: "ModelAddressConnection",
-    items:  Array< {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncAddressesQueryVariables = {
-  filter?: ModelAddressFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncAddressesQuery = {
-  syncAddresses?:  {
-    __typename: "ModelAddressConnection",
-    items:  Array< {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -3087,9 +3069,14 @@ export type OnCreateApplicationSubscription = {
     gpa?: number | null,
     status?: Status | null,
     attachmentID?: string | null,
-    studentID?: string | null,
+    studentCPR: string,
     adminLogs?:  {
       __typename: "ModelAdminLogConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    studentLogs?:  {
+      __typename: "ModelStudentLogConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -3131,9 +3118,14 @@ export type OnUpdateApplicationSubscription = {
     gpa?: number | null,
     status?: Status | null,
     attachmentID?: string | null,
-    studentID?: string | null,
+    studentCPR: string,
     adminLogs?:  {
       __typename: "ModelAdminLogConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    studentLogs?:  {
+      __typename: "ModelStudentLogConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -3175,9 +3167,14 @@ export type OnDeleteApplicationSubscription = {
     gpa?: number | null,
     status?: Status | null,
     attachmentID?: string | null,
-    studentID?: string | null,
+    studentCPR: string,
     adminLogs?:  {
       __typename: "ModelAdminLogConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    studentLogs?:  {
+      __typename: "ModelStudentLogConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -3221,6 +3218,7 @@ export type OnCreateProgramChoiceSubscription = {
     program?:  {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -3237,7 +3235,7 @@ export type OnCreateProgramChoiceSubscription = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -3269,6 +3267,7 @@ export type OnUpdateProgramChoiceSubscription = {
     program?:  {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -3285,7 +3284,7 @@ export type OnUpdateProgramChoiceSubscription = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -3317,6 +3316,7 @@ export type OnDeleteProgramChoiceSubscription = {
     program?:  {
       __typename: "Program",
       id: string,
+      name?: string | null,
       requirements?: string | null,
       availability?: number | null,
       universityID: string,
@@ -3333,7 +3333,7 @@ export type OnDeleteProgramChoiceSubscription = {
       gpa?: number | null,
       status?: Status | null,
       attachmentID?: string | null,
-      studentID?: string | null,
+      studentCPR: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -3360,6 +3360,7 @@ export type OnCreateProgramSubscription = {
   onCreateProgram?:  {
     __typename: "Program",
     id: string,
+    name?: string | null,
     requirements?: string | null,
     availability?: number | null,
     universityID: string,
@@ -3395,6 +3396,7 @@ export type OnUpdateProgramSubscription = {
   onUpdateProgram?:  {
     __typename: "Program",
     id: string,
+    name?: string | null,
     requirements?: string | null,
     availability?: number | null,
     universityID: string,
@@ -3430,6 +3432,7 @@ export type OnDeleteProgramSubscription = {
   onDeleteProgram?:  {
     __typename: "Program",
     id: string,
+    name?: string | null,
     requirements?: string | null,
     availability?: number | null,
     universityID: string,
@@ -3532,7 +3535,7 @@ export type OnCreateAdminLogSubscription = {
     __typename: "AdminLog",
     id: string,
     applicationID: string,
-    adminID: string,
+    adminCPR: string,
     dateTime?: string | null,
     snapshot?: string | null,
     createdAt: string,
@@ -3541,7 +3544,7 @@ export type OnCreateAdminLogSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     applicationAdminLogsId?: string | null,
-    adminAdminLogsId?: string | null,
+    adminAdminLogsCpr?: string | null,
   } | null,
 };
 
@@ -3554,7 +3557,7 @@ export type OnUpdateAdminLogSubscription = {
     __typename: "AdminLog",
     id: string,
     applicationID: string,
-    adminID: string,
+    adminCPR: string,
     dateTime?: string | null,
     snapshot?: string | null,
     createdAt: string,
@@ -3563,7 +3566,7 @@ export type OnUpdateAdminLogSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     applicationAdminLogsId?: string | null,
-    adminAdminLogsId?: string | null,
+    adminAdminLogsCpr?: string | null,
   } | null,
 };
 
@@ -3576,7 +3579,7 @@ export type OnDeleteAdminLogSubscription = {
     __typename: "AdminLog",
     id: string,
     applicationID: string,
-    adminID: string,
+    adminCPR: string,
     dateTime?: string | null,
     snapshot?: string | null,
     createdAt: string,
@@ -3585,7 +3588,73 @@ export type OnDeleteAdminLogSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     applicationAdminLogsId?: string | null,
-    adminAdminLogsId?: string | null,
+    adminAdminLogsCpr?: string | null,
+  } | null,
+};
+
+export type OnCreateStudentLogSubscriptionVariables = {
+  filter?: ModelSubscriptionStudentLogFilterInput | null,
+};
+
+export type OnCreateStudentLogSubscription = {
+  onCreateStudentLog?:  {
+    __typename: "StudentLog",
+    id: string,
+    applicationID: string,
+    studentCPR: string,
+    dateTime?: string | null,
+    snapshot?: string | null,
+    reason?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    applicationStudentLogsId?: string | null,
+  } | null,
+};
+
+export type OnUpdateStudentLogSubscriptionVariables = {
+  filter?: ModelSubscriptionStudentLogFilterInput | null,
+};
+
+export type OnUpdateStudentLogSubscription = {
+  onUpdateStudentLog?:  {
+    __typename: "StudentLog",
+    id: string,
+    applicationID: string,
+    studentCPR: string,
+    dateTime?: string | null,
+    snapshot?: string | null,
+    reason?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    applicationStudentLogsId?: string | null,
+  } | null,
+};
+
+export type OnDeleteStudentLogSubscriptionVariables = {
+  filter?: ModelSubscriptionStudentLogFilterInput | null,
+};
+
+export type OnDeleteStudentLogSubscription = {
+  onDeleteStudentLog?:  {
+    __typename: "StudentLog",
+    id: string,
+    applicationID: string,
+    studentCPR: string,
+    dateTime?: string | null,
+    snapshot?: string | null,
+    reason?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    applicationStudentLogsId?: string | null,
   } | null,
 };
 
@@ -3596,8 +3665,7 @@ export type OnCreateAdminSubscriptionVariables = {
 export type OnCreateAdminSubscription = {
   onCreateAdmin?:  {
     __typename: "Admin",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     AdminLogs?:  {
@@ -3620,8 +3688,7 @@ export type OnUpdateAdminSubscriptionVariables = {
 export type OnUpdateAdminSubscription = {
   onUpdateAdmin?:  {
     __typename: "Admin",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     AdminLogs?:  {
@@ -3644,8 +3711,7 @@ export type OnDeleteAdminSubscriptionVariables = {
 export type OnDeleteAdminSubscription = {
   onDeleteAdmin?:  {
     __typename: "Admin",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     AdminLogs?:  {
@@ -3679,26 +3745,12 @@ export type OnCreateParentInfoSubscription = {
     motherFullName?: string | null,
     motherCPR?: string | null,
     numberOfFamilyMembers?: number | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
+    address?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    parentInfoAddressId?: string | null,
   } | null,
 };
 
@@ -3720,26 +3772,12 @@ export type OnUpdateParentInfoSubscription = {
     motherFullName?: string | null,
     motherCPR?: string | null,
     numberOfFamilyMembers?: number | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
+    address?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    parentInfoAddressId?: string | null,
   } | null,
 };
 
@@ -3761,26 +3799,12 @@ export type OnDeleteParentInfoSubscription = {
     motherFullName?: string | null,
     motherCPR?: string | null,
     numberOfFamilyMembers?: number | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
+    address?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    parentInfoAddressId?: string | null,
   } | null,
 };
 
@@ -3791,8 +3815,7 @@ export type OnCreateStudentSubscriptionVariables = {
 export type OnCreateStudentSubscription = {
   onCreateStudent?:  {
     __typename: "Student",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     phone?: string | null,
@@ -3802,22 +3825,13 @@ export type OnCreateStudentSubscription = {
     placeOfBirth?: string | null,
     studentOrderAmongSiblings?: number | null,
     householdIncome?: number | null,
-    addressID?: string | null,
     preferredLanguage?: Language | null,
     graduationDate?: string | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    address?: string | null,
+    applications?:  {
+      __typename: "ModelApplicationConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     ParentInfo?:  {
       __typename: "ParentInfo",
@@ -3832,12 +3846,12 @@ export type OnCreateStudentSubscription = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null,
     parentInfoID?: string | null,
     createdAt: string,
@@ -3855,8 +3869,7 @@ export type OnUpdateStudentSubscriptionVariables = {
 export type OnUpdateStudentSubscription = {
   onUpdateStudent?:  {
     __typename: "Student",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     phone?: string | null,
@@ -3866,22 +3879,13 @@ export type OnUpdateStudentSubscription = {
     placeOfBirth?: string | null,
     studentOrderAmongSiblings?: number | null,
     householdIncome?: number | null,
-    addressID?: string | null,
     preferredLanguage?: Language | null,
     graduationDate?: string | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    address?: string | null,
+    applications?:  {
+      __typename: "ModelApplicationConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     ParentInfo?:  {
       __typename: "ParentInfo",
@@ -3896,12 +3900,12 @@ export type OnUpdateStudentSubscription = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null,
     parentInfoID?: string | null,
     createdAt: string,
@@ -3919,8 +3923,7 @@ export type OnDeleteStudentSubscriptionVariables = {
 export type OnDeleteStudentSubscription = {
   onDeleteStudent?:  {
     __typename: "Student",
-    id: string,
-    cpr?: string | null,
+    cpr: string,
     fullName?: string | null,
     email?: string | null,
     phone?: string | null,
@@ -3930,22 +3933,13 @@ export type OnDeleteStudentSubscription = {
     placeOfBirth?: string | null,
     studentOrderAmongSiblings?: number | null,
     householdIncome?: number | null,
-    addressID?: string | null,
     preferredLanguage?: Language | null,
     graduationDate?: string | null,
-    Address?:  {
-      __typename: "Address",
-      id: string,
-      type?: string | null,
-      buildingNumber?: string | null,
-      roadNumber?: string | null,
-      blockNumber?: string | null,
-      city?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    address?: string | null,
+    applications?:  {
+      __typename: "ModelApplicationConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     ParentInfo?:  {
       __typename: "ParentInfo",
@@ -3960,77 +3954,14 @@ export type OnDeleteStudentSubscription = {
       motherFullName?: string | null,
       motherCPR?: string | null,
       numberOfFamilyMembers?: number | null,
+      address?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      parentInfoAddressId?: string | null,
     } | null,
     parentInfoID?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnCreateAddressSubscriptionVariables = {
-  filter?: ModelSubscriptionAddressFilterInput | null,
-};
-
-export type OnCreateAddressSubscription = {
-  onCreateAddress?:  {
-    __typename: "Address",
-    id: string,
-    type?: string | null,
-    buildingNumber?: string | null,
-    roadNumber?: string | null,
-    blockNumber?: string | null,
-    city?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnUpdateAddressSubscriptionVariables = {
-  filter?: ModelSubscriptionAddressFilterInput | null,
-};
-
-export type OnUpdateAddressSubscription = {
-  onUpdateAddress?:  {
-    __typename: "Address",
-    id: string,
-    type?: string | null,
-    buildingNumber?: string | null,
-    roadNumber?: string | null,
-    blockNumber?: string | null,
-    city?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnDeleteAddressSubscriptionVariables = {
-  filter?: ModelSubscriptionAddressFilterInput | null,
-};
-
-export type OnDeleteAddressSubscription = {
-  onDeleteAddress?:  {
-    __typename: "Address",
-    id: string,
-    type?: string | null,
-    buildingNumber?: string | null,
-    roadNumber?: string | null,
-    blockNumber?: string | null,
-    city?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,

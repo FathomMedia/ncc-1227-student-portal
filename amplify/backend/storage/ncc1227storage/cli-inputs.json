@@ -1,0 +1,14 @@
+{
+  "resourceName": "ncc1227storage",
+  "policyUUID": "98465da4",
+  "bucketName": "ncc1227bucket",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

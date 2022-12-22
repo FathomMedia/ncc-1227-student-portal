@@ -50,7 +50,7 @@ export default function AdminUpdateForm(props) {
   }, [id, admin]);
   React.useEffect(resetStateValues, [adminRecord]);
   const validations = {
-    cpr: [],
+    cpr: [{ type: "Required" }],
     fullName: [],
     email: [],
   };
@@ -118,7 +118,7 @@ export default function AdminUpdateForm(props) {
     >
       <TextField
         label="Cpr"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         defaultValue={cpr}
         onChange={(e) => {

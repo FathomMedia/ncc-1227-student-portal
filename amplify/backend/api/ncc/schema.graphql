@@ -11,8 +11,9 @@ type Application @model @auth(rules: [{ allow: public }]) {
   gpa: Int
   status: Status
   attachmentID: String
-  studentID: String
+  studentCPR: String! @index(name: "byCPR", sortKeyFields: ["gpa"])
   adminLogs: [AdminLog] @hasMany
+  studentLogs: [StudentLog] @hasMany
   attachment: Attachment @hasOne
   programs: [ProgramChoice] @hasMany
 }
@@ -28,6 +29,7 @@ type ProgramChoice @model @auth(rules: [{ allow: public }]) {
 
 type Program @model @auth(rules: [{ allow: public }]) {
   id: ID!
+  name: String
   requirements: String
   availability: Int
   universityID: ID!
@@ -44,14 +46,22 @@ type University @model @auth(rules: [{ allow: public }]) {
 type AdminLog @model @auth(rules: [{ allow: public }]) {
   id: ID!
   applicationID: ID!
-  adminID: ID!
+  adminCPR: String!
   dateTime: AWSDateTime
   snapshot: String
 }
 
-type Admin @model @auth(rules: [{ allow: public }]) {
+type StudentLog @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  cpr: String
+  applicationID: ID!
+  studentCPR: String!
+  dateTime: AWSDateTime
+  snapshot: String
+  reason: String
+}
+
+type Admin @model @auth(rules: [{ allow: public }]) {
+  cpr: String! @primaryKey
   fullName: String
   email: String
   AdminLogs: [AdminLog] @hasMany
@@ -78,7 +88,7 @@ type ParentInfo @model @auth(rules: [{ allow: public }]) {
   motherFullName: String
   motherCPR: String
   numberOfFamilyMembers: Int
-  Address: Address @hasOne
+  address: String
 }
 
 enum Language {
@@ -92,8 +102,7 @@ enum Gender {
 }
 
 type Student @model @auth(rules: [{ allow: public }]) {
-  id: ID!
-  cpr: String
+  cpr: String! @primaryKey
   fullName: String
   email: String
   phone: String
@@ -103,19 +112,10 @@ type Student @model @auth(rules: [{ allow: public }]) {
   placeOfBirth: String
   studentOrderAmongSiblings: Int
   householdIncome: Float
-  addressID: ID
   preferredLanguage: Language
   graduationDate: AWSDate
-  Address: Address @hasOne(fields: ["addressID"])
+  address: String
+  applications: [Application] @hasMany(indexName: "byCPR", fields: ["cpr"])
   ParentInfo: ParentInfo @hasOne(fields: ["parentInfoID"])
   parentInfoID: ID
-}
-
-type Address @model @auth(rules: [{ allow: public }]) {
-  id: ID!
-  type: String
-  buildingNumber: String
-  roadNumber: String
-  blockNumber: String
-  city: String
 }

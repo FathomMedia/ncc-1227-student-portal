@@ -6,7 +6,7 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -23,8 +23,7 @@ export declare type ParentInfoCreateFormInputValues = {
     motherFullName?: string;
     motherCPR?: string;
     numberOfFamilyMembers?: number;
-    Address?: string;
-    parentInfoAddressId?: string;
+    address?: string;
 };
 export declare type ParentInfoCreateFormValidationValues = {
     guardianFullName?: ValidationFunction<string>;
@@ -37,8 +36,7 @@ export declare type ParentInfoCreateFormValidationValues = {
     motherFullName?: ValidationFunction<string>;
     motherCPR?: ValidationFunction<string>;
     numberOfFamilyMembers?: ValidationFunction<number>;
-    Address?: ValidationFunction<string>;
-    parentInfoAddressId?: ValidationFunction<string>;
+    address?: ValidationFunction<string>;
 };
 export declare type FormProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ParentInfoCreateFormOverridesProps = {
@@ -53,8 +51,7 @@ export declare type ParentInfoCreateFormOverridesProps = {
     motherFullName?: FormProps<TextFieldProps>;
     motherCPR?: FormProps<TextFieldProps>;
     numberOfFamilyMembers?: FormProps<TextFieldProps>;
-    Address?: FormProps<SelectFieldProps>;
-    parentInfoAddressId?: FormProps<TextFieldProps>;
+    address?: FormProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ParentInfoCreateFormProps = React.PropsWithChildren<{
     overrides?: ParentInfoCreateFormOverridesProps | undefined | null;

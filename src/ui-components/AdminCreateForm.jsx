@@ -39,7 +39,7 @@ export default function AdminCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    cpr: [],
+    cpr: [{ type: "Required" }],
     fullName: [],
     email: [],
   };
@@ -106,7 +106,7 @@ export default function AdminCreateForm(props) {
     >
       <TextField
         label="Cpr"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         onChange={(e) => {
           let { value } = e.target;

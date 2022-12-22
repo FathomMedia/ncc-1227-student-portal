@@ -16,7 +16,7 @@ export declare type ApplicationCreateFormInputValues = {
     gpa?: number;
     status?: string;
     attachmentID?: string;
-    studentID?: string;
+    studentCPR?: string;
     attachment?: string;
     applicationAttachmentId?: string;
 };
@@ -24,7 +24,7 @@ export declare type ApplicationCreateFormValidationValues = {
     gpa?: ValidationFunction<number>;
     status?: ValidationFunction<string>;
     attachmentID?: ValidationFunction<string>;
-    studentID?: ValidationFunction<string>;
+    studentCPR?: ValidationFunction<string>;
     attachment?: ValidationFunction<string>;
     applicationAttachmentId?: ValidationFunction<string>;
 };
@@ -34,7 +34,7 @@ export declare type ApplicationCreateFormOverridesProps = {
     gpa?: FormProps<TextFieldProps>;
     status?: FormProps<SelectFieldProps>;
     attachmentID?: FormProps<TextFieldProps>;
-    studentID?: FormProps<TextFieldProps>;
+    studentCPR?: FormProps<TextFieldProps>;
     attachment?: FormProps<SelectFieldProps>;
     applicationAttachmentId?: FormProps<TextFieldProps>;
 } & EscapeHatchProps;

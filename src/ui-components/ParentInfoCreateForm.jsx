@@ -9,13 +9,7 @@ import * as React from "react";
 import { fetchByPath, validateField } from "./utils";
 import { ParentInfo } from "../models";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import {
-  Button,
-  Flex,
-  Grid,
-  SelectField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { DataStore } from "aws-amplify";
 export default function ParentInfoCreateForm(props) {
   const {
@@ -40,8 +34,7 @@ export default function ParentInfoCreateForm(props) {
     motherFullName: undefined,
     motherCPR: undefined,
     numberOfFamilyMembers: undefined,
-    Address: {},
-    parentInfoAddressId: undefined,
+    address: undefined,
   };
   const [guardianFullName, setGuardianFullName] = React.useState(
     initialValues.guardianFullName
@@ -67,10 +60,7 @@ export default function ParentInfoCreateForm(props) {
   const [numberOfFamilyMembers, setNumberOfFamilyMembers] = React.useState(
     initialValues.numberOfFamilyMembers
   );
-  const [Address, setAddress] = React.useState(initialValues.Address);
-  const [parentInfoAddressId, setParentInfoAddressId] = React.useState(
-    initialValues.parentInfoAddressId
-  );
+  const [address, setAddress] = React.useState(initialValues.address);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setGuardianFullName(initialValues.guardianFullName);
@@ -83,8 +73,7 @@ export default function ParentInfoCreateForm(props) {
     setMotherFullName(initialValues.motherFullName);
     setMotherCPR(initialValues.motherCPR);
     setNumberOfFamilyMembers(initialValues.numberOfFamilyMembers);
-    setAddress(initialValues.Address);
-    setParentInfoAddressId(initialValues.parentInfoAddressId);
+    setAddress(initialValues.address);
     setErrors({});
   };
   const validations = {
@@ -98,8 +87,7 @@ export default function ParentInfoCreateForm(props) {
     motherFullName: [],
     motherCPR: [],
     numberOfFamilyMembers: [],
-    Address: [],
-    parentInfoAddressId: [],
+    address: [],
   };
   const runValidationTasks = async (fieldName, value) => {
     let validationResponse = validateField(value, validations[fieldName]);
@@ -129,8 +117,7 @@ export default function ParentInfoCreateForm(props) {
           motherFullName,
           motherCPR,
           numberOfFamilyMembers,
-          Address,
-          parentInfoAddressId,
+          address,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -189,8 +176,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.guardianFullName ?? value;
@@ -223,8 +209,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.relation ?? value;
@@ -257,8 +242,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.guardianCPR ?? value;
@@ -291,8 +275,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.primaryMobile ?? value;
@@ -325,8 +308,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.secondaryMobile ?? value;
@@ -359,8 +341,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.fatherFullName ?? value;
@@ -393,8 +374,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.fatherCPR ?? value;
@@ -427,8 +407,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName: value,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.motherFullName ?? value;
@@ -461,8 +440,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR: value,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.motherCPR ?? value;
@@ -504,8 +482,7 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers: value,
-              Address,
-              parentInfoAddressId,
+              address,
             };
             const result = onChange(modelFields);
             value = result?.numberOfFamilyMembers ?? value;
@@ -522,43 +499,8 @@ export default function ParentInfoCreateForm(props) {
         hasError={errors.numberOfFamilyMembers?.hasError}
         {...getOverrideProps(overrides, "numberOfFamilyMembers")}
       ></TextField>
-      <SelectField
-        label="Address"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={Address}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              guardianFullName,
-              relation,
-              guardianCPR,
-              primaryMobile,
-              secondaryMobile,
-              fatherFullName,
-              fatherCPR,
-              motherFullName,
-              motherCPR,
-              numberOfFamilyMembers,
-              Address: value,
-              parentInfoAddressId,
-            };
-            const result = onChange(modelFields);
-            value = result?.Address ?? value;
-          }
-          if (errors.Address?.hasError) {
-            runValidationTasks("Address", value);
-          }
-          setAddress(value);
-        }}
-        onBlur={() => runValidationTasks("Address", Address)}
-        errorMessage={errors.Address?.errorMessage}
-        hasError={errors.Address?.hasError}
-        {...getOverrideProps(overrides, "Address")}
-      ></SelectField>
       <TextField
-        label="Parent info address id"
+        label="Address"
         isRequired={false}
         isReadOnly={false}
         onChange={(e) => {
@@ -575,23 +517,20 @@ export default function ParentInfoCreateForm(props) {
               motherFullName,
               motherCPR,
               numberOfFamilyMembers,
-              Address,
-              parentInfoAddressId: value,
+              address: value,
             };
             const result = onChange(modelFields);
-            value = result?.parentInfoAddressId ?? value;
+            value = result?.address ?? value;
           }
-          if (errors.parentInfoAddressId?.hasError) {
-            runValidationTasks("parentInfoAddressId", value);
+          if (errors.address?.hasError) {
+            runValidationTasks("address", value);
           }
-          setParentInfoAddressId(value);
+          setAddress(value);
         }}
-        onBlur={() =>
-          runValidationTasks("parentInfoAddressId", parentInfoAddressId)
-        }
-        errorMessage={errors.parentInfoAddressId?.errorMessage}
-        hasError={errors.parentInfoAddressId?.hasError}
-        {...getOverrideProps(overrides, "parentInfoAddressId")}
+        onBlur={() => runValidationTasks("address", address)}
+        errorMessage={errors.address?.errorMessage}
+        hasError={errors.address?.hasError}
+        {...getOverrideProps(overrides, "address")}
       ></TextField>
       <Flex
         justifyContent="space-between"

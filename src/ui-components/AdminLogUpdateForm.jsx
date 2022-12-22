@@ -26,21 +26,21 @@ export default function AdminLogUpdateForm(props) {
   } = props;
   const initialValues = {
     applicationID: undefined,
-    adminID: undefined,
+    adminCPR: undefined,
     dateTime: undefined,
     snapshot: undefined,
   };
   const [applicationID, setApplicationID] = React.useState(
     initialValues.applicationID
   );
-  const [adminID, setAdminID] = React.useState(initialValues.adminID);
+  const [adminCPR, setAdminCPR] = React.useState(initialValues.adminCPR);
   const [dateTime, setDateTime] = React.useState(initialValues.dateTime);
   const [snapshot, setSnapshot] = React.useState(initialValues.snapshot);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = { ...initialValues, ...adminLogRecord };
     setApplicationID(cleanValues.applicationID);
-    setAdminID(cleanValues.adminID);
+    setAdminCPR(cleanValues.adminCPR);
     setDateTime(cleanValues.dateTime);
     setSnapshot(cleanValues.snapshot);
     setErrors({});
@@ -56,7 +56,7 @@ export default function AdminLogUpdateForm(props) {
   React.useEffect(resetStateValues, [adminLogRecord]);
   const validations = {
     applicationID: [{ type: "Required" }],
-    adminID: [{ type: "Required" }],
+    adminCPR: [{ type: "Required" }],
     dateTime: [],
     snapshot: [],
   };
@@ -96,7 +96,7 @@ export default function AdminLogUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           applicationID,
-          adminID,
+          adminCPR,
           dateTime,
           snapshot,
         };
@@ -150,7 +150,7 @@ export default function AdminLogUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               applicationID: value,
-              adminID,
+              adminCPR,
               dateTime,
               snapshot,
             };
@@ -168,31 +168,31 @@ export default function AdminLogUpdateForm(props) {
         {...getOverrideProps(overrides, "applicationID")}
       ></TextField>
       <TextField
-        label="Admin id"
+        label="Admin cpr"
         isRequired={true}
         isReadOnly={false}
-        defaultValue={adminID}
+        defaultValue={adminCPR}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               applicationID,
-              adminID: value,
+              adminCPR: value,
               dateTime,
               snapshot,
             };
             const result = onChange(modelFields);
-            value = result?.adminID ?? value;
+            value = result?.adminCPR ?? value;
           }
-          if (errors.adminID?.hasError) {
-            runValidationTasks("adminID", value);
+          if (errors.adminCPR?.hasError) {
+            runValidationTasks("adminCPR", value);
           }
-          setAdminID(value);
+          setAdminCPR(value);
         }}
-        onBlur={() => runValidationTasks("adminID", adminID)}
-        errorMessage={errors.adminID?.errorMessage}
-        hasError={errors.adminID?.hasError}
-        {...getOverrideProps(overrides, "adminID")}
+        onBlur={() => runValidationTasks("adminCPR", adminCPR)}
+        errorMessage={errors.adminCPR?.errorMessage}
+        hasError={errors.adminCPR?.hasError}
+        {...getOverrideProps(overrides, "adminCPR")}
       ></TextField>
       <TextField
         label="Date time"
@@ -205,7 +205,7 @@ export default function AdminLogUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               applicationID,
-              adminID,
+              adminCPR,
               dateTime: value,
               snapshot,
             };
@@ -232,7 +232,7 @@ export default function AdminLogUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               applicationID,
-              adminID,
+              adminCPR,
               dateTime,
               snapshot: value,
             };

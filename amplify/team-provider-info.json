@@ -17,6 +17,9 @@
       },
       "api": {
         "ncc": {}
+      },
+      "storage": {
+        "ncc1227storage": {}
       }
     }
   }

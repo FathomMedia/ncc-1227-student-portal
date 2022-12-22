@@ -15,13 +15,13 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type AdminLogUpdateFormInputValues = {
     applicationID?: string;
-    adminID?: string;
+    adminCPR?: string;
     dateTime?: string;
     snapshot?: string;
 };
 export declare type AdminLogUpdateFormValidationValues = {
     applicationID?: ValidationFunction<string>;
-    adminID?: ValidationFunction<string>;
+    adminCPR?: ValidationFunction<string>;
     dateTime?: ValidationFunction<string>;
     snapshot?: ValidationFunction<string>;
 };
@@ -29,7 +29,7 @@ export declare type FormProps<T> = Partial<T> & React.DOMAttributes<HTMLDivEleme
 export declare type AdminLogUpdateFormOverridesProps = {
     AdminLogUpdateFormGrid?: FormProps<GridProps>;
     applicationID?: FormProps<TextFieldProps>;
-    adminID?: FormProps<TextFieldProps>;
+    adminCPR?: FormProps<TextFieldProps>;
     dateTime?: FormProps<TextFieldProps>;
     snapshot?: FormProps<TextFieldProps>;
 } & EscapeHatchProps;

@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "primary-highlight": "#F4EEE4",
         anzac: {
           50: "#FBF9EB",
           100: "#F7F1CA",
@@ -43,6 +44,10 @@ module.exports = {
           800: "#28532B",
           900: "#224526",
         },
+      },
+      borderRadius: {
+        "4xl": "30px",
+        "5xl": "40px",
       },
     },
   },

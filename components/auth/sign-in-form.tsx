@@ -1,8 +1,7 @@
-import { Auth, Amplify } from "aws-amplify";
 import { Field, Form, Formik } from "formik";
-import { toast } from "react-hot-toast";
+import Link from "next/link";
 import * as yup from "yup";
-import { useAuth } from "../hooks/use-auth";
+import { useAuth } from "../../hooks/use-auth";
 interface ISignInForm {
   cpr: string;
   password: string;
@@ -17,7 +16,7 @@ export const SignInForm = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <Formik
         initialValues={initialValues}
         validationSchema={yup.object({
@@ -29,15 +28,7 @@ export const SignInForm = () => {
           actions.setSubmitting(false);
         }}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          isSubmitting,
-          isValid,
-        }) => (
+        {({ errors, touched, isSubmitting, isValid }) => (
           <Form className="flex flex-col gap-3 p-4">
             <div className="flex flex-col">
               <label className="label">CPR</label>
@@ -67,13 +58,17 @@ export const SignInForm = () => {
             <button
               type="submit"
               className={`btn btn-primary ${isSubmitting && "loading"}`}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isValid}
             >
               Sign In
             </button>
           </Form>
         )}
       </Formik>
+
+      <Link className="link link-secondary" href="/signUp">
+        New user?
+      </Link>
     </div>
   );
 };

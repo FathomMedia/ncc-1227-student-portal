@@ -23,10 +23,9 @@ export declare type StudentCreateFormInputValues = {
     placeOfBirth?: string;
     studentOrderAmongSiblings?: number;
     householdIncome?: number;
-    addressID?: string;
     preferredLanguage?: string;
     graduationDate?: string;
-    Address?: string;
+    address?: string;
     ParentInfo?: string;
     parentInfoID?: string;
 };
@@ -41,10 +40,9 @@ export declare type StudentCreateFormValidationValues = {
     placeOfBirth?: ValidationFunction<string>;
     studentOrderAmongSiblings?: ValidationFunction<number>;
     householdIncome?: ValidationFunction<number>;
-    addressID?: ValidationFunction<string>;
     preferredLanguage?: ValidationFunction<string>;
     graduationDate?: ValidationFunction<string>;
-    Address?: ValidationFunction<string>;
+    address?: ValidationFunction<string>;
     ParentInfo?: ValidationFunction<string>;
     parentInfoID?: ValidationFunction<string>;
 };
@@ -61,10 +59,9 @@ export declare type StudentCreateFormOverridesProps = {
     placeOfBirth?: FormProps<TextFieldProps>;
     studentOrderAmongSiblings?: FormProps<TextFieldProps>;
     householdIncome?: FormProps<TextFieldProps>;
-    addressID?: FormProps<TextFieldProps>;
     preferredLanguage?: FormProps<SelectFieldProps>;
     graduationDate?: FormProps<TextFieldProps>;
-    Address?: FormProps<SelectFieldProps>;
+    address?: FormProps<TextFieldProps>;
     ParentInfo?: FormProps<SelectFieldProps>;
     parentInfoID?: FormProps<TextFieldProps>;
 } & EscapeHatchProps;

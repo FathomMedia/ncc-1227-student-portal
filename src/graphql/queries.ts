@@ -79,8 +79,12 @@ export const getApplication = /* GraphQL */ `
       gpa
       status
       attachmentID
-      studentID
+      studentCPR
       adminLogs {
+        nextToken
+        startedAt
+      }
+      studentLogs {
         nextToken
         startedAt
       }
@@ -121,7 +125,7 @@ export const listApplications = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -152,7 +156,42 @@ export const syncApplications = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        applicationAttachmentId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
+  query ApplicationsByStudentCPRAndGpa(
+    $studentCPR: String!
+    $gpa: ModelIntKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelApplicationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    applicationsByStudentCPRAndGpa(
+      studentCPR: $studentCPR
+      gpa: $gpa
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        gpa
+        status
+        attachmentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -173,6 +212,7 @@ export const getProgramChoice = /* GraphQL */ `
       applicationID
       program {
         id
+        name
         requirements
         availability
         universityID
@@ -188,7 +228,7 @@ export const getProgramChoice = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -267,6 +307,7 @@ export const getProgram = /* GraphQL */ `
   query GetProgram($id: ID!) {
     getProgram(id: $id) {
       id
+      name
       requirements
       availability
       universityID
@@ -301,6 +342,7 @@ export const listPrograms = /* GraphQL */ `
     listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        name
         requirements
         availability
         universityID
@@ -331,6 +373,7 @@ export const syncPrograms = /* GraphQL */ `
     ) {
       items {
         id
+        name
         requirements
         availability
         universityID
@@ -416,7 +459,7 @@ export const getAdminLog = /* GraphQL */ `
     getAdminLog(id: $id) {
       id
       applicationID
-      adminID
+      adminCPR
       dateTime
       snapshot
       createdAt
@@ -425,7 +468,7 @@ export const getAdminLog = /* GraphQL */ `
       _deleted
       _lastChangedAt
       applicationAdminLogsId
-      adminAdminLogsId
+      adminAdminLogsCpr
     }
   }
 `;
@@ -439,7 +482,7 @@ export const listAdminLogs = /* GraphQL */ `
       items {
         id
         applicationID
-        adminID
+        adminCPR
         dateTime
         snapshot
         createdAt
@@ -448,7 +491,7 @@ export const listAdminLogs = /* GraphQL */ `
         _deleted
         _lastChangedAt
         applicationAdminLogsId
-        adminAdminLogsId
+        adminAdminLogsCpr
       }
       nextToken
       startedAt
@@ -471,7 +514,7 @@ export const syncAdminLogs = /* GraphQL */ `
       items {
         id
         applicationID
-        adminID
+        adminCPR
         dateTime
         snapshot
         createdAt
@@ -480,7 +523,83 @@ export const syncAdminLogs = /* GraphQL */ `
         _deleted
         _lastChangedAt
         applicationAdminLogsId
-        adminAdminLogsId
+        adminAdminLogsCpr
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getStudentLog = /* GraphQL */ `
+  query GetStudentLog($id: ID!) {
+    getStudentLog(id: $id) {
+      id
+      applicationID
+      studentCPR
+      dateTime
+      snapshot
+      reason
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      applicationStudentLogsId
+    }
+  }
+`;
+export const listStudentLogs = /* GraphQL */ `
+  query ListStudentLogs(
+    $filter: ModelStudentLogFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStudentLogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        applicationID
+        studentCPR
+        dateTime
+        snapshot
+        reason
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        applicationStudentLogsId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncStudentLogs = /* GraphQL */ `
+  query SyncStudentLogs(
+    $filter: ModelStudentLogFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncStudentLogs(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        applicationID
+        studentCPR
+        dateTime
+        snapshot
+        reason
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        applicationStudentLogsId
       }
       nextToken
       startedAt
@@ -488,9 +607,8 @@ export const syncAdminLogs = /* GraphQL */ `
   }
 `;
 export const getAdmin = /* GraphQL */ `
-  query GetAdmin($id: ID!) {
-    getAdmin(id: $id) {
-      id
+  query GetAdmin($cpr: String!) {
+    getAdmin(cpr: $cpr) {
       cpr
       fullName
       email
@@ -508,13 +626,20 @@ export const getAdmin = /* GraphQL */ `
 `;
 export const listAdmins = /* GraphQL */ `
   query ListAdmins(
+    $cpr: String
     $filter: ModelAdminFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listAdmins(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listAdmins(
+      cpr: $cpr
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
         cpr
         fullName
         email
@@ -543,7 +668,6 @@ export const syncAdmins = /* GraphQL */ `
       lastSync: $lastSync
     ) {
       items {
-        id
         cpr
         fullName
         email
@@ -572,25 +696,12 @@ export const getParentInfo = /* GraphQL */ `
       motherFullName
       motherCPR
       numberOfFamilyMembers
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      address
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      parentInfoAddressId
     }
   }
 `;
@@ -613,12 +724,12 @@ export const listParentInfos = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       nextToken
       startedAt
@@ -650,12 +761,12 @@ export const syncParentInfos = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       nextToken
       startedAt
@@ -663,9 +774,8 @@ export const syncParentInfos = /* GraphQL */ `
   }
 `;
 export const getStudent = /* GraphQL */ `
-  query GetStudent($id: ID!) {
-    getStudent(id: $id) {
-      id
+  query GetStudent($cpr: String!) {
+    getStudent(cpr: $cpr) {
       cpr
       fullName
       email
@@ -676,21 +786,12 @@ export const getStudent = /* GraphQL */ `
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
-      addressID
       preferredLanguage
       graduationDate
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      address
+      applications {
+        nextToken
+        startedAt
       }
       ParentInfo {
         id
@@ -704,12 +805,12 @@ export const getStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       parentInfoID
       createdAt
@@ -722,13 +823,20 @@ export const getStudent = /* GraphQL */ `
 `;
 export const listStudents = /* GraphQL */ `
   query ListStudents(
+    $cpr: String
     $filter: ModelStudentFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listStudents(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listStudents(
+      cpr: $cpr
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
         cpr
         fullName
         email
@@ -739,9 +847,9 @@ export const listStudents = /* GraphQL */ `
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
-        addressID
         preferredLanguage
         graduationDate
+        address
         parentInfoID
         createdAt
         updatedAt
@@ -768,7 +876,6 @@ export const syncStudents = /* GraphQL */ `
       lastSync: $lastSync
     ) {
       items {
-        id
         cpr
         fullName
         email
@@ -779,83 +886,10 @@ export const syncStudents = /* GraphQL */ `
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
-        addressID
         preferredLanguage
         graduationDate
+        address
         parentInfoID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getAddress = /* GraphQL */ `
-  query GetAddress($id: ID!) {
-    getAddress(id: $id) {
-      id
-      type
-      buildingNumber
-      roadNumber
-      blockNumber
-      city
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const listAddresses = /* GraphQL */ `
-  query ListAddresses(
-    $filter: ModelAddressFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listAddresses(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncAddresses = /* GraphQL */ `
-  query SyncAddresses(
-    $filter: ModelAddressFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncAddresses(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
         createdAt
         updatedAt
         _version

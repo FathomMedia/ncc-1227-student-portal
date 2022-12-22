@@ -24,10 +24,12 @@ export default function ProgramCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    name: undefined,
     requirements: undefined,
     availability: undefined,
     universityID: undefined,
   };
+  const [name, setName] = React.useState(initialValues.name);
   const [requirements, setRequirements] = React.useState(
     initialValues.requirements
   );
@@ -39,12 +41,14 @@ export default function ProgramCreateForm(props) {
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setName(initialValues.name);
     setRequirements(initialValues.requirements);
     setAvailability(initialValues.availability);
     setUniversityID(initialValues.universityID);
     setErrors({});
   };
   const validations = {
+    name: [],
     requirements: [],
     availability: [],
     universityID: [{ type: "Required" }],
@@ -67,6 +71,7 @@ export default function ProgramCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          name,
           requirements,
           availability,
           universityID,
@@ -111,6 +116,32 @@ export default function ProgramCreateForm(props) {
       {...getOverrideProps(overrides, "ProgramCreateForm")}
     >
       <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name: value,
+              requirements,
+              availability,
+              universityID,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
         label="Requirements"
         isRequired={false}
         isReadOnly={false}
@@ -118,6 +149,7 @@ export default function ProgramCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               requirements: value,
               availability,
               universityID,
@@ -152,6 +184,7 @@ export default function ProgramCreateForm(props) {
           }
           if (onChange) {
             const modelFields = {
+              name,
               requirements,
               availability: value,
               universityID,
@@ -177,6 +210,7 @@ export default function ProgramCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               requirements,
               availability,
               universityID: value,

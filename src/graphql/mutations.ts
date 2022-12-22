@@ -69,8 +69,12 @@ export const createApplication = /* GraphQL */ `
       gpa
       status
       attachmentID
-      studentID
+      studentCPR
       adminLogs {
+        nextToken
+        startedAt
+      }
+      studentLogs {
         nextToken
         startedAt
       }
@@ -109,8 +113,12 @@ export const updateApplication = /* GraphQL */ `
       gpa
       status
       attachmentID
-      studentID
+      studentCPR
       adminLogs {
+        nextToken
+        startedAt
+      }
+      studentLogs {
         nextToken
         startedAt
       }
@@ -149,8 +157,12 @@ export const deleteApplication = /* GraphQL */ `
       gpa
       status
       attachmentID
-      studentID
+      studentCPR
       adminLogs {
+        nextToken
+        startedAt
+      }
+      studentLogs {
         nextToken
         startedAt
       }
@@ -190,6 +202,7 @@ export const createProgramChoice = /* GraphQL */ `
       applicationID
       program {
         id
+        name
         requirements
         availability
         universityID
@@ -205,7 +218,7 @@ export const createProgramChoice = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -235,6 +248,7 @@ export const updateProgramChoice = /* GraphQL */ `
       applicationID
       program {
         id
+        name
         requirements
         availability
         universityID
@@ -250,7 +264,7 @@ export const updateProgramChoice = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -280,6 +294,7 @@ export const deleteProgramChoice = /* GraphQL */ `
       applicationID
       program {
         id
+        name
         requirements
         availability
         universityID
@@ -295,7 +310,7 @@ export const deleteProgramChoice = /* GraphQL */ `
         gpa
         status
         attachmentID
-        studentID
+        studentCPR
         createdAt
         updatedAt
         _version
@@ -321,6 +336,7 @@ export const createProgram = /* GraphQL */ `
   ) {
     createProgram(input: $input, condition: $condition) {
       id
+      name
       requirements
       availability
       universityID
@@ -353,6 +369,7 @@ export const updateProgram = /* GraphQL */ `
   ) {
     updateProgram(input: $input, condition: $condition) {
       id
+      name
       requirements
       availability
       universityID
@@ -385,6 +402,7 @@ export const deleteProgram = /* GraphQL */ `
   ) {
     deleteProgram(input: $input, condition: $condition) {
       id
+      name
       requirements
       availability
       universityID
@@ -478,7 +496,7 @@ export const createAdminLog = /* GraphQL */ `
     createAdminLog(input: $input, condition: $condition) {
       id
       applicationID
-      adminID
+      adminCPR
       dateTime
       snapshot
       createdAt
@@ -487,7 +505,7 @@ export const createAdminLog = /* GraphQL */ `
       _deleted
       _lastChangedAt
       applicationAdminLogsId
-      adminAdminLogsId
+      adminAdminLogsCpr
     }
   }
 `;
@@ -499,7 +517,7 @@ export const updateAdminLog = /* GraphQL */ `
     updateAdminLog(input: $input, condition: $condition) {
       id
       applicationID
-      adminID
+      adminCPR
       dateTime
       snapshot
       createdAt
@@ -508,7 +526,7 @@ export const updateAdminLog = /* GraphQL */ `
       _deleted
       _lastChangedAt
       applicationAdminLogsId
-      adminAdminLogsId
+      adminAdminLogsCpr
     }
   }
 `;
@@ -520,7 +538,7 @@ export const deleteAdminLog = /* GraphQL */ `
     deleteAdminLog(input: $input, condition: $condition) {
       id
       applicationID
-      adminID
+      adminCPR
       dateTime
       snapshot
       createdAt
@@ -529,7 +547,70 @@ export const deleteAdminLog = /* GraphQL */ `
       _deleted
       _lastChangedAt
       applicationAdminLogsId
-      adminAdminLogsId
+      adminAdminLogsCpr
+    }
+  }
+`;
+export const createStudentLog = /* GraphQL */ `
+  mutation CreateStudentLog(
+    $input: CreateStudentLogInput!
+    $condition: ModelStudentLogConditionInput
+  ) {
+    createStudentLog(input: $input, condition: $condition) {
+      id
+      applicationID
+      studentCPR
+      dateTime
+      snapshot
+      reason
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      applicationStudentLogsId
+    }
+  }
+`;
+export const updateStudentLog = /* GraphQL */ `
+  mutation UpdateStudentLog(
+    $input: UpdateStudentLogInput!
+    $condition: ModelStudentLogConditionInput
+  ) {
+    updateStudentLog(input: $input, condition: $condition) {
+      id
+      applicationID
+      studentCPR
+      dateTime
+      snapshot
+      reason
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      applicationStudentLogsId
+    }
+  }
+`;
+export const deleteStudentLog = /* GraphQL */ `
+  mutation DeleteStudentLog(
+    $input: DeleteStudentLogInput!
+    $condition: ModelStudentLogConditionInput
+  ) {
+    deleteStudentLog(input: $input, condition: $condition) {
+      id
+      applicationID
+      studentCPR
+      dateTime
+      snapshot
+      reason
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      applicationStudentLogsId
     }
   }
 `;
@@ -539,7 +620,6 @@ export const createAdmin = /* GraphQL */ `
     $condition: ModelAdminConditionInput
   ) {
     createAdmin(input: $input, condition: $condition) {
-      id
       cpr
       fullName
       email
@@ -561,7 +641,6 @@ export const updateAdmin = /* GraphQL */ `
     $condition: ModelAdminConditionInput
   ) {
     updateAdmin(input: $input, condition: $condition) {
-      id
       cpr
       fullName
       email
@@ -583,7 +662,6 @@ export const deleteAdmin = /* GraphQL */ `
     $condition: ModelAdminConditionInput
   ) {
     deleteAdmin(input: $input, condition: $condition) {
-      id
       cpr
       fullName
       email
@@ -616,25 +694,12 @@ export const createParentInfo = /* GraphQL */ `
       motherFullName
       motherCPR
       numberOfFamilyMembers
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      address
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      parentInfoAddressId
     }
   }
 `;
@@ -655,25 +720,12 @@ export const updateParentInfo = /* GraphQL */ `
       motherFullName
       motherCPR
       numberOfFamilyMembers
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      address
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      parentInfoAddressId
     }
   }
 `;
@@ -694,25 +746,12 @@ export const deleteParentInfo = /* GraphQL */ `
       motherFullName
       motherCPR
       numberOfFamilyMembers
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      address
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      parentInfoAddressId
     }
   }
 `;
@@ -722,7 +761,6 @@ export const createStudent = /* GraphQL */ `
     $condition: ModelStudentConditionInput
   ) {
     createStudent(input: $input, condition: $condition) {
-      id
       cpr
       fullName
       email
@@ -733,21 +771,12 @@ export const createStudent = /* GraphQL */ `
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
-      addressID
       preferredLanguage
       graduationDate
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      address
+      applications {
+        nextToken
+        startedAt
       }
       ParentInfo {
         id
@@ -761,12 +790,12 @@ export const createStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       parentInfoID
       createdAt
@@ -783,7 +812,6 @@ export const updateStudent = /* GraphQL */ `
     $condition: ModelStudentConditionInput
   ) {
     updateStudent(input: $input, condition: $condition) {
-      id
       cpr
       fullName
       email
@@ -794,21 +822,12 @@ export const updateStudent = /* GraphQL */ `
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
-      addressID
       preferredLanguage
       graduationDate
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      address
+      applications {
+        nextToken
+        startedAt
       }
       ParentInfo {
         id
@@ -822,12 +841,12 @@ export const updateStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       parentInfoID
       createdAt
@@ -844,7 +863,6 @@ export const deleteStudent = /* GraphQL */ `
     $condition: ModelStudentConditionInput
   ) {
     deleteStudent(input: $input, condition: $condition) {
-      id
       cpr
       fullName
       email
@@ -855,21 +873,12 @@ export const deleteStudent = /* GraphQL */ `
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
-      addressID
       preferredLanguage
       graduationDate
-      Address {
-        id
-        type
-        buildingNumber
-        roadNumber
-        blockNumber
-        city
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      address
+      applications {
+        nextToken
+        startedAt
       }
       ParentInfo {
         id
@@ -883,74 +892,14 @@ export const deleteStudent = /* GraphQL */ `
         motherFullName
         motherCPR
         numberOfFamilyMembers
+        address
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        parentInfoAddressId
       }
       parentInfoID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createAddress = /* GraphQL */ `
-  mutation CreateAddress(
-    $input: CreateAddressInput!
-    $condition: ModelAddressConditionInput
-  ) {
-    createAddress(input: $input, condition: $condition) {
-      id
-      type
-      buildingNumber
-      roadNumber
-      blockNumber
-      city
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateAddress = /* GraphQL */ `
-  mutation UpdateAddress(
-    $input: UpdateAddressInput!
-    $condition: ModelAddressConditionInput
-  ) {
-    updateAddress(input: $input, condition: $condition) {
-      id
-      type
-      buildingNumber
-      roadNumber
-      blockNumber
-      city
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteAddress = /* GraphQL */ `
-  mutation DeleteAddress(
-    $input: DeleteAddressInput!
-    $condition: ModelAddressConditionInput
-  ) {
-    deleteAddress(input: $input, condition: $condition) {
-      id
-      type
-      buildingNumber
-      roadNumber
-      blockNumber
-      city
       createdAt
       updatedAt
       _version
