@@ -17,7 +17,7 @@ export default function NewApplicationPage() {
   }, [haveActiveApplication, push]);
 
   return (
-    <PageComponent title="New Application">
+    <PageComponent title="New Application" authRequired>
       <ApplicationForm></ApplicationForm>
     </PageComponent>
   );

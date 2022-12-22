@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function SingleApplicationPage({ application }: Props) {
   return (
-    <PageComponent title="Application">
+    <PageComponent title="Application" authRequired>
       <div>SingleApplicationPage</div>
       <div className="stat-title">{application?.createdAt}</div>
       <div className="stat-value">{application?.status}</div>

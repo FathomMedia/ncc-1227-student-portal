@@ -72,16 +72,18 @@ export default function ApplicationsPage() {
             </Link>
           ))}
 
-          <Link
-            href={"../applications/new-application"}
-            className="duration-200 shadow stats hover:cursor-pointer hover:scale-105"
-          >
-            <div className="flex flex-col items-center justify-center stat">
-              <div className="prose">
-                <h3>Create new Application</h3>
+          {!appContext.haveActiveApplication && (
+            <Link
+              href={"../applications/new-application"}
+              className="duration-200 shadow stats hover:cursor-pointer hover:scale-105"
+            >
+              <div className="flex flex-col items-center justify-center stat">
+                <div className="prose">
+                  <h3>Create new Application</h3>
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          )}
         </div>
       </div>
     </PageComponent>
