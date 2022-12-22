@@ -6,6 +6,7 @@ import { PageComponent } from "../../components/PageComponent";
 import { Application, GetApplicationQueryVariables } from "../../src/API";
 import { getApplication } from "../../src/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
+import ViewApplication from "../../components/applications/ViewApplication";
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 
@@ -40,10 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 export default function SingleApplicationPage({ application }: Props) {
   return (
     <PageComponent title="Application" authRequired>
-      <div>SingleApplicationPage</div>
-      <div className="stat-title">{application?.createdAt}</div>
-      <div className="stat-value">{application?.status}</div>
-      <div className="stat-desc">{application?.gpa}</div>
+      {application && <ViewApplication application={application} />}
     </PageComponent>
   );
 }

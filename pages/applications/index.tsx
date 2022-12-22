@@ -32,7 +32,9 @@ export default function ApplicationsPage() {
                     "text-error"
                   }`}
                 >
-                  {application.status}
+                  {application.status === Status.ELIGIBLE
+                    ? Status.REVIEW
+                    : application.status}
                 </div>
                 <div className="stat-desc">GPA: {application.gpa}</div>
                 <div className="stat-desc">
