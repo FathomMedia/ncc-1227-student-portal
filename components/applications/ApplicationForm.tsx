@@ -1,10 +1,10 @@
 import { Formik, Form, Field } from "formik";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import * as yup from "yup";
 import { useAppContext } from "../../contexts/AppContexts";
 import { useAuth } from "../../hooks/use-auth";
-import { API, Storage, withSSRContext } from "aws-amplify";
-import { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { API, Storage } from "aws-amplify";
+import { GraphQLResult } from "@aws-amplify/api-graphql";
 
 import {
   Application,
@@ -14,6 +14,14 @@ import {
   CreateAttachmentMutationVariables,
   CreateProgramChoiceMutation,
   CreateProgramChoiceMutationVariables,
+  CreateStudentLogMutation,
+  CreateStudentLogMutationVariables,
+  UpdateApplicationMutation,
+  UpdateApplicationMutationVariables,
+  UpdateAttachmentMutation,
+  UpdateAttachmentMutationVariables,
+  UpdateProgramChoiceMutation,
+  UpdateProgramChoiceMutationVariables,
 } from "../../src/API";
 import { Status } from "../../src/models";
 import { toast } from "react-hot-toast";
@@ -21,15 +29,27 @@ import {
   createApplication,
   createAttachment,
   createProgramChoice,
+  createStudentLog,
+  updateApplication,
+  updateAttachment,
+  updateProgramChoice,
 } from "../../src/graphql/mutations";
 import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
+import { DownloadLinks } from "../../pages/applications/[id]";
+import Link from "next/link";
 
 export interface CreateApplicationFormValues {
   application: CreateApplicationMutationVariables;
   primaryProgram: CreateProgramChoiceMutationVariables;
   secondaryProgram: CreateProgramChoiceMutationVariables;
   attachment: CreateAttachmentMutationVariables;
+}
+export interface UpdateApplicationFormValues {
+  application: UpdateApplicationMutationVariables;
+  primaryProgram: UpdateProgramChoiceMutationVariables;
+  secondaryProgram: UpdateProgramChoiceMutationVariables;
+  attachment: UpdateAttachmentMutationVariables;
+  studentLog: CreateStudentLogMutationVariables;
 }
 
 interface FormValues {
@@ -40,6 +60,7 @@ interface FormValues {
   acceptanceLetterDoc: File | undefined;
   transcriptDoc: File | undefined;
   signedContractDoc: File | undefined;
+  reasonForUpdate?: string | undefined;
 }
 
 enum DocType {
@@ -52,6 +73,7 @@ enum DocType {
 interface Props {
   application?: Application;
   programs?: any;
+  downloadLinks?: DownloadLinks;
 }
 
 export const ApplicationForm: FC<Props> = (props) => {
@@ -70,14 +92,6 @@ export const ApplicationForm: FC<Props> = (props) => {
     undefined
   );
 
-  // const [programs, setPrograms] = useState<any>(undefined);
-
-  useEffect(() => {
-    console.log("hi", props.application?.programs);
-
-    return () => {};
-  }, [props.application?.programs]);
-
   const initialValues: FormValues = {
     gpa: props.application?.gpa ?? undefined,
     primaryProgramID:
@@ -92,48 +106,8 @@ export const ApplicationForm: FC<Props> = (props) => {
     acceptanceLetterDoc: undefined,
     transcriptDoc: undefined,
     signedContractDoc: undefined,
+    reasonForUpdate: undefined,
   };
-
-  // useEffect(() => {
-  //   getPrograms();
-
-  //   /**
-  //    * The function gets all the programs from the database and sets the state of the programs to the
-  //    * data that was retrieved
-  //    */
-  //   async function getPrograms() {
-  //     let q = `
-  //     query ListAllPrograms {
-  //       listPrograms {
-  //         items {
-  //           id
-  //           name
-  //           requirements
-  //           universityID
-  //           universityProgramsId
-  //           updatedAt
-  //           createdAt
-  //           availability
-  //           _version
-  //           _lastChangedAt
-  //           _deleted
-  //           university {
-  //             id
-  //             _deleted
-  //             _version
-  //             name
-  //           }
-  //         }
-  //       }
-  //     }
-  //     `;
-
-  //     let res = (await API.graphql(graphqlOperation(q))) as GraphQLResult;
-  //     setPrograms(res.data);
-  //   }
-
-  //   return () => {};
-  // }, []);
 
   /**
    * It takes a file and a document type, and uploads the file to the AWS S3 bucket, and returns the
@@ -194,6 +168,17 @@ export const ApplicationForm: FC<Props> = (props) => {
     return res.data;
   }
 
+  async function updateAttachmentInDB(
+    mutationVars: UpdateAttachmentMutationVariables
+  ): Promise<UpdateAttachmentMutation | undefined> {
+    let res = (await API.graphql({
+      query: updateAttachment,
+      variables: mutationVars,
+    })) as GraphQLResult<UpdateAttachmentMutation>;
+
+    return res.data;
+  }
+
   /**
    * It takes in a mutation variable object, and returns a promise that resolves to a mutation object
    * @param {CreateApplicationMutationVariables} mutationVars - CreateApplicationMutationVariables
@@ -210,6 +195,17 @@ export const ApplicationForm: FC<Props> = (props) => {
     return res.data;
   }
 
+  async function updateApplicationInDB(
+    mutationVars: UpdateApplicationMutationVariables
+  ): Promise<UpdateApplicationMutation | undefined> {
+    let res = (await API.graphql({
+      query: updateApplication,
+      variables: mutationVars,
+    })) as GraphQLResult<UpdateApplicationMutation>;
+
+    return res.data;
+  }
+
   /**
    * It takes in a variable of type CreateProgramChoiceMutationVariables and returns a promise of type
    * CreateProgramChoiceMutation or undefined
@@ -219,11 +215,32 @@ export const ApplicationForm: FC<Props> = (props) => {
   async function createProgramChoiceInDB(
     mutationVars: CreateProgramChoiceMutationVariables
   ): Promise<CreateProgramChoiceMutation | undefined> {
-    console.log(mutationVars);
     let res = (await API.graphql({
       query: createProgramChoice,
       variables: mutationVars,
     })) as GraphQLResult<CreateProgramChoiceMutation>;
+
+    return res.data;
+  }
+
+  async function updateProgramChoiceInDB(
+    mutationVars: UpdateProgramChoiceMutationVariables
+  ): Promise<UpdateProgramChoiceMutation | undefined> {
+    let res = (await API.graphql({
+      query: updateProgramChoice,
+      variables: mutationVars,
+    })) as GraphQLResult<UpdateProgramChoiceMutation>;
+
+    return res.data;
+  }
+
+  async function createStudentLogInDB(
+    mutationVars: CreateStudentLogMutationVariables
+  ): Promise<CreateStudentLogMutation | undefined> {
+    let res = (await API.graphql({
+      query: createStudentLog,
+      variables: mutationVars,
+    })) as GraphQLResult<CreateStudentLogMutation>;
 
     return res.data;
   }
@@ -301,18 +318,100 @@ export const ApplicationForm: FC<Props> = (props) => {
       });
   }
 
+  async function updateApplicationProcess(data: UpdateApplicationFormValues) {
+    let updatedAttachmentInDB = await updateAttachmentInDB(data.attachment);
+
+    if (updatedAttachmentInDB === undefined) {
+      toast.error("Failed to update application");
+      return;
+    }
+
+    let tempApplicationVar: UpdateApplicationMutationVariables = {
+      input: {
+        id: data.application.input.id,
+        gpa: data.application.input.gpa,
+        status: data.application.input.status,
+        studentCPR: data.application.input.studentCPR,
+        attachmentID: data.application.input.attachmentID,
+        applicationAttachmentId: data.application.input.applicationAttachmentId,
+        _version: data.application.input._version,
+      },
+    };
+
+    let updatedApplicationInDB = await updateApplicationInDB(
+      tempApplicationVar
+    );
+
+    if (updatedApplicationInDB === undefined) {
+      toast.error("Failed to update application");
+      return;
+    }
+
+    let tempPrimaryProgramChoice: UpdateProgramChoiceMutationVariables = {
+      input: {
+        id: data.primaryProgram.input.id,
+        _version: data.primaryProgram.input._version,
+        choiceOrder: data.primaryProgram.input.choiceOrder,
+        programID: data.primaryProgram.input.programID,
+        programApplicationsId: data.primaryProgram.input.programApplicationsId,
+        applicationID: data.primaryProgram.input.applicationID,
+        applicationProgramsId: data.primaryProgram.input.applicationProgramsId,
+      },
+    };
+
+    let tempSecondaryProgramChoice: UpdateProgramChoiceMutationVariables = {
+      input: {
+        id: data.secondaryProgram.input.id,
+        _version: data.secondaryProgram.input._version,
+        choiceOrder: data.secondaryProgram.input.choiceOrder,
+        programID: data.secondaryProgram.input.programID,
+        programApplicationsId:
+          data.secondaryProgram.input.programApplicationsId,
+        applicationID: data.secondaryProgram.input.applicationID,
+        applicationProgramsId:
+          data.secondaryProgram.input.applicationProgramsId,
+      },
+    };
+
+    await Promise.all([
+      updateProgramChoiceInDB(tempPrimaryProgramChoice),
+      updateProgramChoiceInDB(tempSecondaryProgramChoice),
+      createStudentLogInDB(data.studentLog),
+    ])
+      .then((res) => {
+        console.log("Update program choice res", res);
+        push("/applications");
+      })
+      .catch((err) => {
+        console.log("Update program choice error", err);
+        toast.error("Something went wrong");
+      });
+  }
+
   return (
     <div>
       <Formik
         initialValues={initialValues}
-        validationSchema={yup.object({
-          gpa: yup.number().min(70).max(100).required(),
-          primaryProgramID: yup.string().required(),
-          secondaryProgramID: yup.string().required(),
-          cprDoc: yup.mixed().required(),
-          acceptanceLetterDoc: yup.mixed().required(),
-          transcriptDoc: yup.mixed().required(),
-        })}
+        validationSchema={
+          props.application
+            ? yup.object({
+                gpa: yup.number().min(70).max(100).required(),
+                primaryProgramID: yup.string().required(),
+                secondaryProgramID: yup.string().required(),
+                // cprDoc: yup.mixed(),
+                // acceptanceLetterDoc: yup.mixed(),
+                // transcriptDoc: yup.mixed(),
+                reasonForUpdate: yup.string().required(),
+              })
+            : yup.object({
+                gpa: yup.number().min(70).max(100).required(),
+                primaryProgramID: yup.string().required(),
+                secondaryProgramID: yup.string().required(),
+                cprDoc: yup.mixed().required(),
+                acceptanceLetterDoc: yup.mixed().required(),
+                transcriptDoc: yup.mixed().required(),
+              })
+        }
         onSubmit={async (values, actions) => {
           console.log({ values, actions });
 
@@ -390,11 +489,100 @@ export const ApplicationForm: FC<Props> = (props) => {
             },
           };
 
-          await toast.promise(createApplicationProcess(createValues), {
-            loading: "Creating application...",
-            success: "Application created successfully",
-            error: "Application creation failed",
-          });
+          let updateValues: UpdateApplicationFormValues = {
+            application: {
+              input: {
+                id: props.application?.id ?? "",
+                gpa: values.gpa,
+                status: props.application?.status,
+                studentCPR: `${student?.getStudent?.cpr}`,
+                _version: props.application?._version,
+                attachmentID: props.application?.attachmentID,
+                applicationAttachmentId:
+                  props.application?.applicationAttachmentId,
+              },
+              condition: undefined,
+            },
+            primaryProgram: {
+              input: {
+                id:
+                  props.application?.programs?.items.sort(
+                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                  )[0]?.id ?? "",
+                applicationID: props.application?.id ?? "",
+                choiceOrder: 1,
+                _version: props.application?.programs?.items.sort(
+                  (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                )[0]?._version,
+                programID: values.primaryProgramID ?? "",
+                applicationProgramsId: props.application?.id ?? "",
+                programApplicationsId: values.primaryProgramID ?? "",
+              },
+              condition: undefined,
+            },
+            secondaryProgram: {
+              input: {
+                id:
+                  props.application?.programs?.items.sort(
+                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                  )[1]?.id ?? "",
+                _version: props.application?.programs?.items.sort(
+                  (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                )[1]?._version,
+                choiceOrder: 2,
+                programID: values.secondaryProgramID ?? "",
+                applicationProgramsId: props.application?.id ?? "",
+                applicationID: props.application?.id ?? "",
+                programApplicationsId: values.secondaryProgramID ?? "",
+              },
+              condition: undefined,
+            },
+            attachment: {
+              input: {
+                id: props.application?.attachment?.id ?? "",
+                cprDoc:
+                  storageKeys?.[0] ?? props.application?.attachment?.cprDoc,
+                acceptanceLetterDoc:
+                  storageKeys?.[1] ??
+                  props.application?.attachment?.acceptanceLetterDoc,
+                transcriptDoc:
+                  storageKeys?.[2] ??
+                  props.application?.attachment?.transcriptDoc,
+                signedContractDoc:
+                  storageKeys?.[3] ??
+                  props.application?.attachment?.signedContractDoc,
+                _version: props.application?.attachment?._version,
+              },
+              condition: undefined,
+            },
+            studentLog: {
+              input: {
+                id: undefined,
+                applicationID: props.application?.id ?? "",
+                studentCPR: user?.getUsername() ?? "",
+                dateTime: new Date().toISOString(),
+                snapshot: JSON.stringify(props.application),
+                reason: values.reasonForUpdate,
+                _version: undefined,
+                applicationStudentLogsId: props.application?.id ?? "",
+              },
+              condition: undefined,
+            },
+          };
+
+          {
+            props.application
+              ? await toast.promise(updateApplicationProcess(updateValues), {
+                  loading: "Updating application...",
+                  success: "Application updated successfully",
+                  error: "Application update failed",
+                })
+              : await toast.promise(createApplicationProcess(createValues), {
+                  loading: "Creating application...",
+                  success: "Application created successfully",
+                  error: "Application creation failed",
+                });
+          }
 
           actions.setSubmitting(false);
         }}
@@ -544,7 +732,18 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="flex flex-col justify-start w-full">
               <label className="label">
                 CPR Document{" "}
-                <span className="ml-1 mr-auto text-red-500">*</span>{" "}
+                {!props.application && (
+                  <span className="ml-1 mr-auto text-red-500">*</span>
+                )}{" "}
+                {props.downloadLinks?.cprDoc && (
+                  <Link
+                    href={props.downloadLinks?.cprDoc}
+                    target="_blank"
+                    className="ml-1 link link-primary"
+                  >
+                    View
+                  </Link>
+                )}
               </label>
               <Field
                 type="file"
@@ -579,7 +778,18 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="flex flex-col justify-start w-full">
               <label className="label">
                 Acceptance Letter Document{" "}
-                <span className="ml-1 mr-auto text-red-500">*</span>
+                {!props.application && (
+                  <span className="ml-1 mr-auto text-red-500">*</span>
+                )}
+                {props.downloadLinks?.acceptanceLetterDoc && (
+                  <Link
+                    href={props.downloadLinks?.acceptanceLetterDoc}
+                    target="_blank"
+                    className="ml-1 link link-primary"
+                  >
+                    View
+                  </Link>
+                )}
               </label>
               <Field
                 type="file"
@@ -616,7 +826,18 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="flex flex-col justify-start w-full">
               <label className="label">
                 Transcript Document{" "}
-                <span className="ml-1 mr-auto text-red-500">*</span>
+                {!props.application && (
+                  <span className="ml-1 mr-auto text-red-500">*</span>
+                )}
+                {props.downloadLinks?.transcriptDoc && (
+                  <Link
+                    href={props.downloadLinks?.transcriptDoc}
+                    target="_blank"
+                    className="ml-1 link link-primary"
+                  >
+                    View
+                  </Link>
+                )}
               </label>
               <Field
                 type="file"
@@ -651,7 +872,19 @@ export const ApplicationForm: FC<Props> = (props) => {
 
             {/* signedContractDoc */}
             <div className="flex flex-col justify-start w-full">
-              <label className="label">Signed Contract Document</label>
+              <label className="label">
+                Signed Contract Document
+                {props.downloadLinks?.signedContractDoc && (
+                  <Link
+                    href={props.downloadLinks?.signedContractDoc}
+                    target="_blank"
+                    className="ml-1 link link-primary"
+                  >
+                    View
+                  </Link>
+                )}
+              </label>
+
               <Field
                 type="file"
                 accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
@@ -682,6 +915,29 @@ export const ApplicationForm: FC<Props> = (props) => {
                   errors.signedContractDoc}
               </label>
             </div>
+            {/* Reason */}
+            {props.application && (
+              <div className="flex flex-col justify-start w-full md:col-span-2">
+                <label className="label">Reason For Update</label>
+                <Field
+                  type="text"
+                  name="reasonForUpdate"
+                  title="reasonForUpdate"
+                  placeholder="Reason For Update..."
+                  className={`input input-bordered input-primary ${
+                    errors.reasonForUpdate && "input-error"
+                  }`}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.reasonForUpdate ?? ""}
+                />
+                <label className="label-text-alt text-error">
+                  {errors.reasonForUpdate &&
+                    touched.reasonForUpdate &&
+                    errors.reasonForUpdate}
+                </label>
+              </div>
+            )}
 
             {/* Submit */}
             <button
@@ -689,7 +945,7 @@ export const ApplicationForm: FC<Props> = (props) => {
               type="submit"
               disabled={isSubmitting || !isValid}
             >
-              Apply
+              {props.application ? "Update" : "Apply"}
             </button>
           </Form>
         )}

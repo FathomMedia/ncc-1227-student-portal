@@ -26,18 +26,21 @@ export default function ViewApplication({ application, downloadLinks }: Props) {
           <tr>
             <td>Created at</td>
             <td>
-              {Intl.DateTimeFormat("en").format(
-                new Date(application.createdAt)
-              )}
+              {Intl.DateTimeFormat("en", {
+                timeStyle: "short",
+                dateStyle: "medium",
+              }).format(new Date(application.createdAt))}
             </td>
           </tr>
 
           <tr>
             <td>Status</td>
             <td>
-              {application.status === Status.ELIGIBLE
-                ? Status.REVIEW
-                : application.status}
+              <div className="badge badge-info">
+                {application.status === Status.ELIGIBLE
+                  ? Status.REVIEW
+                  : application.status}
+              </div>
             </td>
           </tr>
 
@@ -79,7 +82,7 @@ export default function ViewApplication({ application, downloadLinks }: Props) {
                   href={downloadLinks.cprDoc}
                   target="_blank"
                 >
-                  View
+                  View CPR
                 </Link>
               ) : (
                 "Document Not Available"
@@ -95,7 +98,7 @@ export default function ViewApplication({ application, downloadLinks }: Props) {
                   href={downloadLinks.acceptanceLetterDoc}
                   target="_blank"
                 >
-                  View
+                  View Acceptance Letter
                 </Link>
               ) : (
                 "Document Not Available"
@@ -111,7 +114,7 @@ export default function ViewApplication({ application, downloadLinks }: Props) {
                   href={downloadLinks.transcriptDoc}
                   target="_blank"
                 >
-                  View
+                  View Transcript
                 </Link>
               ) : (
                 "Document Not Available"
@@ -127,7 +130,7 @@ export default function ViewApplication({ application, downloadLinks }: Props) {
                   href={downloadLinks.signedContractDoc}
                   target="_blank"
                 >
-                  View
+                  View Signed Contract
                 </Link>
               ) : (
                 <span className="text-error">Document Not Available</span>

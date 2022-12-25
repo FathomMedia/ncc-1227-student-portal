@@ -1,10 +1,8 @@
-import { API, Storage, withSSRContext } from "aws-amplify";
+import { Storage, withSSRContext } from "aws-amplify";
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { PageComponent } from "../../components/PageComponent";
-import { Application, GetApplicationQueryVariables } from "../../src/API";
-import { getApplication } from "../../src/graphql/queries";
+import { Application, Status } from "../../src/API";
 import { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
 import ViewApplication from "../../components/applications/ViewApplication";
 import { CognitoUser } from "@aws-amplify/auth";
@@ -15,7 +13,7 @@ interface Props {
   programs: any;
 }
 
-interface DownloadLinks {
+export interface DownloadLinks {
   cprDoc?: string | null;
   acceptanceLetterDoc?: string | null;
   transcriptDoc?: string | null;
@@ -60,6 +58,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
               items {
                 id
                 choiceOrder
+                applicationID
+                applicationProgramsId
+                programApplicationsId
+                programID
                 program {
                   id
                   name
@@ -141,7 +143,7 @@ export default function SingleApplicationPage({
   application,
   programs,
 }: Props) {
-  const [isEdit, setIsEdit] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
 
   const [downloadLinks, setDownloadLinks] = useState<DownloadLinks | undefined>(
     undefined
@@ -180,14 +182,18 @@ export default function SingleApplicationPage({
 
   return (
     <PageComponent title="Application" authRequired>
-      <div className="flex justify-center w-full py-4 mb-6 border border-gray-400 rounded-2xl px-7">
-        <button
-          className="w-full btn btn-primary"
-          onClick={() => setIsEdit(!isEdit)}
-        >
-          {isEdit ? "View" : "Edit"}
-        </button>
-      </div>
+      {(application?.status === Status.REVIEW ||
+        application?.status === Status.ELIGIBLE) && (
+        <div className="flex justify-center w-full py-4 mb-6 border border-gray-400 rounded-2xl px-7">
+          <button
+            className="w-full btn btn-primary"
+            onClick={() => setIsEdit(!isEdit)}
+            type="button"
+          >
+            {isEdit ? "View" : "Edit"}
+          </button>
+        </div>
+      )}
 
       {application && downloadLinks && !isEdit && (
         <ViewApplication
@@ -197,7 +203,11 @@ export default function SingleApplicationPage({
       )}
 
       {application && isEdit && (
-        <ApplicationForm application={application} programs={programs} />
+        <ApplicationForm
+          application={application}
+          programs={programs}
+          downloadLinks={downloadLinks}
+        />
       )}
 
       {!application && (
