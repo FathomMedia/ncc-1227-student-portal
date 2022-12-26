@@ -3,40 +3,36 @@ import { FC, useState } from "react";
 import * as yup from "yup";
 import { useAppContext } from "../../contexts/AppContexts";
 import { useAuth } from "../../hooks/use-auth";
-import { API, Storage } from "aws-amplify";
-import { GraphQLResult } from "@aws-amplify/api-graphql";
 
 import {
   Application,
-  CreateApplicationMutation,
   CreateApplicationMutationVariables,
-  CreateAttachmentMutation,
   CreateAttachmentMutationVariables,
-  CreateProgramChoiceMutation,
   CreateProgramChoiceMutationVariables,
-  CreateStudentLogMutation,
   CreateStudentLogMutationVariables,
-  UpdateApplicationMutation,
+  Program,
   UpdateApplicationMutationVariables,
-  UpdateAttachmentMutation,
   UpdateAttachmentMutationVariables,
-  UpdateProgramChoiceMutation,
   UpdateProgramChoiceMutationVariables,
 } from "../../src/API";
 import { Status } from "../../src/models";
 import { toast } from "react-hot-toast";
-import {
-  createApplication,
-  createAttachment,
-  createProgramChoice,
-  createStudentLog,
-  updateApplication,
-  updateAttachment,
-  updateProgramChoice,
-} from "../../src/graphql/mutations";
 import { useRouter } from "next/router";
-import { DownloadLinks } from "../../pages/applications/[id]";
+
 import Link from "next/link";
+import {
+  createAttachmentInDB,
+  createApplicationInDB,
+  createProgramChoiceInDB,
+  updateAttachmentInDB,
+  updateApplicationInDB,
+  updateProgramChoiceInDB,
+  createStudentLogInDB,
+  DocType,
+  uploadFile,
+  DownloadLinks,
+} from "../../src/CustomAPI";
+import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
 
 export interface CreateApplicationFormValues {
   application: CreateApplicationMutationVariables;
@@ -63,23 +59,16 @@ interface FormValues {
   reasonForUpdate?: string | undefined;
 }
 
-enum DocType {
-  CPR,
-  ACCEPTANCE,
-  TRANSCRIPT,
-  SIGNED_CONTRACT,
-}
-
 interface Props {
   application?: Application;
-  programs?: any;
+  programs?: Program[];
   downloadLinks?: DownloadLinks;
 }
 
 export const ApplicationForm: FC<Props> = (props) => {
   const { user } = useAuth();
   const { push } = useRouter();
-  const { student } = useAppContext();
+  const { student, syncStudentApplication } = useAppContext();
 
   const [cprDoc, setCprDoc] = useState<File | undefined>(undefined);
   const [acceptanceLetterDoc, setAcceptanceLetterDoc] = useState<
@@ -91,6 +80,8 @@ export const ApplicationForm: FC<Props> = (props) => {
   const [signedContractDoc, setSignedContractDoc] = useState<File | undefined>(
     undefined
   );
+
+  const [withdrawing, setWithdrawing] = useState(false);
 
   const initialValues: FormValues = {
     gpa: props.application?.gpa ?? undefined,
@@ -109,140 +100,23 @@ export const ApplicationForm: FC<Props> = (props) => {
     reasonForUpdate: undefined,
   };
 
-  /**
-   * It takes a file and a document type, and uploads the file to the AWS S3 bucket, and returns the
-   * key of the file
-   * @param {File} file - File - The file to be uploaded
-   * @param {DocType} type - DocType - this is an enum that I have defined in my code.
-   * @returns The key of the file uploaded to the storage bucket.
-   */
-  async function uploadFile(file: File, type: DocType) {
-    try {
-      let res = await Storage.put(
-        `Student${student?.getStudent?.cpr}/${student?.getStudent?.cpr}#${
-          DocType[type]
-        }#${new Date().getDate()}`,
-        file,
-        {
-          contentType: file.type,
-        }
-      );
-      console.log("upload res", res);
-      return res.key;
-    } catch (error) {
-      console.log("Error uploading file: ", error);
-      return null;
+  async function withdrawApplication(application: Application) {
+    let tempApplicationVar: UpdateApplicationMutationVariables = {
+      input: {
+        id: application.id,
+        status: Status.WITHDRAWN,
+        _version: application._version,
+      },
+    };
+    setWithdrawing(true);
+    let res = await updateApplicationInDB(tempApplicationVar);
+    if (res === undefined) {
+      throw new Error("Failed to withdraw");
     }
-  }
-
-  /**
-   * It checks if a file is too big
-   * @param {File} [file] - The file that is being checked.
-   * @returns A boolean value.
-   */
-  function checkIfFilesAreTooBig(file?: File): boolean {
-    let valid = true;
-    if (file) {
-      const size = file.size / 1024 / 1024;
-      if (size > 1) {
-        valid = false;
-      }
-    }
-    return valid;
-  }
-
-  /**
-   * It takes in a mutation variable object, and returns a promise that resolves to a GraphQL result
-   * object
-   * @param {CreateAttachmentMutationVariables} mutationVars - CreateAttachmentMutationVariables
-   * @returns The data from the mutation.
-   */
-  async function createAttachmentInDB(
-    mutationVars: CreateAttachmentMutationVariables
-  ): Promise<CreateAttachmentMutation | undefined> {
-    let res = (await API.graphql({
-      query: createAttachment,
-      variables: mutationVars,
-    })) as GraphQLResult<CreateAttachmentMutation>;
-
-    return res.data;
-  }
-
-  async function updateAttachmentInDB(
-    mutationVars: UpdateAttachmentMutationVariables
-  ): Promise<UpdateAttachmentMutation | undefined> {
-    let res = (await API.graphql({
-      query: updateAttachment,
-      variables: mutationVars,
-    })) as GraphQLResult<UpdateAttachmentMutation>;
-
-    return res.data;
-  }
-
-  /**
-   * It takes in a mutation variable object, and returns a promise that resolves to a mutation object
-   * @param {CreateApplicationMutationVariables} mutationVars - CreateApplicationMutationVariables
-   * @returns The data from the mutation.
-   */
-  async function createApplicationInDB(
-    mutationVars: CreateApplicationMutationVariables
-  ): Promise<CreateApplicationMutation | undefined> {
-    let res = (await API.graphql({
-      query: createApplication,
-      variables: mutationVars,
-    })) as GraphQLResult<CreateApplicationMutation>;
-
-    return res.data;
-  }
-
-  async function updateApplicationInDB(
-    mutationVars: UpdateApplicationMutationVariables
-  ): Promise<UpdateApplicationMutation | undefined> {
-    let res = (await API.graphql({
-      query: updateApplication,
-      variables: mutationVars,
-    })) as GraphQLResult<UpdateApplicationMutation>;
-
-    return res.data;
-  }
-
-  /**
-   * It takes in a variable of type CreateProgramChoiceMutationVariables and returns a promise of type
-   * CreateProgramChoiceMutation or undefined
-   * @param {CreateProgramChoiceMutationVariables} mutationVars - CreateProgramChoiceMutationVariables
-   * @returns The data from the mutation.
-   */
-  async function createProgramChoiceInDB(
-    mutationVars: CreateProgramChoiceMutationVariables
-  ): Promise<CreateProgramChoiceMutation | undefined> {
-    let res = (await API.graphql({
-      query: createProgramChoice,
-      variables: mutationVars,
-    })) as GraphQLResult<CreateProgramChoiceMutation>;
-
-    return res.data;
-  }
-
-  async function updateProgramChoiceInDB(
-    mutationVars: UpdateProgramChoiceMutationVariables
-  ): Promise<UpdateProgramChoiceMutation | undefined> {
-    let res = (await API.graphql({
-      query: updateProgramChoice,
-      variables: mutationVars,
-    })) as GraphQLResult<UpdateProgramChoiceMutation>;
-
-    return res.data;
-  }
-
-  async function createStudentLogInDB(
-    mutationVars: CreateStudentLogMutationVariables
-  ): Promise<CreateStudentLogMutation | undefined> {
-    let res = (await API.graphql({
-      query: createStudentLog,
-      variables: mutationVars,
-    })) as GraphQLResult<CreateStudentLogMutation>;
-
-    return res.data;
+    await syncStudentApplication();
+    setWithdrawing(false);
+    push("/applications/");
+    return res;
   }
 
   /**
@@ -308,8 +182,9 @@ export const ApplicationForm: FC<Props> = (props) => {
       createProgramChoiceInDB(tempPrimaryProgramChoice),
       createProgramChoiceInDB(tempSecondaryProgramChoice),
     ])
-      .then((res) => {
+      .then(async (res) => {
         console.log("Create program choice res", res);
+        await syncStudentApplication();
         push("/applications");
       })
       .catch((err) => {
@@ -378,8 +253,9 @@ export const ApplicationForm: FC<Props> = (props) => {
       updateProgramChoiceInDB(tempSecondaryProgramChoice),
       createStudentLogInDB(data.studentLog),
     ])
-      .then((res) => {
+      .then(async (res) => {
         console.log("Update program choice res", res);
+        await syncStudentApplication();
         push("/applications");
       })
       .catch((err) => {
@@ -417,12 +293,26 @@ export const ApplicationForm: FC<Props> = (props) => {
 
           let storageKeys = await toast.promise(
             Promise.all([
-              cprDoc && uploadFile(cprDoc, DocType.CPR),
+              cprDoc &&
+                uploadFile(cprDoc, DocType.CPR, `${student?.getStudent?.cpr}`),
               acceptanceLetterDoc &&
-                uploadFile(acceptanceLetterDoc, DocType.ACCEPTANCE),
-              transcriptDoc && uploadFile(transcriptDoc, DocType.TRANSCRIPT),
+                uploadFile(
+                  acceptanceLetterDoc,
+                  DocType.ACCEPTANCE,
+                  `${student?.getStudent?.cpr}`
+                ),
+              transcriptDoc &&
+                uploadFile(
+                  transcriptDoc,
+                  DocType.TRANSCRIPT,
+                  `${student?.getStudent?.cpr}`
+                ),
               signedContractDoc &&
-                uploadFile(signedContractDoc, DocType.SIGNED_CONTRACT),
+                uploadFile(
+                  signedContractDoc,
+                  DocType.SIGNED_CONTRACT,
+                  `${student?.getStudent?.cpr}`
+                ),
             ])
               .then((res) => {
                 console.log("Promise all values", res);
@@ -671,7 +561,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                   >
                     Select
                   </option>
-                  {props.programs?.listPrograms?.items.map(
+                  {props.programs?.map(
                     (program: any) =>
                       program?.id !== values.secondaryProgramID && (
                         <option key={program?.id} value={program?.id}>
@@ -710,7 +600,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                   >
                     Select
                   </option>
-                  {props.programs?.listPrograms?.items.map(
+                  {props.programs?.map(
                     (program: any) =>
                       program?.id !== values.primaryProgramID && (
                         <option key={program?.id} value={program?.id}>
@@ -947,6 +837,50 @@ export const ApplicationForm: FC<Props> = (props) => {
             >
               {props.application ? "Update" : "Apply"}
             </button>
+
+            <input type="checkbox" id="my-modal" className="modal-toggle" />
+            <label htmlFor="my-modal" className="cursor-pointer modal">
+              <label className="relative modal-box" htmlFor="">
+                <h3 className="text-lg font-bold">Confirm withdraw</h3>
+                <p className="py-4">
+                  Are you sure you want to withdraw your application?
+                </p>
+                <div className="modal-action">
+                  <button
+                    className={`btn btn-error btn-sm ${
+                      withdrawing && "loading"
+                    }`}
+                    type="button"
+                    disabled={withdrawing}
+                    onClick={() => {
+                      toast.promise(withdrawApplication(props.application!), {
+                        loading: "Withdrawing...",
+                        success: "Withdraw successfully",
+                        error: (err) => {
+                          return `${err}`;
+                        },
+                      });
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                  <label htmlFor="my-modal" className="btn btn-sm">
+                    No
+                  </label>
+                </div>
+              </label>
+            </label>
+
+            {props.application &&
+              (props.application.status === Status.REVIEW ||
+                props.application.status === Status.ELIGIBLE) && (
+                <label
+                  htmlFor="my-modal"
+                  className="btn md:col-span-2 btn-error"
+                >
+                  Withdraw
+                </label>
+              )}
           </Form>
         )}
       </Formik>

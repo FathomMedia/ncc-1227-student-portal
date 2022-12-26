@@ -7,17 +7,15 @@ import { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
 import ViewApplication from "../../components/applications/ViewApplication";
 import { CognitoUser } from "@aws-amplify/auth";
 import { ApplicationForm } from "../../components/applications/ApplicationForm";
+import {
+  DownloadLinks,
+  getApplicationData,
+  listAllPrograms,
+} from "../../src/CustomAPI";
 
 interface Props {
   application: Application | null;
   programs: any;
-}
-
-export interface DownloadLinks {
-  cprDoc?: string | null;
-  acceptanceLetterDoc?: string | null;
-  transcriptDoc?: string | null;
-  signedContractDoc?: string | null;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -29,112 +27,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const { id } = ctx.query;
 
-  let q = `query MyQuery {
-    getApplication(id: "${id}") {
-            id
-            _version
-            _deleted
-            gpa
-            createdAt
-            attachmentID
-            applicationAttachmentId
-            _lastChangedAt
-            studentCPR
-            status
-            updatedAt
-            attachment {
-              id
-              transcriptDoc
-              signedContractDoc
-              cprDoc
-              acceptanceLetterDoc
-              _version
-              _deleted
-              _lastChangedAt
-              createdAt
-              updatedAt
-            }
-            programs {
-              items {
-                id
-                choiceOrder
-                applicationID
-                applicationProgramsId
-                programApplicationsId
-                programID
-                program {
-                  id
-                  name
-                  requirements
-                  availability
-                  university {
-                    id
-                    name
-                  }
-                  _version
-                  _deleted
-                }
-                _version
-                _deleted
-              }
-            }
-            studentLogs {
-              items {
-                id
-                dateTime
-                studentCPR
-                snapshot
-                reason
-                applicationStudentLogsId
-                applicationID
-                _version
-              }
-            }
-          }
-  }
-  `;
+  let application = await getApplicationData(`${id}`);
 
-  const res = (await API.graphql(graphqlOperation(q))) as GraphQLResult<any>;
-  let application = res.data?.getApplication as Application;
-
-  async function getPrograms() {
-    let q = `
-    query ListAllPrograms {
-      listPrograms {
-        items {
-          id
-          name
-          requirements
-          universityID
-          universityProgramsId
-          updatedAt
-          createdAt
-          availability
-          _version
-          _lastChangedAt
-          _deleted
-          university {
-            id
-            _deleted
-            _version
-            name
-          }
-        }
-      }
-    }
-    `;
-
-    let res = (await API.graphql(graphqlOperation(q))) as GraphQLResult; // your fetch function here
-
-    return res;
-  }
-  const data = await getPrograms();
+  const programs = await listAllPrograms();
 
   return {
     props: {
       application:
-        authUser?.getUsername() === application.studentCPR && application,
-      programs: data.data,
+        authUser?.getUsername() === application?.studentCPR && application,
+      programs: programs,
     },
   };
 };

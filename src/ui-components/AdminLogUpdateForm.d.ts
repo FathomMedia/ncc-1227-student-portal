@@ -18,12 +18,14 @@ export declare type AdminLogUpdateFormInputValues = {
     adminCPR?: string;
     dateTime?: string;
     snapshot?: string;
+    reason?: string;
 };
 export declare type AdminLogUpdateFormValidationValues = {
     applicationID?: ValidationFunction<string>;
     adminCPR?: ValidationFunction<string>;
     dateTime?: ValidationFunction<string>;
     snapshot?: ValidationFunction<string>;
+    reason?: ValidationFunction<string>;
 };
 export declare type FormProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AdminLogUpdateFormOverridesProps = {
@@ -32,6 +34,7 @@ export declare type AdminLogUpdateFormOverridesProps = {
     adminCPR?: FormProps<TextFieldProps>;
     dateTime?: FormProps<TextFieldProps>;
     snapshot?: FormProps<TextFieldProps>;
+    reason?: FormProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AdminLogUpdateFormProps = React.PropsWithChildren<{
     overrides?: AdminLogUpdateFormOverridesProps | undefined | null;

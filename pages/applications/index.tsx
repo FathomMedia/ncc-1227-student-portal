@@ -32,12 +32,11 @@ export default function ApplicationsPage() {
                     className={`stat-value ${
                       (application.status === Status.REVIEW ||
                         application.status === Status.ELIGIBLE) &&
-                      "text-info"
+                      "text-warning"
                     } ${
                       application.status === Status.APPROVED && "text-success"
                     } ${
-                      (application.status === Status.CANCELED ||
-                        application.status === Status.WITHDRAWN ||
+                      (application.status === Status.WITHDRAWN ||
                         application.status === Status.REJECTED) &&
                       "text-error"
                     }`}

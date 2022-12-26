@@ -5,7 +5,6 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@a
 export enum Status {
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
-  CANCELED = "CANCELED",
   REVIEW = "REVIEW",
   WITHDRAWN = "WITHDRAWN",
   ELIGIBLE = "ELIGIBLE"
@@ -111,6 +110,7 @@ type EagerAdminLog = {
   readonly adminCPR: string;
   readonly dateTime?: string | null;
   readonly snapshot?: string | null;
+  readonly reason?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationAdminLogsId?: string | null;
@@ -127,6 +127,7 @@ type LazyAdminLog = {
   readonly adminCPR: string;
   readonly dateTime?: string | null;
   readonly snapshot?: string | null;
+  readonly reason?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationAdminLogsId?: string | null;

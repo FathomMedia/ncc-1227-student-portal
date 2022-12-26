@@ -36,7 +36,7 @@ export default function ViewApplication({ application, downloadLinks }: Props) {
           <tr>
             <td>Status</td>
             <td>
-              <div className="badge badge-info">
+              <div className="badge badge-warning">
                 {application.status === Status.ELIGIBLE
                   ? Status.REVIEW
                   : application.status}

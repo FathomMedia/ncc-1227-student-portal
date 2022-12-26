@@ -499,6 +499,7 @@ export const createAdminLog = /* GraphQL */ `
       adminCPR
       dateTime
       snapshot
+      reason
       createdAt
       updatedAt
       _version
@@ -520,6 +521,7 @@ export const updateAdminLog = /* GraphQL */ `
       adminCPR
       dateTime
       snapshot
+      reason
       createdAt
       updatedAt
       _version
@@ -541,6 +543,7 @@ export const deleteAdminLog = /* GraphQL */ `
       adminCPR
       dateTime
       snapshot
+      reason
       createdAt
       updatedAt
       _version

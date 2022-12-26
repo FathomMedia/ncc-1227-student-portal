@@ -44,10 +44,17 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 onClick={() => router.push("/")}
               />
               {user && (
-                <div className="flex flex-col items-center md:items-end md:absolute right-4 top-4">
-                  <p>{student?.getStudent?.fullName}</p>
-                  <p>{user?.getUsername()}</p>
-                </div>
+                <Link
+                  href="/account"
+                  className="flex flex-col items-center p-2 rounded-lg md:items-end md:absolute right-4 top-4 glass hover:cursor-pointer"
+                >
+                  <div className="flex">
+                    <div className="">
+                      <p>{student?.getStudent?.fullName}</p>
+                      <p>{user?.getUsername()}</p>
+                    </div>
+                  </div>
+                </Link>
               )}
               <div className="w-full mt-10 md:mt-16">{props.header}</div>
               {!props.header && (

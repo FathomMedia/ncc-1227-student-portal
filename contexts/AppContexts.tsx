@@ -13,22 +13,28 @@ import {
   GetStudentQuery,
   Application,
   Status,
+  Student,
 } from "../src/API";
 import { getStudent } from "../src/graphql/queries";
 import { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { getStudentApplications } from "../src/CustomAPI";
 
 // interface for all the values & functions
 interface IUseAppContext {
   student: GetStudentQuery | undefined;
+  studentAsStudent: Student | undefined;
   applications: Application[];
   haveActiveApplication: boolean;
+  syncStudentApplication: () => Promise<void>;
 }
 
 // the default state for all the values & functions
 const defaultState: IUseAppContext = {
   student: undefined,
+  studentAsStudent: undefined,
   applications: [],
   haveActiveApplication: false,
+  syncStudentApplication: async () => {},
 };
 
 // creating the app contexts
@@ -48,6 +54,9 @@ function useProviderApp() {
   const { user } = useAuth();
 
   const [student, setStudent] = useState(defaultState.student);
+  const [studentAsStudent, setStudentAsStudent] = useState(
+    defaultState.studentAsStudent
+  );
   const [applications, setApplications] = useState<Application[]>(
     defaultState.applications
   );
@@ -60,6 +69,7 @@ function useProviderApp() {
     if (cpr) {
       getStudentInfo(cpr).then((info) => {
         setStudent(info);
+        setStudentAsStudent(info?.getStudent as Student);
         console.log("user", info);
       });
       getStudentApplications(cpr).then((allStudentApplications) => {
@@ -79,6 +89,25 @@ function useProviderApp() {
     return () => {};
   }, [user]);
 
+  async function syncStudentApplication() {
+    let cpr = user?.getUsername();
+
+    if (cpr) {
+      getStudentApplications(cpr).then((allStudentApplications) => {
+        setApplications(allStudentApplications);
+
+        /* Checking if the student has an active application. */
+        let active = allStudentApplications.find(
+          (application) =>
+            application.status === Status.REVIEW ||
+            application.status === Status.APPROVED ||
+            application.status === Status.ELIGIBLE
+        );
+        setHaveActiveApplication(active !== undefined);
+      });
+    }
+  }
+
   /**
    * It takes a CPR number as input, and returns the student's information
    * @param {string} cpr - The CPR number of the student you want to get information about.
@@ -97,80 +126,12 @@ function useProviderApp() {
     return res.data;
   }
 
-  async function getStudentApplications(cpr: string): Promise<Application[]> {
-    let q = `
-    query GetAllApplicationsByCPR {
-      applicationsByStudentCPRAndGpa(studentCPR: "${cpr}") {
-        items {
-          id
-          _version
-          _deleted
-          gpa
-          createdAt
-          attachmentID
-          applicationAttachmentId
-          _lastChangedAt
-          studentCPR
-          status
-          updatedAt
-          attachment {
-            id
-            transcriptDoc
-            signedContractDoc
-            cprDoc
-            acceptanceLetterDoc
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          programs {
-            items {
-              id
-              choiceOrder
-              program {
-                id
-                name
-                requirements
-                availability
-                university {
-                  id
-                  name
-                }
-                _version
-                _deleted
-              }
-              _version
-              _deleted
-            }
-          }
-          studentLogs {
-            items {
-              id
-              dateTime
-              studentCPR
-              snapshot
-              reason
-              applicationStudentLogsId
-              applicationID
-              _version
-            }
-          }
-        }
-      }
-    }`;
-
-    let res = (await API.graphql(graphqlOperation(q))) as GraphQLResult<any>;
-    console.log("res", res);
-    return (res.data?.applicationsByStudentCPRAndGpa?.items ??
-      []) as Application[];
-  }
-
   // NOTE: return all the values & functions you want to export
   return {
     student,
+    studentAsStudent,
     applications,
     haveActiveApplication,
+    syncStudentApplication,
   };
 }

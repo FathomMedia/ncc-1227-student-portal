@@ -283,6 +283,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "reason": {
+                    "name": "reason",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -1185,7 +1192,6 @@ export const schema = {
             "values": [
                 "APPROVED",
                 "REJECTED",
-                "CANCELED",
                 "REVIEW",
                 "WITHDRAWN",
                 "ELIGIBLE"
@@ -1208,5 +1214,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "3b26c50e1c12f31f5533ae2f39653e71"
+    "version": "795e23e4f293003daa2305fff085b7d6"
 };

@@ -5,7 +5,6 @@ import { schema } from './schema';
 const Status = {
   "APPROVED": "APPROVED",
   "REJECTED": "REJECTED",
-  "CANCELED": "CANCELED",
   "REVIEW": "REVIEW",
   "WITHDRAWN": "WITHDRAWN",
   "ELIGIBLE": "ELIGIBLE"

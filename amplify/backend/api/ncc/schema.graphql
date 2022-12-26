@@ -49,6 +49,7 @@ type AdminLog @model @auth(rules: [{ allow: public }]) {
   adminCPR: String!
   dateTime: AWSDateTime
   snapshot: String
+  reason: String
 }
 
 type StudentLog @model @auth(rules: [{ allow: public }]) {
@@ -70,7 +71,6 @@ type Admin @model @auth(rules: [{ allow: public }]) {
 enum Status {
   APPROVED
   REJECTED
-  CANCELED
   REVIEW
   WITHDRAWN
   ELIGIBLE

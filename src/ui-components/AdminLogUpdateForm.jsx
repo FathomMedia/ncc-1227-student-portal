@@ -29,6 +29,7 @@ export default function AdminLogUpdateForm(props) {
     adminCPR: undefined,
     dateTime: undefined,
     snapshot: undefined,
+    reason: undefined,
   };
   const [applicationID, setApplicationID] = React.useState(
     initialValues.applicationID
@@ -36,6 +37,7 @@ export default function AdminLogUpdateForm(props) {
   const [adminCPR, setAdminCPR] = React.useState(initialValues.adminCPR);
   const [dateTime, setDateTime] = React.useState(initialValues.dateTime);
   const [snapshot, setSnapshot] = React.useState(initialValues.snapshot);
+  const [reason, setReason] = React.useState(initialValues.reason);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = { ...initialValues, ...adminLogRecord };
@@ -43,6 +45,7 @@ export default function AdminLogUpdateForm(props) {
     setAdminCPR(cleanValues.adminCPR);
     setDateTime(cleanValues.dateTime);
     setSnapshot(cleanValues.snapshot);
+    setReason(cleanValues.reason);
     setErrors({});
   };
   const [adminLogRecord, setAdminLogRecord] = React.useState(adminLog);
@@ -59,6 +62,7 @@ export default function AdminLogUpdateForm(props) {
     adminCPR: [{ type: "Required" }],
     dateTime: [],
     snapshot: [],
+    reason: [],
   };
   const runValidationTasks = async (fieldName, value) => {
     let validationResponse = validateField(value, validations[fieldName]);
@@ -99,6 +103,7 @@ export default function AdminLogUpdateForm(props) {
           adminCPR,
           dateTime,
           snapshot,
+          reason,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -153,6 +158,7 @@ export default function AdminLogUpdateForm(props) {
               adminCPR,
               dateTime,
               snapshot,
+              reason,
             };
             const result = onChange(modelFields);
             value = result?.applicationID ?? value;
@@ -180,6 +186,7 @@ export default function AdminLogUpdateForm(props) {
               adminCPR: value,
               dateTime,
               snapshot,
+              reason,
             };
             const result = onChange(modelFields);
             value = result?.adminCPR ?? value;
@@ -208,6 +215,7 @@ export default function AdminLogUpdateForm(props) {
               adminCPR,
               dateTime: value,
               snapshot,
+              reason,
             };
             const result = onChange(modelFields);
             value = result?.dateTime ?? value;
@@ -235,6 +243,7 @@ export default function AdminLogUpdateForm(props) {
               adminCPR,
               dateTime,
               snapshot: value,
+              reason,
             };
             const result = onChange(modelFields);
             value = result?.snapshot ?? value;
@@ -248,6 +257,34 @@ export default function AdminLogUpdateForm(props) {
         errorMessage={errors.snapshot?.errorMessage}
         hasError={errors.snapshot?.hasError}
         {...getOverrideProps(overrides, "snapshot")}
+      ></TextField>
+      <TextField
+        label="Reason"
+        isRequired={false}
+        isReadOnly={false}
+        defaultValue={reason}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              applicationID,
+              adminCPR,
+              dateTime,
+              snapshot,
+              reason: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.reason ?? value;
+          }
+          if (errors.reason?.hasError) {
+            runValidationTasks("reason", value);
+          }
+          setReason(value);
+        }}
+        onBlur={() => runValidationTasks("reason", reason)}
+        errorMessage={errors.reason?.errorMessage}
+        hasError={errors.reason?.hasError}
+        {...getOverrideProps(overrides, "reason")}
       ></TextField>
       <Flex
         justifyContent="space-between"
