@@ -59,7 +59,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               householdIncome: values.householdIncome,
               preferredLanguage: values.preferredLanguage,
               graduationDate: values.graduationDate,
-              address: props.student.input.address,
+              address: values.address,
               parentInfoID: props.student.input.parentInfoID,
               _version: props.student.input._version,
             },
