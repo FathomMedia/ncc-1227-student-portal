@@ -1,8 +1,6 @@
-import { CognitoUser } from "@aws-amplify/auth";
-import { Auth } from "aws-amplify";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, PropsWithChildren, ReactNode, useEffect, useState } from "react";
+import { FC, PropsWithChildren, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "../hooks/use-auth";
 import { SignInForm } from "./auth/sign-in-form";
@@ -19,9 +17,15 @@ interface Props {
 }
 
 export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
-  const { isSignedIn, user } = useAuth();
-  const { student } = useAppContext();
+  const { isSignedIn, user, signOut } = useAuth();
+  const { student, resetContext } = useAppContext();
   const router = useRouter();
+
+  async function signUserOut() {
+    await signOut().then(() => {
+      resetContext();
+    });
+  }
 
   return (
     <>
@@ -44,9 +48,9 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 onClick={() => router.push("/")}
               />
               {user && (
-                <Link
-                  href="/account"
-                  className="flex flex-col items-center p-2 rounded-lg md:items-end md:absolute right-4 top-4 glass hover:cursor-pointer"
+                <div
+                  tabIndex={0}
+                  className="dropdown dropdown-bottom md:dropdown-end flex flex-col items-center p-2 rounded-lg md:items-end md:absolute md:right-4 md:top-4 glass hover:cursor-pointer"
                 >
                   <div className="flex">
                     <div className="">
@@ -54,7 +58,18 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                       <p>{user?.getUsername()}</p>
                     </div>
                   </div>
-                </Link>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content mt-2  text-secondary menu p-2 shadow bg-base-100 rounded-box w-52"
+                  >
+                    <li>
+                      <Link href={"/account"}>Account</Link>
+                    </li>
+                    <li>
+                      <div onClick={signUserOut}>Sign Out</div>
+                    </li>
+                  </ul>
+                </div>
               )}
               <div className="w-full mt-10 md:mt-16">{props.header}</div>
               {!props.header && (

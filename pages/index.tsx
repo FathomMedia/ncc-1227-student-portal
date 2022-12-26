@@ -26,15 +26,15 @@ export default function Home() {
               >
                 {haveActiveApplication ? "Track Applications" : "Enroll Now"}
               </button>
-              <button
-                type="button"
-                className="w-full md:w-auto btn btn-outline btn-primary"
-                onClick={() =>
-                  auth.isSignedIn ? auth.signOut() : router.push("/signIn")
-                }
-              >
-                {auth.isSignedIn ? "Sign Out" : "Login"}
-              </button>
+              {!auth.isSignedIn && (
+                <button
+                  type="button"
+                  className="w-full md:w-auto btn btn-outline btn-primary"
+                  onClick={() => router.push("/signIn")}
+                >
+                  {"Login"}
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ export const HomeComponent = () => {
           Available Services
         </h1>
 
-        <div className="grid grid-cols-1 gap-10 mx-auto md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 mx-auto md:grid-cols-2">
           {!haveActiveApplication && (
             <CardInfoComponent
               icon={logs}
@@ -25,13 +25,15 @@ export const HomeComponent = () => {
               actionTitle={"Enroll Now"}
             ></CardInfoComponent>
           )}
-          <CardInfoComponent
-            icon={search}
-            title={"Track application"}
-            description={"Lorem ipsum dolor sit amet, consectetur adipiscin."}
-            action={() => {}}
-            actionTitle={"Track"}
-          ></CardInfoComponent>
+          {haveActiveApplication && (
+            <CardInfoComponent
+              icon={search}
+              title={"Track application"}
+              description={"Lorem ipsum dolor sit amet, consectetur adipiscin."}
+              action={() => router.push("/applications")}
+              actionTitle={"Track"}
+            ></CardInfoComponent>
+          )}
           <CardInfoComponent
             icon={info}
             title={"Information center"}

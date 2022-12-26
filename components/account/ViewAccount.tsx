@@ -1,15 +1,21 @@
-import { Gender, Language, Student } from "../../src/API";
+import {
+  Gender,
+  Language,
+  Student,
+  UpdateStudentMutationVariables,
+} from "../../src/API";
 import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import "yup-phone";
+import { updateStudentInDB } from "../../src/CustomAPI";
+import { toast } from "react-hot-toast";
+import { useAppContext } from "../../contexts/AppContexts";
 
 interface Props {
   student: Student;
 }
 
 interface FormValues {
-  fullName: string | null | undefined;
-
   phone: string | null | undefined;
   gender: Gender | null | undefined;
   schoolName: string | null | undefined;
@@ -23,8 +29,9 @@ interface FormValues {
 }
 
 export default function ViewApplication({ student }: Props) {
+  const { syncStudent } = useAppContext();
+
   let initialValues: FormValues = {
-    fullName: student.fullName,
     phone: student.phone,
     gender: student.gender,
     schoolName: student.schoolName,
@@ -37,12 +44,21 @@ export default function ViewApplication({ student }: Props) {
     address: student.address,
   };
 
+  async function updateProcess(inputs: UpdateStudentMutationVariables) {
+    return await updateStudentInDB(inputs).then(async (value) => {
+      if (value === undefined) {
+        throw new Error("Failed to update");
+      }
+      await syncStudent();
+
+      return value;
+    });
+  }
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={yup.object({
-        fullName: yup.string().required(),
-
         phone: yup.string().phone().required(),
         gender: yup.string().required(),
         schoolName: yup.string().required(),
@@ -57,20 +73,30 @@ export default function ViewApplication({ student }: Props) {
       onSubmit={async (values, actions) => {
         // console.log({ values, actions });
 
-        //   fullName: values.fullName,
+        let updateVars: UpdateStudentMutationVariables = {
+          input: {
+            cpr: student.cpr,
+            phone: values.phone,
+            gender: values.gender,
+            schoolName: values.schoolName,
+            specialization: values.specialization,
+            placeOfBirth: values.placeOfBirth,
+            studentOrderAmongSiblings: values.studentOrderAmongSiblings,
+            householdIncome: values.householdIncome,
+            preferredLanguage: values.preferredLanguage,
+            graduationDate: values.graduationDate,
+            address: values.address,
+            _version: student._version,
+          },
+        };
 
-        //   phone: values.phone,
-        //   gender: values.gender,
-        //   schoolName: values.schoolName,
-        //   specialization: values.specialization,
-        //   placeOfBirth: values.placeOfBirth,
-        //   studentOrderAmongSiblings: values.studentOrderAmongSiblings,
-        //   householdIncome: values.householdIncome,
-        //   preferredLanguage: values.preferredLanguage,
-        //   graduationDate: values.graduationDate,
-        //   address: props.student.input.address,
-        //   parentInfoID: props.student.input.parentInfoID,
-        //   _version: props.student.input._version,
+        await toast.promise(updateProcess(updateVars), {
+          loading: "Updating...",
+          success: "Updated successfully",
+          error: (err) => {
+            return `${err.message}`;
+          },
+        });
 
         actions.setSubmitting(false);
       }}
@@ -123,16 +149,12 @@ export default function ViewApplication({ student }: Props) {
               name="fullName"
               title="fullName"
               placeholder="Full name"
-              className={`input input-bordered input-primary ${
-                errors.fullName && "input-error"
-              }`}
+              className={`input input-bordered input-primary`}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.fullName}
+              value={student.fullName}
+              disabled
             />
-            <label className="label-text-alt text-error">
-              {errors.fullName && touched.fullName && errors.fullName}
-            </label>
           </div>
 
           {/* Phone */}

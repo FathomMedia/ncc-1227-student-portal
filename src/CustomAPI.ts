@@ -15,8 +15,12 @@ import {
   UpdateApplicationMutationVariables,
   UpdateAttachmentMutation,
   UpdateAttachmentMutationVariables,
+  UpdateParentInfoMutation,
+  UpdateParentInfoMutationVariables,
   UpdateProgramChoiceMutation,
   UpdateProgramChoiceMutationVariables,
+  UpdateStudentMutation,
+  UpdateStudentMutationVariables,
 } from "./API";
 import {
   createAttachment,
@@ -26,6 +30,8 @@ import {
   createProgramChoice,
   updateProgramChoice,
   createStudentLog,
+  updateStudent,
+  updateParentInfo,
 } from "./graphql/mutations";
 
 /* -------------------------------------------------------------------------- */
@@ -303,6 +309,32 @@ export async function updateApplicationInDB(
     query: updateApplication,
     variables: mutationVars,
   })) as GraphQLResult<UpdateApplicationMutation>;
+
+  return res.data;
+}
+/**
+ * It takes in a student object, and returns a promise that resolves to the updated student object
+ * @param {UpdateStudentMutationVariables} mutationVars - UpdateStudentMutationVariables
+ * @returns The data from the mutation.
+ */
+export async function updateStudentInDB(
+  mutationVars: UpdateStudentMutationVariables
+): Promise<UpdateStudentMutation | undefined> {
+  let res = (await API.graphql({
+    query: updateStudent,
+    variables: mutationVars,
+  })) as GraphQLResult<UpdateStudentMutation>;
+
+  return res.data;
+}
+
+export async function updateParentInfoInDB(
+  mutationVars: UpdateParentInfoMutationVariables
+): Promise<UpdateParentInfoMutation | undefined> {
+  let res = (await API.graphql({
+    query: updateParentInfo,
+    variables: mutationVars,
+  })) as GraphQLResult<UpdateParentInfoMutation>;
 
   return res.data;
 }

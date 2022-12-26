@@ -16,7 +16,7 @@ import {
   Student,
 } from "../src/API";
 import { getStudent } from "../src/graphql/queries";
-import { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { getStudentApplications } from "../src/CustomAPI";
 
 // interface for all the values & functions
@@ -26,6 +26,8 @@ interface IUseAppContext {
   applications: Application[];
   haveActiveApplication: boolean;
   syncStudentApplication: () => Promise<void>;
+  syncStudent: () => Promise<void>;
+  resetContext: () => void;
 }
 
 // the default state for all the values & functions
@@ -35,6 +37,8 @@ const defaultState: IUseAppContext = {
   applications: [],
   haveActiveApplication: false,
   syncStudentApplication: async () => {},
+  syncStudent: async () => {},
+  resetContext: async () => {},
 };
 
 // creating the app contexts
@@ -89,6 +93,24 @@ function useProviderApp() {
     return () => {};
   }, [user]);
 
+  function resetContext() {
+    setStudent(undefined);
+    setStudentAsStudent(undefined);
+    setApplications([]);
+    setHaveActiveApplication(false);
+  }
+
+  async function syncStudent() {
+    let cpr = user?.getUsername();
+
+    if (cpr) {
+      getStudentInfo(cpr).then((info) => {
+        setStudent(info);
+        setStudentAsStudent(info?.getStudent as Student);
+        console.log("user", info);
+      });
+    }
+  }
   async function syncStudentApplication() {
     let cpr = user?.getUsername();
 
@@ -133,5 +155,7 @@ function useProviderApp() {
     applications,
     haveActiveApplication,
     syncStudentApplication,
+    syncStudent,
+    resetContext,
   };
 }
