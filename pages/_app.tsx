@@ -8,6 +8,8 @@ import { AppProvider } from "../contexts/AppContexts";
 import { AuthProvider } from "../hooks/use-auth";
 import { appWithTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { Crisp } from "crisp-sdk-web";
 
 function App({ Component, pageProps }: AppProps) {
   Amplify.configure({ ...config, ssr: true });
@@ -17,8 +19,19 @@ function App({ Component, pageProps }: AppProps) {
 
   const { locale } = useRouter();
 
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
+  useEffect(() => {
+    Crisp.configure(`${process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID}`, {
+      locale: locale,
+      autoload: true,
+    });
+
+    return () => {};
+  }, [locale]);
+
   return (
-    <div dir={locale === "ar" ? "rtl" : "ltr"}>
+    <div dir={dir}>
       <AuthProvider>
         <AppProvider>
           <Component {...pageProps} />

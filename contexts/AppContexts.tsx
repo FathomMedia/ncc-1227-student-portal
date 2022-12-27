@@ -18,6 +18,8 @@ import {
 import { getStudent } from "../src/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { getStudentApplications } from "../src/CustomAPI";
+import { Crisp } from "crisp-sdk-web";
+import { useRouter } from "next/router";
 
 // interface for all the values & functions
 interface IUseAppContext {
@@ -56,6 +58,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 //NOTE: declare vars and functions here
 function useProviderApp() {
   const { user } = useAuth();
+  const { locale } = useRouter();
 
   const [student, setStudent] = useState(defaultState.student);
   const [studentAsStudent, setStudentAsStudent] = useState(
@@ -74,6 +77,15 @@ function useProviderApp() {
       getStudentInfo(cpr).then((info) => {
         setStudent(info);
         setStudentAsStudent(info?.getStudent as Student);
+
+        Crisp.user.setEmail(`${info?.getStudent?.email}`);
+
+        Crisp.user.setNickname(`${info?.getStudent?.fullName}`);
+
+        Crisp.session.setData({
+          cpr: info?.getStudent?.cpr,
+        });
+
         console.log("user", info);
       });
       getStudentApplications(cpr).then((allStudentApplications) => {

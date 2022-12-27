@@ -8,5 +8,12 @@
     "amplify/backend/amplify-meta.json": true,
     "amplify/backend/awscloudformation": true
   },
-  "cSpell.words": ["daisyui", "formik", "msword", "salman", "tailwindcss"]
+  "cSpell.words": [
+    "autoload",
+    "daisyui",
+    "formik",
+    "msword",
+    "salman",
+    "tailwindcss"
+  ]
 }
