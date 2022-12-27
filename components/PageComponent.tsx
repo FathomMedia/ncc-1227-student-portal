@@ -9,6 +9,7 @@ import logo from "../public/svg/logo.svg";
 import background from "../public/images/graduates-university.png";
 import Image from "next/image";
 import { useAppContext } from "../contexts/AppContexts";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   title: string;
@@ -20,6 +21,8 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
   const { isSignedIn, user, signOut } = useAuth();
   const { student, resetContext } = useAppContext();
   const router = useRouter();
+  const titleTranslation = useTranslation("pageTitles");
+  const footerTranslation = useTranslation("footer");
 
   async function signUserOut() {
     await signOut().then(() => {
@@ -63,10 +66,14 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                     className="dropdown-content mt-2  text-secondary menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
-                      <Link href={"/account"}>Account</Link>
+                      <Link href={"/account"}>
+                        {footerTranslation.t("account")}
+                      </Link>
                     </li>
                     <li>
-                      <div onClick={signUserOut}>Sign Out</div>
+                      <div onClick={signUserOut}>
+                        {footerTranslation.t("signOut")}
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -74,7 +81,9 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
               <div className="w-full mt-10 md:mt-16">{props.header}</div>
               {!props.header && (
                 <div className="prose prose-headings:text-white">
-                  <h1 className="font-semibold">{props.title}</h1>
+                  <h1 className="font-semibold">
+                    {titleTranslation.t(props.title)}
+                  </h1>
                 </div>
               )}
             </div>
@@ -102,23 +111,33 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
             </div>
             <div className="flex flex-col items-center mx-auto md:items-start">
               <span className="opacity-100 footer-title text-primary">
-                Quick Links
+                {footerTranslation.t("quickLinks")}
               </span>
-              <a className="link link-hover">The Fund</a>
-              <a className="link link-hover">About Us</a>
-              <a className="link link-hover">Application</a>
-              <a className="link link-hover">Contact</a>
+              <a className="link link-hover">
+                {footerTranslation.t("theFund")}
+              </a>
+              <a className="link link-hover">
+                {footerTranslation.t("aboutUs")}
+              </a>
+              <a className="link link-hover">
+                {footerTranslation.t("application")}
+              </a>
+              <a className="link link-hover">
+                {footerTranslation.t("contact")}
+              </a>
             </div>
             <div className="flex flex-col items-center mx-auto md:items-start">
               <span className="opacity-100 footer-title text-primary">
-                Contact Us
+                {footerTranslation.t("contactUs")}
               </span>
               <a className="link link-hover">1744 4444</a>
               <a className="link link-hover">edutrust@meo.gov.bh</a>
               <a className="link link-hover">
                 Building 000, Road 000, Block 000{" "}
               </a>
-              <a className="link link-hover">Manama, Kingdom of Bahrain </a>
+              <a className="link link-hover">
+                {footerTranslation.t("manamaKingdomOfBahrain")}{" "}
+              </a>
             </div>
           </footer>
           <div className="justify-center px-10 py-4 text-center footer bg-secondary text-secondary-content">

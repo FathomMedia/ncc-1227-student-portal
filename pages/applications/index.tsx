@@ -1,12 +1,31 @@
 import { PageComponent } from "../../components/PageComponent";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useAppContext } from "../../contexts/AppContexts";
 import { Status } from "../../src/API";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { locale } = ctx;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", [
+        "common",
+        "pageTitles",
+        "applications",
+      ])),
+    },
+  };
+};
 
 export default function ApplicationsPage() {
   const appContext = useAppContext();
+
+  const { t } = useTranslation("applications");
 
   return (
     <PageComponent title={"Applications"} authRequired>
@@ -27,7 +46,7 @@ export default function ApplicationsPage() {
                 key={application.id}
               >
                 <div className="stat ">
-                  <div className="stat-title">Status</div>
+                  <div className="stat-title">{t("Status")}</div>
                   <div
                     className={`stat-value ${
                       (application.status === Status.REVIEW ||
@@ -41,9 +60,13 @@ export default function ApplicationsPage() {
                       "text-error"
                     }`}
                   >
-                    {application.status === Status.ELIGIBLE
-                      ? Status.REVIEW
-                      : application.status}
+                    {t(
+                      `${
+                        application.status === Status.ELIGIBLE
+                          ? Status.REVIEW
+                          : application.status
+                      }`
+                    )}
                   </div>
                   <div className="stat-desc">GPA: {application.gpa}</div>
                   <div className="stat-desc">
@@ -101,4 +124,7 @@ export default function ApplicationsPage() {
       </div>
     </PageComponent>
   );
+}
+function useState(arg0: string): [any, any] {
+  throw new Error("Function not implemented.");
 }

@@ -1,0 +1,9 @@
+{
+  "Status": "Status",
+  "APPROVED": "APPROVED",
+  "REJECTED": "REJECTED",
+  "REVIEW": "REVIEW",
+  "WITHDRAWN": "WITHDRAWN",
+  "ELIGIBLE": "ELIGIBLE",
+  "Applications": "Applications"
+}

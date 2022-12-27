@@ -4,42 +4,44 @@ import search from "../public/svg/search.svg";
 import info from "../public/svg/info.svg";
 import { useRouter } from "next/router";
 import { useAppContext } from "../contexts/AppContexts";
+import { useTranslation } from "react-i18next";
 
 export const HomeComponent = () => {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const { haveActiveApplication } = useAppContext();
   return (
     <div>
       <div className="flex flex-col gap-10 mx-auto">
         <h1 className="text-3xl font-semibold text-center text-gray-900 ">
-          Available Services
+          {t("availableServices")}
         </h1>
 
         <div className="grid grid-cols-1 gap-10 mx-auto md:grid-cols-2">
           {!haveActiveApplication && (
             <CardInfoComponent
               icon={logs}
-              title={"Apply for scholarship"}
-              description={"Lorem ipsum dolor sit amet, consectetur adipiscin."}
+              title={t("applyForScholarship")}
+              description={t("applyForScholarshipDescription")}
               action={() => router.push("/applications")}
-              actionTitle={"Enroll Now"}
+              actionTitle={t("enrollNow") ?? "Enroll Now"}
             ></CardInfoComponent>
           )}
           {haveActiveApplication && (
             <CardInfoComponent
               icon={search}
-              title={"Track application"}
-              description={"Lorem ipsum dolor sit amet, consectetur adipiscin."}
+              title={t("trackApplication")}
+              description={t("trackApplicationDescription")}
               action={() => router.push("/applications")}
-              actionTitle={"Track"}
+              actionTitle={t("track") ?? "Track"}
             ></CardInfoComponent>
           )}
           <CardInfoComponent
             icon={info}
-            title={"Information center"}
-            description={"Lorem ipsum dolor sit amet, consectetur adipiscin."}
+            title={t("informationCenter")}
+            description={t("informationCenterDescription")}
             action={() => {}}
-            actionTitle={"Get Info"}
+            actionTitle={t("getInfo") ?? "Get Info"}
           ></CardInfoComponent>
         </div>
       </div>

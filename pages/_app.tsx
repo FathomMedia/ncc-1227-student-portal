@@ -6,20 +6,26 @@ import config from "../src/aws-exports";
 
 import { AppProvider } from "../contexts/AppContexts";
 import { AuthProvider } from "../hooks/use-auth";
+import { appWithTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   Amplify.configure({ ...config, ssr: true });
   Auth.configure({ ...config, ssr: true });
   API.configure({ ...config, ssr: true });
   Storage.configure({ ...config, ssr: true });
 
+  const { locale } = useRouter();
+
   return (
-    <>
+    <div dir={locale === "ar" ? "rtl" : "ltr"}>
       <AuthProvider>
         <AppProvider>
           <Component {...pageProps} />
         </AppProvider>
       </AuthProvider>
-    </>
+    </div>
   );
 }
+
+export default appWithTranslation(App);

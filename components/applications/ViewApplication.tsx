@@ -15,7 +15,7 @@ interface Props {
 export default function ViewApplication({ application, downloadLinks }: Props) {
   return (
     <div className="overflow-x-auto">
-      <table className="table w-full">
+      <table dir="ltr" className="table w-full">
         <thead>
           <tr>
             <th>Field</th>
