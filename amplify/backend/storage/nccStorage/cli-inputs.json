@@ -1,6 +1,6 @@
 {
-  "resourceName": "ncc1227storage",
-  "policyUUID": "98465da4",
+  "resourceName": "nccStorage",
+  "policyUUID": "e5d7116f",
   "bucketName": "ncc1227bucket",
   "storageAccess": "auth",
   "guestAccess": [],
