@@ -24,9 +24,7 @@ const NewApplicationPage: FC<Props> = (props) => {
   const { haveActiveApplication } = useAppContext();
   return (
     <PageComponent title="New Application" authRequired>
-      {!haveActiveApplication && (
-        <ApplicationForm programs={props.programs}></ApplicationForm>
-      )}
+      {<ApplicationForm programs={props.programs}></ApplicationForm>}
     </PageComponent>
   );
 };

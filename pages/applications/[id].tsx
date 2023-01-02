@@ -3,7 +3,6 @@ import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from "react";
 import { PageComponent } from "../../components/PageComponent";
 import { Application, Status } from "../../src/API";
-import { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
 import ViewApplication from "../../components/applications/ViewApplication";
 import { CognitoUser } from "@aws-amplify/auth";
 import { ApplicationForm } from "../../components/applications/ApplicationForm";
@@ -19,7 +18,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { Auth, API } = withSSRContext(ctx);
+  const { Auth } = withSSRContext(ctx);
 
   let authUser = (await Auth.currentAuthenticatedUser()) as
     | CognitoUser

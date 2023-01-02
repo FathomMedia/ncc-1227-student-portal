@@ -99,6 +99,7 @@ export const onCreateApplication = /* GraphQL */ `
           _deleted
           _lastChangedAt
           applicationStudentLogsId
+          studentStudentLogsCpr
         }
         nextToken
         startedAt
@@ -131,6 +132,54 @@ export const onCreateApplication = /* GraphQL */ `
         }
         nextToken
         startedAt
+      }
+      student {
+        cpr
+        fullName
+        email
+        phone
+        gender
+        schoolName
+        specialization
+        placeOfBirth
+        studentOrderAmongSiblings
+        householdIncome
+        preferredLanguage
+        graduationDate
+        address
+        applications {
+          nextToken
+          startedAt
+        }
+        ParentInfo {
+          id
+          guardianFullName
+          relation
+          guardianCPR
+          primaryMobile
+          secondaryMobile
+          fatherFullName
+          fatherCPR
+          motherFullName
+          motherCPR
+          numberOfFamilyMembers
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -184,6 +233,7 @@ export const onUpdateApplication = /* GraphQL */ `
           _deleted
           _lastChangedAt
           applicationStudentLogsId
+          studentStudentLogsCpr
         }
         nextToken
         startedAt
@@ -216,6 +266,54 @@ export const onUpdateApplication = /* GraphQL */ `
         }
         nextToken
         startedAt
+      }
+      student {
+        cpr
+        fullName
+        email
+        phone
+        gender
+        schoolName
+        specialization
+        placeOfBirth
+        studentOrderAmongSiblings
+        householdIncome
+        preferredLanguage
+        graduationDate
+        address
+        applications {
+          nextToken
+          startedAt
+        }
+        ParentInfo {
+          id
+          guardianFullName
+          relation
+          guardianCPR
+          primaryMobile
+          secondaryMobile
+          fatherFullName
+          fatherCPR
+          motherFullName
+          motherCPR
+          numberOfFamilyMembers
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -269,6 +367,7 @@ export const onDeleteApplication = /* GraphQL */ `
           _deleted
           _lastChangedAt
           applicationStudentLogsId
+          studentStudentLogsCpr
         }
         nextToken
         startedAt
@@ -302,6 +401,54 @@ export const onDeleteApplication = /* GraphQL */ `
         nextToken
         startedAt
       }
+      student {
+        cpr
+        fullName
+        email
+        phone
+        gender
+        schoolName
+        specialization
+        placeOfBirth
+        studentOrderAmongSiblings
+        householdIncome
+        preferredLanguage
+        graduationDate
+        address
+        applications {
+          nextToken
+          startedAt
+        }
+        ParentInfo {
+          id
+          guardianFullName
+          relation
+          guardianCPR
+          primaryMobile
+          secondaryMobile
+          fatherFullName
+          fatherCPR
+          motherFullName
+          motherCPR
+          numberOfFamilyMembers
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -328,6 +475,7 @@ export const onCreateProgramChoice = /* GraphQL */ `
         university {
           id
           name
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -338,6 +486,7 @@ export const onCreateProgramChoice = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -374,6 +523,27 @@ export const onCreateProgramChoice = /* GraphQL */ `
         programs {
           nextToken
           startedAt
+        }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
@@ -410,6 +580,7 @@ export const onUpdateProgramChoice = /* GraphQL */ `
         university {
           id
           name
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -420,6 +591,7 @@ export const onUpdateProgramChoice = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -456,6 +628,27 @@ export const onUpdateProgramChoice = /* GraphQL */ `
         programs {
           nextToken
           startedAt
+        }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
@@ -492,6 +685,7 @@ export const onDeleteProgramChoice = /* GraphQL */ `
         university {
           id
           name
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -502,6 +696,7 @@ export const onDeleteProgramChoice = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -539,6 +734,27 @@ export const onDeleteProgramChoice = /* GraphQL */ `
           nextToken
           startedAt
         }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
@@ -572,6 +788,7 @@ export const onCreateProgram = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -595,6 +812,7 @@ export const onCreateProgram = /* GraphQL */ `
         nextToken
         startedAt
       }
+      isDeactivated
       createdAt
       updatedAt
       _version
@@ -619,6 +837,7 @@ export const onUpdateProgram = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -642,6 +861,7 @@ export const onUpdateProgram = /* GraphQL */ `
         nextToken
         startedAt
       }
+      isDeactivated
       createdAt
       updatedAt
       _version
@@ -666,6 +886,7 @@ export const onDeleteProgram = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -689,6 +910,7 @@ export const onDeleteProgram = /* GraphQL */ `
         nextToken
         startedAt
       }
+      isDeactivated
       createdAt
       updatedAt
       _version
@@ -712,6 +934,7 @@ export const onCreateUniversity = /* GraphQL */ `
           requirements
           availability
           universityID
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -722,6 +945,7 @@ export const onCreateUniversity = /* GraphQL */ `
         nextToken
         startedAt
       }
+      isDeactivated
       createdAt
       updatedAt
       _version
@@ -744,6 +968,7 @@ export const onUpdateUniversity = /* GraphQL */ `
           requirements
           availability
           universityID
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -754,6 +979,7 @@ export const onUpdateUniversity = /* GraphQL */ `
         nextToken
         startedAt
       }
+      isDeactivated
       createdAt
       updatedAt
       _version
@@ -776,6 +1002,7 @@ export const onDeleteUniversity = /* GraphQL */ `
           requirements
           availability
           universityID
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -786,6 +1013,7 @@ export const onDeleteUniversity = /* GraphQL */ `
         nextToken
         startedAt
       }
+      isDeactivated
       createdAt
       updatedAt
       _version
@@ -803,6 +1031,20 @@ export const onCreateAdminLog = /* GraphQL */ `
       dateTime
       snapshot
       reason
+      admin {
+        cpr
+        fullName
+        email
+        AdminLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -822,6 +1064,20 @@ export const onUpdateAdminLog = /* GraphQL */ `
       dateTime
       snapshot
       reason
+      admin {
+        cpr
+        fullName
+        email
+        AdminLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -841,6 +1097,20 @@ export const onDeleteAdminLog = /* GraphQL */ `
       dateTime
       snapshot
       reason
+      admin {
+        cpr
+        fullName
+        email
+        AdminLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -862,12 +1132,61 @@ export const onCreateStudentLog = /* GraphQL */ `
       dateTime
       snapshot
       reason
+      student {
+        cpr
+        fullName
+        email
+        phone
+        gender
+        schoolName
+        specialization
+        placeOfBirth
+        studentOrderAmongSiblings
+        householdIncome
+        preferredLanguage
+        graduationDate
+        address
+        applications {
+          nextToken
+          startedAt
+        }
+        ParentInfo {
+          id
+          guardianFullName
+          relation
+          guardianCPR
+          primaryMobile
+          secondaryMobile
+          fatherFullName
+          fatherCPR
+          motherFullName
+          motherCPR
+          numberOfFamilyMembers
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       applicationStudentLogsId
+      studentStudentLogsCpr
     }
   }
 `;
@@ -882,12 +1201,61 @@ export const onUpdateStudentLog = /* GraphQL */ `
       dateTime
       snapshot
       reason
+      student {
+        cpr
+        fullName
+        email
+        phone
+        gender
+        schoolName
+        specialization
+        placeOfBirth
+        studentOrderAmongSiblings
+        householdIncome
+        preferredLanguage
+        graduationDate
+        address
+        applications {
+          nextToken
+          startedAt
+        }
+        ParentInfo {
+          id
+          guardianFullName
+          relation
+          guardianCPR
+          primaryMobile
+          secondaryMobile
+          fatherFullName
+          fatherCPR
+          motherFullName
+          motherCPR
+          numberOfFamilyMembers
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       applicationStudentLogsId
+      studentStudentLogsCpr
     }
   }
 `;
@@ -902,12 +1270,61 @@ export const onDeleteStudentLog = /* GraphQL */ `
       dateTime
       snapshot
       reason
+      student {
+        cpr
+        fullName
+        email
+        phone
+        gender
+        schoolName
+        specialization
+        placeOfBirth
+        studentOrderAmongSiblings
+        householdIncome
+        preferredLanguage
+        graduationDate
+        address
+        applications {
+          nextToken
+          startedAt
+        }
+        ParentInfo {
+          id
+          guardianFullName
+          relation
+          guardianCPR
+          primaryMobile
+          secondaryMobile
+          fatherFullName
+          fatherCPR
+          motherFullName
+          motherCPR
+          numberOfFamilyMembers
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       applicationStudentLogsId
+      studentStudentLogsCpr
     }
   }
 `;
@@ -1138,6 +1555,25 @@ export const onCreateStudent = /* GraphQL */ `
         _lastChangedAt
       }
       parentInfoID
+      StudentLogs {
+        items {
+          id
+          applicationID
+          studentCPR
+          dateTime
+          snapshot
+          reason
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          applicationStudentLogsId
+          studentStudentLogsCpr
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1199,6 +1635,25 @@ export const onUpdateStudent = /* GraphQL */ `
         _lastChangedAt
       }
       parentInfoID
+      StudentLogs {
+        items {
+          id
+          applicationID
+          studentCPR
+          dateTime
+          snapshot
+          reason
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          applicationStudentLogsId
+          studentStudentLogsCpr
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1260,6 +1715,25 @@ export const onDeleteStudent = /* GraphQL */ `
         _lastChangedAt
       }
       parentInfoID
+      StudentLogs {
+        items {
+          id
+          applicationID
+          studentCPR
+          dateTime
+          snapshot
+          reason
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          applicationStudentLogsId
+          studentStudentLogsCpr
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version

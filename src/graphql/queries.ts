@@ -113,6 +113,7 @@ export const getApplication = /* GraphQL */ `
           _deleted
           _lastChangedAt
           applicationStudentLogsId
+          studentStudentLogsCpr
         }
         nextToken
         startedAt
@@ -145,6 +146,54 @@ export const getApplication = /* GraphQL */ `
         }
         nextToken
         startedAt
+      }
+      student {
+        cpr
+        fullName
+        email
+        phone
+        gender
+        schoolName
+        specialization
+        placeOfBirth
+        studentOrderAmongSiblings
+        householdIncome
+        preferredLanguage
+        graduationDate
+        address
+        applications {
+          nextToken
+          startedAt
+        }
+        ParentInfo {
+          id
+          guardianFullName
+          relation
+          guardianCPR
+          primaryMobile
+          secondaryMobile
+          fatherFullName
+          fatherCPR
+          motherFullName
+          motherCPR
+          numberOfFamilyMembers
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -191,6 +240,27 @@ export const listApplications = /* GraphQL */ `
         programs {
           nextToken
           startedAt
+        }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
@@ -247,6 +317,27 @@ export const syncApplications = /* GraphQL */ `
           nextToken
           startedAt
         }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
@@ -274,6 +365,7 @@ export const getProgramChoice = /* GraphQL */ `
         university {
           id
           name
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -284,6 +376,7 @@ export const getProgramChoice = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -321,6 +414,27 @@ export const getProgramChoice = /* GraphQL */ `
           nextToken
           startedAt
         }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
@@ -356,6 +470,7 @@ export const listProgramChoices = /* GraphQL */ `
           requirements
           availability
           universityID
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -413,6 +528,7 @@ export const syncProgramChoices = /* GraphQL */ `
           requirements
           availability
           universityID
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -462,6 +578,7 @@ export const getProgram = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -485,6 +602,7 @@ export const getProgram = /* GraphQL */ `
         nextToken
         startedAt
       }
+      isDeactivated
       createdAt
       updatedAt
       _version
@@ -510,6 +628,7 @@ export const listPrograms = /* GraphQL */ `
         university {
           id
           name
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -520,6 +639,7 @@ export const listPrograms = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -554,6 +674,7 @@ export const syncPrograms = /* GraphQL */ `
         university {
           id
           name
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -564,6 +685,7 @@ export const syncPrograms = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -588,6 +710,7 @@ export const getUniversity = /* GraphQL */ `
           requirements
           availability
           universityID
+          isDeactivated
           createdAt
           updatedAt
           _version
@@ -598,6 +721,7 @@ export const getUniversity = /* GraphQL */ `
         nextToken
         startedAt
       }
+      isDeactivated
       createdAt
       updatedAt
       _version
@@ -620,6 +744,7 @@ export const listUniversities = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -651,6 +776,7 @@ export const syncUniversities = /* GraphQL */ `
           nextToken
           startedAt
         }
+        isDeactivated
         createdAt
         updatedAt
         _version
@@ -671,6 +797,20 @@ export const getAdminLog = /* GraphQL */ `
       dateTime
       snapshot
       reason
+      admin {
+        cpr
+        fullName
+        email
+        AdminLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -695,6 +835,16 @@ export const listAdminLogs = /* GraphQL */ `
         dateTime
         snapshot
         reason
+        admin {
+          cpr
+          fullName
+          email
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
@@ -728,6 +878,16 @@ export const syncAdminLogs = /* GraphQL */ `
         dateTime
         snapshot
         reason
+        admin {
+          cpr
+          fullName
+          email
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
@@ -750,12 +910,61 @@ export const getStudentLog = /* GraphQL */ `
       dateTime
       snapshot
       reason
+      student {
+        cpr
+        fullName
+        email
+        phone
+        gender
+        schoolName
+        specialization
+        placeOfBirth
+        studentOrderAmongSiblings
+        householdIncome
+        preferredLanguage
+        graduationDate
+        address
+        applications {
+          nextToken
+          startedAt
+        }
+        ParentInfo {
+          id
+          guardianFullName
+          relation
+          guardianCPR
+          primaryMobile
+          secondaryMobile
+          fatherFullName
+          fatherCPR
+          motherFullName
+          motherCPR
+          numberOfFamilyMembers
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       applicationStudentLogsId
+      studentStudentLogsCpr
     }
   }
 `;
@@ -773,12 +982,34 @@ export const listStudentLogs = /* GraphQL */ `
         dateTime
         snapshot
         reason
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         applicationStudentLogsId
+        studentStudentLogsCpr
       }
       nextToken
       startedAt
@@ -805,12 +1036,34 @@ export const syncStudentLogs = /* GraphQL */ `
         dateTime
         snapshot
         reason
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         applicationStudentLogsId
+        studentStudentLogsCpr
       }
       nextToken
       startedAt
@@ -1060,6 +1313,25 @@ export const getStudent = /* GraphQL */ `
         _lastChangedAt
       }
       parentInfoID
+      StudentLogs {
+        items {
+          id
+          applicationID
+          studentCPR
+          dateTime
+          snapshot
+          reason
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          applicationStudentLogsId
+          studentStudentLogsCpr
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1121,6 +1393,10 @@ export const listStudents = /* GraphQL */ `
           _lastChangedAt
         }
         parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
@@ -1183,6 +1459,10 @@ export const syncStudents = /* GraphQL */ `
           _lastChangedAt
         }
         parentInfoID
+        StudentLogs {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
@@ -1240,6 +1520,27 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
         programs {
           nextToken
           startedAt
+        }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt

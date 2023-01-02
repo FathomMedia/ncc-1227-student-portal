@@ -16,6 +16,7 @@ type Application @model @auth(rules: [{ allow: public }]) {
   studentLogs: [StudentLog] @hasMany
   attachment: Attachment @hasOne
   programs: [ProgramChoice] @hasMany
+  student: Student @belongsTo(fields: ["studentCPR"])
 }
 
 type ProgramChoice @model @auth(rules: [{ allow: public }]) {
@@ -35,12 +36,14 @@ type Program @model @auth(rules: [{ allow: public }]) {
   universityID: ID!
   university: University @belongsTo(fields: ["universityID"])
   applications: [ProgramChoice] @hasMany
+  isDeactivated: Boolean
 }
 
 type University @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String
   Programs: [Program] @hasMany
+  isDeactivated: Boolean
 }
 
 type AdminLog @model @auth(rules: [{ allow: public }]) {
@@ -50,6 +53,7 @@ type AdminLog @model @auth(rules: [{ allow: public }]) {
   dateTime: AWSDateTime
   snapshot: String
   reason: String
+  admin: Admin @belongsTo(fields: ["adminCPR"])
 }
 
 type StudentLog @model @auth(rules: [{ allow: public }]) {
@@ -59,6 +63,7 @@ type StudentLog @model @auth(rules: [{ allow: public }]) {
   dateTime: AWSDateTime
   snapshot: String
   reason: String
+  student: Student @belongsTo(fields: ["studentCPR"])
 }
 
 type Admin @model @auth(rules: [{ allow: public }]) {
@@ -74,6 +79,7 @@ enum Status {
   REVIEW
   WITHDRAWN
   ELIGIBLE
+  NOT_COMPLETED
 }
 
 type ParentInfo @model @auth(rules: [{ allow: public }]) {
@@ -118,4 +124,5 @@ type Student @model @auth(rules: [{ allow: public }]) {
   applications: [Application] @hasMany(indexName: "byCPR", fields: ["cpr"])
   ParentInfo: ParentInfo @hasOne(fields: ["parentInfoID"])
   parentInfoID: ID
+  StudentLogs: [StudentLog] @hasMany
 }

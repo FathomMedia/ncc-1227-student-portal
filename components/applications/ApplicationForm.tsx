@@ -334,7 +334,11 @@ export const ApplicationForm: FC<Props> = (props) => {
               input: {
                 id: undefined,
                 gpa: values.gpa,
-                status: Status.REVIEW,
+                status: storageKeys.every(
+                  (element) => element !== undefined || element !== null
+                )
+                  ? Status.REVIEW
+                  : Status.NOT_COMPLETED,
                 studentCPR: `${student?.getStudent?.cpr}`,
                 _version: null,
                 attachmentID: null,

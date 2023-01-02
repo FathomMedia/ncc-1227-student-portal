@@ -7,17 +7,18 @@ export enum Status {
   REJECTED = "REJECTED",
   REVIEW = "REVIEW",
   WITHDRAWN = "WITHDRAWN",
-  ELIGIBLE = "ELIGIBLE"
-}
-
-export enum Language {
-  ARABIC = "ARABIC",
-  ENGLISH = "ENGLISH"
+  ELIGIBLE = "ELIGIBLE",
+  NOT_COMPLETED = "NOT_COMPLETED"
 }
 
 export enum Gender {
   FEMALE = "FEMALE",
   MALE = "MALE"
+}
+
+export enum Language {
+  ARABIC = "ARABIC",
+  ENGLISH = "ENGLISH"
 }
 
 
@@ -70,6 +71,7 @@ type EagerApplication = {
   readonly studentLogs?: (StudentLog | null)[] | null;
   readonly attachment?: Attachment | null;
   readonly programs?: (ProgramChoice | null)[] | null;
+  readonly student?: Student | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationAttachmentId?: string | null;
@@ -89,6 +91,7 @@ type LazyApplication = {
   readonly studentLogs: AsyncCollection<StudentLog>;
   readonly attachment: AsyncItem<Attachment | undefined>;
   readonly programs: AsyncCollection<ProgramChoice>;
+  readonly student: AsyncItem<Student | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationAttachmentId?: string | null;
@@ -111,6 +114,7 @@ type EagerAdminLog = {
   readonly dateTime?: string | null;
   readonly snapshot?: string | null;
   readonly reason?: string | null;
+  readonly admin?: Admin | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationAdminLogsId?: string | null;
@@ -128,6 +132,7 @@ type LazyAdminLog = {
   readonly dateTime?: string | null;
   readonly snapshot?: string | null;
   readonly reason?: string | null;
+  readonly admin: AsyncItem<Admin | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationAdminLogsId?: string | null;
@@ -138,6 +143,38 @@ export declare type AdminLog = LazyLoading extends LazyLoadingDisabled ? EagerAd
 
 export declare const AdminLog: (new (init: ModelInit<AdminLog>) => AdminLog) & {
   copyOf(source: AdminLog, mutator: (draft: MutableModel<AdminLog>) => MutableModel<AdminLog> | void): AdminLog;
+}
+
+type EagerAdmin = {
+  readonly [__modelMeta__]: {
+    identifier: CustomIdentifier<Admin, 'cpr'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly cpr: string;
+  readonly fullName?: string | null;
+  readonly email?: string | null;
+  readonly AdminLogs?: (AdminLog | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyAdmin = {
+  readonly [__modelMeta__]: {
+    identifier: CustomIdentifier<Admin, 'cpr'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly cpr: string;
+  readonly fullName?: string | null;
+  readonly email?: string | null;
+  readonly AdminLogs: AsyncCollection<AdminLog>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Admin = LazyLoading extends LazyLoadingDisabled ? EagerAdmin : LazyAdmin
+
+export declare const Admin: (new (init: ModelInit<Admin>) => Admin) & {
+  copyOf(source: Admin, mutator: (draft: MutableModel<Admin>) => MutableModel<Admin> | void): Admin;
 }
 
 type EagerStudentLog = {
@@ -151,9 +188,11 @@ type EagerStudentLog = {
   readonly dateTime?: string | null;
   readonly snapshot?: string | null;
   readonly reason?: string | null;
+  readonly student?: Student | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationStudentLogsId?: string | null;
+  readonly studentStudentLogsCpr?: string | null;
 }
 
 type LazyStudentLog = {
@@ -167,15 +206,123 @@ type LazyStudentLog = {
   readonly dateTime?: string | null;
   readonly snapshot?: string | null;
   readonly reason?: string | null;
+  readonly student: AsyncItem<Student | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationStudentLogsId?: string | null;
+  readonly studentStudentLogsCpr?: string | null;
 }
 
 export declare type StudentLog = LazyLoading extends LazyLoadingDisabled ? EagerStudentLog : LazyStudentLog
 
 export declare const StudentLog: (new (init: ModelInit<StudentLog>) => StudentLog) & {
   copyOf(source: StudentLog, mutator: (draft: MutableModel<StudentLog>) => MutableModel<StudentLog> | void): StudentLog;
+}
+
+type EagerStudent = {
+  readonly [__modelMeta__]: {
+    identifier: CustomIdentifier<Student, 'cpr'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly cpr: string;
+  readonly fullName?: string | null;
+  readonly email?: string | null;
+  readonly phone?: string | null;
+  readonly gender?: Gender | keyof typeof Gender | null;
+  readonly schoolName?: string | null;
+  readonly specialization?: string | null;
+  readonly placeOfBirth?: string | null;
+  readonly studentOrderAmongSiblings?: number | null;
+  readonly householdIncome?: number | null;
+  readonly preferredLanguage?: Language | keyof typeof Language | null;
+  readonly graduationDate?: string | null;
+  readonly address?: string | null;
+  readonly applications?: (Application | null)[] | null;
+  readonly ParentInfo?: ParentInfo | null;
+  readonly parentInfoID?: string | null;
+  readonly StudentLogs?: (StudentLog | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyStudent = {
+  readonly [__modelMeta__]: {
+    identifier: CustomIdentifier<Student, 'cpr'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly cpr: string;
+  readonly fullName?: string | null;
+  readonly email?: string | null;
+  readonly phone?: string | null;
+  readonly gender?: Gender | keyof typeof Gender | null;
+  readonly schoolName?: string | null;
+  readonly specialization?: string | null;
+  readonly placeOfBirth?: string | null;
+  readonly studentOrderAmongSiblings?: number | null;
+  readonly householdIncome?: number | null;
+  readonly preferredLanguage?: Language | keyof typeof Language | null;
+  readonly graduationDate?: string | null;
+  readonly address?: string | null;
+  readonly applications: AsyncCollection<Application>;
+  readonly ParentInfo: AsyncItem<ParentInfo | undefined>;
+  readonly parentInfoID?: string | null;
+  readonly StudentLogs: AsyncCollection<StudentLog>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Student = LazyLoading extends LazyLoadingDisabled ? EagerStudent : LazyStudent
+
+export declare const Student: (new (init: ModelInit<Student>) => Student) & {
+  copyOf(source: Student, mutator: (draft: MutableModel<Student>) => MutableModel<Student> | void): Student;
+}
+
+type EagerParentInfo = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ParentInfo, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly guardianFullName?: string | null;
+  readonly relation?: string | null;
+  readonly guardianCPR?: string | null;
+  readonly primaryMobile?: string | null;
+  readonly secondaryMobile?: string | null;
+  readonly fatherFullName?: string | null;
+  readonly fatherCPR?: string | null;
+  readonly motherFullName?: string | null;
+  readonly motherCPR?: string | null;
+  readonly numberOfFamilyMembers?: number | null;
+  readonly address?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyParentInfo = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ParentInfo, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly guardianFullName?: string | null;
+  readonly relation?: string | null;
+  readonly guardianCPR?: string | null;
+  readonly primaryMobile?: string | null;
+  readonly secondaryMobile?: string | null;
+  readonly fatherFullName?: string | null;
+  readonly fatherCPR?: string | null;
+  readonly motherFullName?: string | null;
+  readonly motherCPR?: string | null;
+  readonly numberOfFamilyMembers?: number | null;
+  readonly address?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type ParentInfo = LazyLoading extends LazyLoadingDisabled ? EagerParentInfo : LazyParentInfo
+
+export declare const ParentInfo: (new (init: ModelInit<ParentInfo>) => ParentInfo) & {
+  copyOf(source: ParentInfo, mutator: (draft: MutableModel<ParentInfo>) => MutableModel<ParentInfo> | void): ParentInfo;
 }
 
 type EagerProgramChoice = {
@@ -230,6 +377,7 @@ type EagerProgram = {
   readonly universityID: string;
   readonly university?: University | null;
   readonly applications?: (ProgramChoice | null)[] | null;
+  readonly isDeactivated?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly universityProgramsId?: string | null;
@@ -247,6 +395,7 @@ type LazyProgram = {
   readonly universityID: string;
   readonly university: AsyncItem<University | undefined>;
   readonly applications: AsyncCollection<ProgramChoice>;
+  readonly isDeactivated?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly universityProgramsId?: string | null;
@@ -266,6 +415,7 @@ type EagerUniversity = {
   readonly id: string;
   readonly name?: string | null;
   readonly Programs?: (Program | null)[] | null;
+  readonly isDeactivated?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -278,6 +428,7 @@ type LazyUniversity = {
   readonly id: string;
   readonly name?: string | null;
   readonly Programs: AsyncCollection<Program>;
+  readonly isDeactivated?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -286,140 +437,4 @@ export declare type University = LazyLoading extends LazyLoadingDisabled ? Eager
 
 export declare const University: (new (init: ModelInit<University>) => University) & {
   copyOf(source: University, mutator: (draft: MutableModel<University>) => MutableModel<University> | void): University;
-}
-
-type EagerAdmin = {
-  readonly [__modelMeta__]: {
-    identifier: CustomIdentifier<Admin, 'cpr'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly cpr: string;
-  readonly fullName?: string | null;
-  readonly email?: string | null;
-  readonly AdminLogs?: (AdminLog | null)[] | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyAdmin = {
-  readonly [__modelMeta__]: {
-    identifier: CustomIdentifier<Admin, 'cpr'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly cpr: string;
-  readonly fullName?: string | null;
-  readonly email?: string | null;
-  readonly AdminLogs: AsyncCollection<AdminLog>;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Admin = LazyLoading extends LazyLoadingDisabled ? EagerAdmin : LazyAdmin
-
-export declare const Admin: (new (init: ModelInit<Admin>) => Admin) & {
-  copyOf(source: Admin, mutator: (draft: MutableModel<Admin>) => MutableModel<Admin> | void): Admin;
-}
-
-type EagerParentInfo = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ParentInfo, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly guardianFullName?: string | null;
-  readonly relation?: string | null;
-  readonly guardianCPR?: string | null;
-  readonly primaryMobile?: string | null;
-  readonly secondaryMobile?: string | null;
-  readonly fatherFullName?: string | null;
-  readonly fatherCPR?: string | null;
-  readonly motherFullName?: string | null;
-  readonly motherCPR?: string | null;
-  readonly numberOfFamilyMembers?: number | null;
-  readonly address?: string | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyParentInfo = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ParentInfo, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly guardianFullName?: string | null;
-  readonly relation?: string | null;
-  readonly guardianCPR?: string | null;
-  readonly primaryMobile?: string | null;
-  readonly secondaryMobile?: string | null;
-  readonly fatherFullName?: string | null;
-  readonly fatherCPR?: string | null;
-  readonly motherFullName?: string | null;
-  readonly motherCPR?: string | null;
-  readonly numberOfFamilyMembers?: number | null;
-  readonly address?: string | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type ParentInfo = LazyLoading extends LazyLoadingDisabled ? EagerParentInfo : LazyParentInfo
-
-export declare const ParentInfo: (new (init: ModelInit<ParentInfo>) => ParentInfo) & {
-  copyOf(source: ParentInfo, mutator: (draft: MutableModel<ParentInfo>) => MutableModel<ParentInfo> | void): ParentInfo;
-}
-
-type EagerStudent = {
-  readonly [__modelMeta__]: {
-    identifier: CustomIdentifier<Student, 'cpr'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly cpr: string;
-  readonly fullName?: string | null;
-  readonly email?: string | null;
-  readonly phone?: string | null;
-  readonly gender?: Gender | keyof typeof Gender | null;
-  readonly schoolName?: string | null;
-  readonly specialization?: string | null;
-  readonly placeOfBirth?: string | null;
-  readonly studentOrderAmongSiblings?: number | null;
-  readonly householdIncome?: number | null;
-  readonly preferredLanguage?: Language | keyof typeof Language | null;
-  readonly graduationDate?: string | null;
-  readonly address?: string | null;
-  readonly applications?: (Application | null)[] | null;
-  readonly ParentInfo?: ParentInfo | null;
-  readonly parentInfoID?: string | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyStudent = {
-  readonly [__modelMeta__]: {
-    identifier: CustomIdentifier<Student, 'cpr'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly cpr: string;
-  readonly fullName?: string | null;
-  readonly email?: string | null;
-  readonly phone?: string | null;
-  readonly gender?: Gender | keyof typeof Gender | null;
-  readonly schoolName?: string | null;
-  readonly specialization?: string | null;
-  readonly placeOfBirth?: string | null;
-  readonly studentOrderAmongSiblings?: number | null;
-  readonly householdIncome?: number | null;
-  readonly preferredLanguage?: Language | keyof typeof Language | null;
-  readonly graduationDate?: string | null;
-  readonly address?: string | null;
-  readonly applications: AsyncCollection<Application>;
-  readonly ParentInfo: AsyncItem<ParentInfo | undefined>;
-  readonly parentInfoID?: string | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Student = LazyLoading extends LazyLoadingDisabled ? EagerStudent : LazyStudent
-
-export declare const Student: (new (init: ModelInit<Student>) => Student) & {
-  copyOf(source: Student, mutator: (draft: MutableModel<Student>) => MutableModel<Student> | void): Student;
 }
