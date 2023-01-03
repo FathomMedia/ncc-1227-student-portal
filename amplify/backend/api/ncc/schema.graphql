@@ -17,6 +17,7 @@ type Application @model @auth(rules: [{ allow: public }]) {
   attachment: Attachment @hasOne
   programs: [ProgramChoice] @hasMany
   student: Student @belongsTo(fields: ["studentCPR"])
+  dateTime: AWSDateTime!
 }
 
 type ProgramChoice @model @auth(rules: [{ allow: public }]) {

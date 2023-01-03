@@ -201,6 +201,13 @@ export const schema = {
                         ]
                     }
                 },
+                "dateTime": {
+                    "name": "dateTime",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -1288,5 +1295,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "71622aaf286c12e7a5c0424e4da21b39"
+    "version": "dc434c3df9f4ddd2a7261c8de896a50a"
 };

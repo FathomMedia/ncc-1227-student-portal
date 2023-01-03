@@ -181,6 +181,7 @@ export const onCreateApplication = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      dateTime
       createdAt
       updatedAt
       _version
@@ -315,6 +316,7 @@ export const onUpdateApplication = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      dateTime
       createdAt
       updatedAt
       _version
@@ -449,6 +451,7 @@ export const onDeleteApplication = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      dateTime
       createdAt
       updatedAt
       _version
@@ -545,6 +548,7 @@ export const onCreateProgramChoice = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        dateTime
         createdAt
         updatedAt
         _version
@@ -650,6 +654,7 @@ export const onUpdateProgramChoice = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        dateTime
         createdAt
         updatedAt
         _version
@@ -755,6 +760,7 @@ export const onDeleteProgramChoice = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        dateTime
         createdAt
         updatedAt
         _version
@@ -1525,6 +1531,7 @@ export const onCreateStudent = /* GraphQL */ `
           status
           attachmentID
           studentCPR
+          dateTime
           createdAt
           updatedAt
           _version
@@ -1605,6 +1612,7 @@ export const onUpdateStudent = /* GraphQL */ `
           status
           attachmentID
           studentCPR
+          dateTime
           createdAt
           updatedAt
           _version
@@ -1685,6 +1693,7 @@ export const onDeleteStudent = /* GraphQL */ `
           status
           attachmentID
           studentCPR
+          dateTime
           createdAt
           updatedAt
           _version

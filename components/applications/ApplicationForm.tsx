@@ -82,7 +82,6 @@ export const ApplicationForm: FC<Props> = (props) => {
   );
 
   const [withdrawing, setWithdrawing] = useState(false);
-
   const initialValues: FormValues = {
     gpa: props.application?.gpa ?? undefined,
     primaryProgramID:
@@ -142,6 +141,7 @@ export const ApplicationForm: FC<Props> = (props) => {
         attachmentID: createdAttachmentInDB.createAttachment?.id,
         applicationAttachmentId: createdAttachmentInDB.createAttachment?.id,
         _version: undefined,
+        dateTime: new Date().toISOString(),
       },
     };
 
@@ -274,9 +274,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                 gpa: yup.number().min(70).max(100).required(),
                 primaryProgramID: yup.string().required(),
                 secondaryProgramID: yup.string().required(),
-                // cprDoc: yup.mixed(),
-                // acceptanceLetterDoc: yup.mixed(),
-                // transcriptDoc: yup.mixed(),
                 reasonForUpdate: yup.string().required(),
               })
             : yup.object({
@@ -290,6 +287,21 @@ export const ApplicationForm: FC<Props> = (props) => {
         }
         onSubmit={async (values, actions) => {
           console.log({ values, actions });
+
+          let checkStorageKeys: (string | null | undefined)[] = [
+            props.application
+              ? props.application.attachment?.cprDoc
+              : undefined,
+            props.application
+              ? props.application.attachment?.acceptanceLetterDoc
+              : undefined,
+            props.application
+              ? props.application.attachment?.transcriptDoc
+              : undefined,
+            props.application
+              ? props.application.attachment?.signedContractDoc
+              : undefined,
+          ];
 
           let storageKeys = await toast.promise(
             Promise.all([
@@ -329,13 +341,23 @@ export const ApplicationForm: FC<Props> = (props) => {
             }
           );
 
+          checkStorageKeys[0] =
+            storageKeys[0] !== undefined ? storageKeys[0] : checkStorageKeys[0];
+          checkStorageKeys[1] =
+            storageKeys[1] !== undefined ? storageKeys[1] : checkStorageKeys[1];
+          checkStorageKeys[2] =
+            storageKeys[2] !== undefined ? storageKeys[2] : checkStorageKeys[2];
+          checkStorageKeys[3] =
+            storageKeys[3] !== undefined ? storageKeys[3] : checkStorageKeys[3];
+
           const createValues: CreateApplicationFormValues = {
             application: {
               input: {
                 id: undefined,
                 gpa: values.gpa,
-                status: storageKeys.every(
-                  (element) => element !== undefined || element !== null
+                status: Array.prototype.every.call(
+                  checkStorageKeys,
+                  (x) => typeof x === "string"
                 )
                   ? Status.REVIEW
                   : Status.NOT_COMPLETED,
@@ -343,6 +365,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 _version: null,
                 attachmentID: null,
                 applicationAttachmentId: null,
+                dateTime: new Date().toISOString(),
               },
               condition: undefined,
             },
@@ -388,7 +411,15 @@ export const ApplicationForm: FC<Props> = (props) => {
               input: {
                 id: props.application?.id ?? "",
                 gpa: values.gpa,
-                status: props.application?.status,
+                status:
+                  props.application?.status === Status.NOT_COMPLETED
+                    ? Array.prototype.every.call(
+                        checkStorageKeys,
+                        (x) => typeof x === "string"
+                      )
+                      ? Status.REVIEW
+                      : Status.NOT_COMPLETED
+                    : props.application?.status,
                 studentCPR: `${student?.getStudent?.cpr}`,
                 _version: props.application?._version,
                 attachmentID: props.application?.attachmentID,
@@ -660,14 +691,14 @@ export const ApplicationForm: FC<Props> = (props) => {
                     setFieldError("cprDoc", "File is too large");
                   }
                 }}
-                // onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.cprDoc}
+                value={values.cprDoc ?? ""}
               />
               <label className="label-text-alt text-error">
                 {errors.cprDoc && touched.cprDoc && errors.cprDoc}
               </label>
             </div>
+
             {/* acceptanceLetterDoc */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
@@ -809,6 +840,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                   errors.signedContractDoc}
               </label>
             </div>
+
             {/* Reason */}
             {props.application && (
               <div className="flex flex-col justify-start w-full md:col-span-2">

@@ -17,9 +17,6 @@
       },
       "storage": {
         "nccStorage": {}
-      },
-      "api": {
-        "ncc": {}
       }
     }
   }

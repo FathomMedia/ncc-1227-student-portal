@@ -83,6 +83,7 @@ export default function SingleApplicationPage({
   return (
     <PageComponent title="Application" authRequired>
       {(application?.status === Status.REVIEW ||
+        application?.status === Status.NOT_COMPLETED ||
         application?.status === Status.ELIGIBLE) && (
         <div className="flex justify-center w-full py-4 mb-6 border border-gray-400 rounded-2xl px-7">
           <button

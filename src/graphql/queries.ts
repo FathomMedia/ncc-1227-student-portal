@@ -195,6 +195,7 @@ export const getApplication = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      dateTime
       createdAt
       updatedAt
       _version
@@ -262,6 +263,7 @@ export const listApplications = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        dateTime
         createdAt
         updatedAt
         _version
@@ -338,6 +340,7 @@ export const syncApplications = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        dateTime
         createdAt
         updatedAt
         _version
@@ -435,6 +438,7 @@ export const getProgramChoice = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        dateTime
         createdAt
         updatedAt
         _version
@@ -484,6 +488,7 @@ export const listProgramChoices = /* GraphQL */ `
           status
           attachmentID
           studentCPR
+          dateTime
           createdAt
           updatedAt
           _version
@@ -542,6 +547,7 @@ export const syncProgramChoices = /* GraphQL */ `
           status
           attachmentID
           studentCPR
+          dateTime
           createdAt
           updatedAt
           _version
@@ -1283,6 +1289,7 @@ export const getStudent = /* GraphQL */ `
           status
           attachmentID
           studentCPR
+          dateTime
           createdAt
           updatedAt
           _version
@@ -1542,6 +1549,7 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        dateTime
         createdAt
         updatedAt
         _version
