@@ -101,17 +101,17 @@ export type CreateApplicationInput = {
 };
 
 export enum Status {
-  APPROVED = "APPROVED",
-  REJECTED = "REJECTED",
-  REVIEW = "REVIEW",
-  WITHDRAWN = "WITHDRAWN",
   ELIGIBLE = "ELIGIBLE",
+  REVIEW = "REVIEW",
+  APPROVED = "APPROVED",
   NOT_COMPLETED = "NOT_COMPLETED",
+  REJECTED = "REJECTED",
+  WITHDRAWN = "WITHDRAWN",
 }
 
 
 export type ModelApplicationConditionInput = {
-  gpa?: ModelIntInput | null,
+  gpa?: ModelFloatInput | null,
   status?: ModelStatusInput | null,
   attachmentID?: ModelStringInput | null,
   studentCPR?: ModelStringInput | null,
@@ -122,7 +122,7 @@ export type ModelApplicationConditionInput = {
   applicationAttachmentId?: ModelIDInput | null,
 };
 
-export type ModelIntInput = {
+export type ModelFloatInput = {
   ne?: number | null,
   eq?: number | null,
   le?: number | null,
@@ -402,6 +402,18 @@ export type ModelProgramChoiceConditionInput = {
   not?: ModelProgramChoiceConditionInput | null,
   applicationProgramsId?: ModelIDInput | null,
   programApplicationsId?: ModelIDInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type UpdateProgramChoiceInput = {
@@ -699,18 +711,6 @@ export type ModelGenderInput = {
   ne?: Gender | null,
 };
 
-export type ModelFloatInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
 export type ModelLanguageInput = {
   eq?: Language | null,
   ne?: Language | null,
@@ -759,7 +759,7 @@ export type ModelAttachmentConnection = {
 
 export type ModelApplicationFilterInput = {
   id?: ModelIDInput | null,
-  gpa?: ModelIntInput | null,
+  gpa?: ModelFloatInput | null,
   status?: ModelStatusInput | null,
   attachmentID?: ModelStringInput | null,
   studentCPR?: ModelStringInput | null,
@@ -913,7 +913,7 @@ export type ModelStudentConnection = {
   startedAt?: number | null,
 };
 
-export type ModelIntKeyConditionInput = {
+export type ModelFloatKeyConditionInput = {
   eq?: number | null,
   le?: number | null,
   lt?: number | null,
@@ -964,7 +964,7 @@ export type ModelSubscriptionStringInput = {
 
 export type ModelSubscriptionApplicationFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  gpa?: ModelSubscriptionIntInput | null,
+  gpa?: ModelSubscriptionFloatInput | null,
   status?: ModelSubscriptionStringInput | null,
   attachmentID?: ModelSubscriptionStringInput | null,
   studentCPR?: ModelSubscriptionStringInput | null,
@@ -973,7 +973,7 @@ export type ModelSubscriptionApplicationFilterInput = {
   or?: Array< ModelSubscriptionApplicationFilterInput | null > | null,
 };
 
-export type ModelSubscriptionIntInput = {
+export type ModelSubscriptionFloatInput = {
   ne?: number | null,
   eq?: number | null,
   le?: number | null,
@@ -992,6 +992,18 @@ export type ModelSubscriptionProgramChoiceFilterInput = {
   choiceOrder?: ModelSubscriptionIntInput | null,
   and?: Array< ModelSubscriptionProgramChoiceFilterInput | null > | null,
   or?: Array< ModelSubscriptionProgramChoiceFilterInput | null > | null,
+};
+
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
 };
 
 export type ModelSubscriptionProgramFilterInput = {
@@ -1082,18 +1094,6 @@ export type ModelSubscriptionStudentFilterInput = {
   parentInfoID?: ModelSubscriptionIDInput | null,
   and?: Array< ModelSubscriptionStudentFilterInput | null > | null,
   or?: Array< ModelSubscriptionStudentFilterInput | null > | null,
-};
-
-export type ModelSubscriptionFloatInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  in?: Array< number | null > | null,
-  notIn?: Array< number | null > | null,
 };
 
 export type CreateAttachmentMutationVariables = {
@@ -4666,7 +4666,7 @@ export type SyncStudentsQuery = {
 
 export type ApplicationsByStudentCPRAndGpaQueryVariables = {
   studentCPR: string,
-  gpa?: ModelIntKeyConditionInput | null,
+  gpa?: ModelFloatKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelApplicationFilterInput | null,
   limit?: number | null,

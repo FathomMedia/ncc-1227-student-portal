@@ -1,6 +1,6 @@
 import { PageComponent } from "../../components/PageComponent";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useAppContext } from "../../contexts/AppContexts";
 import { Status } from "../../src/API";
@@ -124,7 +124,4 @@ export default function ApplicationsPage() {
       </div>
     </PageComponent>
   );
-}
-function useState(arg0: string): [any, any] {
-  throw new Error("Function not implemented.");
 }

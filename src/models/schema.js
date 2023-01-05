@@ -93,7 +93,7 @@ export const schema = {
                 "gpa": {
                     "name": "gpa",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1270,12 +1270,12 @@ export const schema = {
         "Status": {
             "name": "Status",
             "values": [
-                "APPROVED",
-                "REJECTED",
-                "REVIEW",
-                "WITHDRAWN",
                 "ELIGIBLE",
-                "NOT_COMPLETED"
+                "REVIEW",
+                "APPROVED",
+                "NOT_COMPLETED",
+                "REJECTED",
+                "WITHDRAWN"
             ]
         },
         "Gender": {
@@ -1295,5 +1295,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "dc434c3df9f4ddd2a7261c8de896a50a"
+    "version": "6dc1eb8827a8d45bb835463d143d117c"
 };

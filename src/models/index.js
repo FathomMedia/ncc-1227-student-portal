@@ -3,12 +3,12 @@ import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
 const Status = {
-  "APPROVED": "APPROVED",
-  "REJECTED": "REJECTED",
-  "REVIEW": "REVIEW",
-  "WITHDRAWN": "WITHDRAWN",
   "ELIGIBLE": "ELIGIBLE",
-  "NOT_COMPLETED": "NOT_COMPLETED"
+  "REVIEW": "REVIEW",
+  "APPROVED": "APPROVED",
+  "NOT_COMPLETED": "NOT_COMPLETED",
+  "REJECTED": "REJECTED",
+  "WITHDRAWN": "WITHDRAWN"
 };
 
 const Gender = {

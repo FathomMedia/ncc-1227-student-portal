@@ -8,7 +8,7 @@ type Attachment @model @auth(rules: [{ allow: public }]) {
 
 type Application @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  gpa: Int
+  gpa: Float
   status: Status
   attachmentID: String
   studentCPR: String! @index(name: "byCPR", sortKeyFields: ["gpa"])
@@ -75,12 +75,12 @@ type Admin @model @auth(rules: [{ allow: public }]) {
 }
 
 enum Status {
-  APPROVED
-  REJECTED
-  REVIEW
-  WITHDRAWN
   ELIGIBLE
+  REVIEW
+  APPROVED
   NOT_COMPLETED
+  REJECTED
+  WITHDRAWN
 }
 
 type ParentInfo @model @auth(rules: [{ allow: public }]) {
