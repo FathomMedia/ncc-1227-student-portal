@@ -1,16 +1,13 @@
-import { Storage, withSSRContext } from "aws-amplify";
+import { withSSRContext } from "aws-amplify";
 import { GetServerSideProps } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PageComponent } from "../../components/PageComponent";
 import { Application, Status } from "../../src/API";
 import ViewApplication from "../../components/applications/ViewApplication";
 import { CognitoUser } from "@aws-amplify/auth";
 import { ApplicationForm } from "../../components/applications/ApplicationForm";
-import {
-  DownloadLinks,
-  getApplicationData,
-  listAllPrograms,
-} from "../../src/CustomAPI";
+import { getApplicationData, listAllPrograms } from "../../src/CustomAPI";
+import { Divider } from "@aws-amplify/ui-react";
 
 interface Props {
   application: Application | null;
@@ -45,49 +42,14 @@ export default function SingleApplicationPage({
 }: Props) {
   const [isEdit, setIsEdit] = useState(false);
 
-  const [downloadLinks, setDownloadLinks] = useState<DownloadLinks | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    getDownLoadLinks();
-
-    async function getDownLoadLinks() {
-      let cprDoc = application?.attachment?.cprDoc
-        ? await Storage.get(application?.attachment?.cprDoc)
-        : null;
-
-      let acceptanceLetterDoc = application?.attachment?.acceptanceLetterDoc
-        ? await Storage.get(application?.attachment?.acceptanceLetterDoc)
-        : null;
-      let transcriptDoc = application?.attachment?.transcriptDoc
-        ? await Storage.get(application?.attachment?.transcriptDoc)
-        : null;
-      let signedContractDoc = application?.attachment?.signedContractDoc
-        ? await Storage.get(application?.attachment?.signedContractDoc)
-        : null;
-
-      const downloadLinks: DownloadLinks = {
-        cprDoc: cprDoc,
-        acceptanceLetterDoc: acceptanceLetterDoc,
-        transcriptDoc: transcriptDoc,
-        signedContractDoc: signedContractDoc,
-      };
-
-      setDownloadLinks(downloadLinks);
-    }
-
-    return () => {};
-  }, [application]);
-
   return (
     <PageComponent title="Application" authRequired>
       {(application?.status === Status.REVIEW ||
         application?.status === Status.NOT_COMPLETED ||
         application?.status === Status.ELIGIBLE) && (
-        <div className="flex justify-center w-full py-4 mb-6 border border-gray-400 rounded-2xl px-7">
+        <div className="flex justify-end pb-5 px-7">
           <button
-            className="w-full btn btn-primary"
+            className="btn btn-sm btn-outline btn-primary"
             onClick={() => setIsEdit(!isEdit)}
             type="button"
           >
@@ -95,20 +57,10 @@ export default function SingleApplicationPage({
           </button>
         </div>
       )}
-
-      {application && downloadLinks && !isEdit && (
-        <ViewApplication
-          application={application}
-          downloadLinks={downloadLinks}
-        />
-      )}
+      {application && !isEdit && <ViewApplication application={application} />}
 
       {application && isEdit && (
-        <ApplicationForm
-          application={application}
-          programs={programs}
-          downloadLinks={downloadLinks}
-        />
+        <ApplicationForm application={application} programs={programs} />
       )}
 
       {!application && (

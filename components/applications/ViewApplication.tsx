@@ -1,18 +1,13 @@
 import Link from "next/link";
 import React from "react";
 import { Application, Status } from "../../src/API";
+import GetStorageLinkComponent from "../get-storage-link-component";
 
 interface Props {
   application: Application;
-  downloadLinks: {
-    cprDoc?: string | null;
-    acceptanceLetterDoc?: string | null;
-    transcriptDoc?: string | null;
-    signedContractDoc?: string | null;
-  };
 }
 
-export default function ViewApplication({ application, downloadLinks }: Props) {
+export default function ViewApplication({ application }: Props) {
   return (
     <div className="overflow-x-auto">
       <table dir="ltr" className="table w-full">
@@ -76,65 +71,33 @@ export default function ViewApplication({ application, downloadLinks }: Props) {
           <tr>
             <td>CPR Document</td>
             <td>
-              {downloadLinks.cprDoc ? (
-                <Link
-                  className="link link-primary"
-                  href={downloadLinks.cprDoc}
-                  target="_blank"
-                >
-                  View CPR
-                </Link>
-              ) : (
-                "Document Not Available"
-              )}
+              <GetStorageLinkComponent
+                storageKey={application.attachment?.cprDoc}
+              ></GetStorageLinkComponent>
             </td>
           </tr>
           <tr>
             <td>Acceptance Letter Document</td>
             <td>
-              {downloadLinks.acceptanceLetterDoc ? (
-                <Link
-                  className="link link-primary"
-                  href={downloadLinks.acceptanceLetterDoc}
-                  target="_blank"
-                >
-                  View Acceptance Letter
-                </Link>
-              ) : (
-                "Document Not Available"
-              )}
+              <GetStorageLinkComponent
+                storageKey={application.attachment?.acceptanceLetterDoc}
+              ></GetStorageLinkComponent>
             </td>
           </tr>
           <tr>
             <td>Transcript Document</td>
             <td>
-              {downloadLinks.transcriptDoc ? (
-                <Link
-                  className="link link-primary"
-                  href={downloadLinks.transcriptDoc}
-                  target="_blank"
-                >
-                  View Transcript
-                </Link>
-              ) : (
-                "Document Not Available"
-              )}
+              <GetStorageLinkComponent
+                storageKey={application.attachment?.transcriptDoc}
+              ></GetStorageLinkComponent>
             </td>
           </tr>
           <tr>
             <td>Signed Contract Document</td>
             <td>
-              {downloadLinks.signedContractDoc ? (
-                <Link
-                  className="link link-primary"
-                  href={downloadLinks.signedContractDoc}
-                  target="_blank"
-                >
-                  View Signed Contract
-                </Link>
-              ) : (
-                <span className="text-error">Document Not Available</span>
-              )}
+              <GetStorageLinkComponent
+                storageKey={application.attachment?.signedContractDoc}
+              ></GetStorageLinkComponent>
             </td>
           </tr>
         </tbody>

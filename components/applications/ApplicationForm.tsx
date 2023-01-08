@@ -33,6 +33,7 @@ import {
   DownloadLinks,
 } from "../../src/CustomAPI";
 import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
+import GetStorageLinkComponent from "../get-storage-link-component";
 
 export interface CreateApplicationFormValues {
   application: CreateApplicationMutationVariables;
@@ -62,7 +63,6 @@ interface FormValues {
 interface Props {
   application?: Application;
   programs?: Program[];
-  downloadLinks?: DownloadLinks;
 }
 
 export const ApplicationForm: FC<Props> = (props) => {
@@ -522,7 +522,7 @@ export const ApplicationForm: FC<Props> = (props) => {
           isValid,
           setFieldError,
         }) => (
-          <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
+          <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2 ">
             {/* FullName */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">Full Name</label>
@@ -660,14 +660,10 @@ export const ApplicationForm: FC<Props> = (props) => {
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}{" "}
-                {props.downloadLinks?.cprDoc && (
-                  <Link
-                    href={props.downloadLinks?.cprDoc}
-                    target="_blank"
-                    className="ml-1 link link-primary"
-                  >
-                    View
-                  </Link>
+                {props.application && (
+                  <GetStorageLinkComponent
+                    storageKey={props.application?.attachment?.cprDoc}
+                  ></GetStorageLinkComponent>
                 )}
               </label>
               <Field
@@ -706,14 +702,12 @@ export const ApplicationForm: FC<Props> = (props) => {
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}
-                {props.downloadLinks?.acceptanceLetterDoc && (
-                  <Link
-                    href={props.downloadLinks?.acceptanceLetterDoc}
-                    target="_blank"
-                    className="ml-1 link link-primary"
-                  >
-                    View
-                  </Link>
+                {props.application && (
+                  <GetStorageLinkComponent
+                    storageKey={
+                      props.application?.attachment?.acceptanceLetterDoc
+                    }
+                  ></GetStorageLinkComponent>
                 )}
               </label>
               <Field
@@ -754,14 +748,10 @@ export const ApplicationForm: FC<Props> = (props) => {
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}
-                {props.downloadLinks?.transcriptDoc && (
-                  <Link
-                    href={props.downloadLinks?.transcriptDoc}
-                    target="_blank"
-                    className="ml-1 link link-primary"
-                  >
-                    View
-                  </Link>
+                {props.application && (
+                  <GetStorageLinkComponent
+                    storageKey={props.application?.attachment?.transcriptDoc}
+                  ></GetStorageLinkComponent>
                 )}
               </label>
               <Field
@@ -799,14 +789,12 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="flex flex-col justify-start w-full">
               <label className="label">
                 Signed Contract Document
-                {props.downloadLinks?.signedContractDoc && (
-                  <Link
-                    href={props.downloadLinks?.signedContractDoc}
-                    target="_blank"
-                    className="ml-1 link link-primary"
-                  >
-                    View
-                  </Link>
+                {props.application && (
+                  <GetStorageLinkComponent
+                    storageKey={
+                      props.application?.attachment?.signedContractDoc
+                    }
+                  ></GetStorageLinkComponent>
                 )}
               </label>
 
@@ -912,7 +900,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 props.application.status === Status.ELIGIBLE) && (
                 <label
                   htmlFor="my-modal"
-                  className="btn md:col-span-2 btn-error"
+                  className="mx-auto btn btn-ghost hover:bg-error/20 btn-xs w-min text-error md:col-span-2 btn-error"
                 >
                   Withdraw
                 </label>
