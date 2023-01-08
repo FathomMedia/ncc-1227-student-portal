@@ -22,6 +22,7 @@ import { useAuth } from "../../hooks/use-auth";
 import { useRouter } from "next/router";
 import { CreateStudentForm } from "./create-student-form";
 import { CreateParentsForm } from "./create-parents-form";
+import { TermsAndConditions } from "./t-and-c";
 
 export interface CreateStudentFormValues {
   student: CreateStudentMutationVariables;
@@ -188,15 +189,13 @@ export default function SignUpForm() {
     );
 
     if (userAlreadyExists) {
-      toast.error("User already exists");
-      return;
+      throw new Error("User already exists");
     }
 
     const createdParentInfo = await createDatabaseParentInfo(data);
 
     if (createdParentInfo?.data == null) {
-      toast.error("Error creating the user");
-      return;
+      throw new Error("Error creating the user");
     }
 
     let temp: CreateStudentFormValues = {
@@ -230,9 +229,8 @@ export default function SignUpForm() {
     const createdDatabaseUser = await createDatabaseStudent(temp);
 
     if (createdDatabaseUser?.data == null) {
-      toast.error("Error creating the user");
       await deleteParentInfo(createdParentInfo.data);
-      return;
+      throw new Error("Error creating the user");
     }
 
     const createCognitoUserResult = await createCognitoUser(temp);
@@ -244,20 +242,38 @@ export default function SignUpForm() {
       });
       toast("email need to be verified");
     } else {
-      toast.error("Error creating the user");
       await deleteCreatedUser(createdDatabaseUser.data);
+      throw new Error("Error creating the user");
     }
   }
 
   return (
     <div className="flex flex-col items-center">
       <ul className="mb-6 steps">
-        <li className={`step mr-6 ${steps >= 1 && "step-primary"}`}>
+        <li
+          onClick={() => steps > 1 && setSteps(1)}
+          className={`step mr-6  ${steps >= 1 && "step-primary "} ${
+            steps > 1 && " cursor-pointer"
+          }`}
+        >
           Student Info
         </li>
 
-        <li className={`step  ${steps >= 2 && "step-primary"}`}>
+        <li
+          onClick={() => steps > 2 && setSteps(2)}
+          className={`step  ${steps >= 2 && "step-primary"} ${
+            steps > 2 && " cursor-pointer"
+          }`}
+        >
           Parents Info
+        </li>
+        <li
+          onClick={() => steps > 3 && setSteps(3)}
+          className={`step  ${steps >= 3 && "step-primary"} ${
+            steps > 3 && " cursor-pointer"
+          }`}
+        >
+          Terms & Conditions
         </li>
       </ul>
       {steps === 1 && (
@@ -285,7 +301,7 @@ export default function SignUpForm() {
         <CreateParentsForm
           parentInfo={createStudentFormValues.parentInfo}
           isLoading={isLoading}
-          submitTitle={"Register"}
+          submitTitle={"Next Step"}
           onFormSubmit={async (values) => {
             console.log("values", values);
 
@@ -298,20 +314,36 @@ export default function SignUpForm() {
             };
 
             setCreateStudentFormValues(temp);
-            setIsLoading(true);
-            // setSteps(2);
-            await toast.promise(signUpProcess(temp), {
-              loading: "Creating your account...",
-              success: "Account created successfully",
-              error: (err) => {
-                return `${err}`;
-              },
-            });
-            setIsLoading(false);
-
-            console.log(temp);
+            setSteps(3);
           }}
         ></CreateParentsForm>
+      )}
+      {steps === 3 && (
+        <TermsAndConditions
+          isLoading={isLoading}
+          submitTitle={"Register"}
+          onFormSubmit={async () => {
+            setIsLoading(true);
+            await toast
+              .promise(
+                signUpProcess(createStudentFormValues)
+                  .then((val) => val)
+                  .catch((error) => {
+                    throw error;
+                  }),
+                {
+                  loading: "Creating your account...",
+                  success: "Account created successfully",
+                  error: (err) => {
+                    return `${err}`;
+                  },
+                }
+              )
+              .finally(() => {
+                setIsLoading(false);
+              });
+          }}
+        ></TermsAndConditions>
       )}
     </div>
   );
