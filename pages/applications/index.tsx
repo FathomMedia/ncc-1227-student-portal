@@ -45,20 +45,10 @@ export default function ApplicationsPage() {
                 className="duration-200 shadow stats hover:cursor-pointer hover:scale-105"
                 key={application.id}
               >
-                <div className="stat ">
-                  <div className="stat-title">{t("Status")}</div>
+                <div className="stat border rounded-2xl">
+                  {/* <div className="stat-title">{t("Status")}</div> */}
                   <div
-                    className={`stat-value ${
-                      (application.status === Status.REVIEW ||
-                        application.status === Status.ELIGIBLE) &&
-                      "text-warning"
-                    } ${
-                      application.status === Status.APPROVED && "text-success"
-                    } ${
-                      (application.status === Status.WITHDRAWN ||
-                        application.status === Status.REJECTED) &&
-                      "text-error"
-                    }`}
+                    className={` text-center stat-value text-gray-600 text-xl`}
                   >
                     {t(
                       `${
@@ -68,15 +58,17 @@ export default function ApplicationsPage() {
                       }`
                     )}
                   </div>
-                  <div className="stat-desc">GPA: {application.gpa}</div>
-                  <div className="stat-desc">
+                  {/* <div className="stat-desc">GPA: {application.gpa}</div> */}
+                  <div className="stat-desc text-center">
                     Submit Date:{" "}
                     {Intl.DateTimeFormat("en-US").format(
                       new Date(application.createdAt)
                     )}
                   </div>
                   <div className="divider"></div>
-                  <div className="mb-2 -mt-2 stat-title">Selected Programs</div>
+                  <div className="mb-2 -mt-2 stat-title text-sm">
+                    Selected Programs
+                  </div>
 
                   {application.programs?.items
                     .sort(
@@ -99,9 +91,9 @@ export default function ApplicationsPage() {
                       (undefined || null) ||
                     application.attachment?.signedContractDoc ===
                       (undefined || null) ? (
-                      <span className="text-error">Not Completed</span>
+                      <span className="font-bold">Not Completed</span>
                     ) : (
-                      <span className="text-success">Completed</span>
+                      <span className="font-bold">Completed</span>
                     )}
                   </div>
                 </div>
