@@ -40,7 +40,7 @@ export const HomeComponent = () => {
             icon={info}
             title={t("informationCenter")}
             description={t("informationCenterDescription")}
-            action={() => {}}
+            action={() => router.push("/contact")}
             actionTitle={t("getInfo") ?? "Get Info"}
           ></CardInfoComponent>
         </div>

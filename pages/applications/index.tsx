@@ -29,7 +29,7 @@ export default function ApplicationsPage() {
 
   return (
     <PageComponent title={"Applications"} authRequired>
-      <div>
+      <div className="container mx-auto">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 [grid-auto-rows:1fr]">
           {appContext.applications
             .sort((a) =>
@@ -45,10 +45,20 @@ export default function ApplicationsPage() {
                 className="duration-200 shadow stats hover:cursor-pointer hover:scale-105"
                 key={application.id}
               >
-                <div className="stat border rounded-2xl">
+                <div className={`stat border rounded-2xl `}>
                   {/* <div className="stat-title">{t("Status")}</div> */}
                   <div
-                    className={` text-center stat-value text-gray-600 text-xl`}
+                    className={` text-center stat-value text-gray-600 text-xl ${
+                      (application.status === Status.REVIEW ||
+                        application.status === Status.ELIGIBLE) &&
+                      "text-warning"
+                    } ${
+                      application.status === Status.APPROVED && "text-success"
+                    } ${
+                      (application.status === Status.WITHDRAWN ||
+                        application.status === Status.REJECTED) &&
+                      "text-red-500"
+                    }`}
                   >
                     {t(
                       `${
@@ -59,14 +69,14 @@ export default function ApplicationsPage() {
                     )}
                   </div>
                   {/* <div className="stat-desc">GPA: {application.gpa}</div> */}
-                  <div className="stat-desc text-center">
+                  <div className="text-center stat-desc">
                     Submit Date:{" "}
                     {Intl.DateTimeFormat("en-US").format(
                       new Date(application.createdAt)
                     )}
                   </div>
                   <div className="divider"></div>
-                  <div className="mb-2 -mt-2 stat-title text-sm">
+                  <div className="mb-2 -mt-2 text-sm stat-title">
                     Selected Programs
                   </div>
 
@@ -91,7 +101,9 @@ export default function ApplicationsPage() {
                       (undefined || null) ||
                     application.attachment?.signedContractDoc ===
                       (undefined || null) ? (
-                      <span className="font-bold">Not Completed</span>
+                      <span className="font-bold text-red-500">
+                        Not Completed
+                      </span>
                     ) : (
                       <span className="font-bold">Completed</span>
                     )}

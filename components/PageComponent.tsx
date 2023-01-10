@@ -6,6 +6,7 @@ import { useAuth } from "../hooks/use-auth";
 import { SignInForm } from "./auth/sign-in-form";
 
 import logo from "../public/svg/logo.svg";
+import account from "../public/svg/account.svg";
 import background from "../public/images/graduates-university.png";
 import Image from "next/image";
 import { useAppContext } from "../contexts/AppContexts";
@@ -53,9 +54,23 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
               {user && (
                 <div
                   tabIndex={0}
-                  className="dropdown dropdown-bottom md:dropdown-end flex flex-col items-center p-2 rounded-lg md:items-end md:absolute md:right-4 md:top-4 glass hover:cursor-pointer"
+                  className="flex flex-col items-center p-2 rounded-lg hover:cursor-pointer dropdown dropdown-bottom md:dropdown-end md:items-end md:absolute md:right-4 md:top-4 glass"
                 >
-                  <div className="flex">
+                  <div className="flex ">
+                    <Image className="w-10 p-2 " src={account} alt="account" />
+                    {/* <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="block mr-2 stroke-current w-7 aspect-square"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 6h16M4 12h16M4 18h16"
+                      ></path>
+                    </svg> */}
                     <div className="">
                       <p>{student?.getStudent?.fullName}</p>
                       <p>{user?.getUsername()}</p>
@@ -63,7 +78,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                   </div>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content mt-2  text-secondary menu p-2 shadow bg-base-100 rounded-box w-52"
+                    className="p-2 mt-2 shadow dropdown-content text-secondary menu bg-base-100 rounded-box w-52"
                   >
                     <li>
                       <Link href={"/account"}>
