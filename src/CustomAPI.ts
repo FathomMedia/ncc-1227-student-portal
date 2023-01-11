@@ -218,29 +218,31 @@ export async function getStudentApplications(
  */
 export async function listAllPrograms() {
   let q = `
-    query ListAllPrograms {
-      listPrograms {
-        items {
+  query ListAllPrograms {
+    listPrograms {
+      items {
+        id
+        name
+        requirements
+        universityID
+        universityProgramsId
+        updatedAt
+        createdAt
+        availability
+        isDeactivated
+        _version
+        _lastChangedAt
+        _deleted
+        university {
           id
-          name
-          requirements
-          universityID
-          universityProgramsId
-          updatedAt
-          createdAt
-          availability
-          _version
-          _lastChangedAt
           _deleted
-          university {
-            id
-            _deleted
-            _version
-            name
-          }
+          _version
+          name
         }
       }
     }
+  }
+  
     `;
 
   let res = (await API.graphql(graphqlOperation(q))) as GraphQLResult<any>; // your fetch function here

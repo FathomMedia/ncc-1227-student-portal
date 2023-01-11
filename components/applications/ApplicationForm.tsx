@@ -597,10 +597,14 @@ export const ApplicationForm: FC<Props> = (props) => {
                     Select
                   </option>
                   {props.programs?.map(
-                    (program: any) =>
+                    (program) =>
                       program?.id !== values.secondaryProgramID && (
-                        <option key={program?.id} value={program?.id}>
-                          {`${program?.name}-${program?.university.name}`}
+                        <option
+                          key={program?.id}
+                          value={program?.id}
+                          disabled={program?.isDeactivated === true}
+                        >
+                          {`${program?.name}-${program?.university?.name}`}
                         </option>
                       )
                   )}
@@ -636,10 +640,14 @@ export const ApplicationForm: FC<Props> = (props) => {
                     Select
                   </option>
                   {props.programs?.map(
-                    (program: any) =>
+                    (program) =>
                       program?.id !== values.primaryProgramID && (
-                        <option key={program?.id} value={program?.id}>
-                          {`${program?.name}-${program?.university.name}`}
+                        <option
+                          key={program?.id}
+                          value={program?.id}
+                          disabled={program?.isDeactivated === true}
+                        >
+                          {`${program?.name}-${program?.university?.name}`}
                         </option>
                       )
                   )}

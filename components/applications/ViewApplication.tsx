@@ -65,7 +65,7 @@ export default function ViewApplication({ application }: Props) {
             }-${
               application.programs?.items?.sort(
                 (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-              )[0]?.program?.university?.name
+              )[1]?.program?.university?.name
             }`}</td>
           </tr>
           <tr>
