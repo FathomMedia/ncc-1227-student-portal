@@ -11,6 +11,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Crisp } from "crisp-sdk-web";
 
+import NextNProgress from "nextjs-progressbar";
+
 function App({ Component, pageProps }: AppProps) {
   Amplify.configure({ ...config, ssr: true });
   Auth.configure({ ...config, ssr: true });
@@ -34,6 +36,7 @@ function App({ Component, pageProps }: AppProps) {
     <div dir={dir}>
       <AuthProvider>
         <AppProvider>
+          <NextNProgress color="#E1BA3D" />
           <Component {...pageProps} />
         </AppProvider>
       </AuthProvider>
