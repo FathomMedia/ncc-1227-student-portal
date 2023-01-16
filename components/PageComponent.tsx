@@ -11,6 +11,7 @@ import background from "../public/images/graduates-university.png";
 import Image from "next/image";
 import { useAppContext } from "../contexts/AppContexts";
 import { useTranslation } from "react-i18next";
+import { LangSwitcher } from "./langSwitcher";
 
 interface Props {
   title: string;
@@ -58,19 +59,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 >
                   <div className="flex ">
                     <Image className="w-10 p-2 " src={account} alt="account" />
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      className="block mr-2 stroke-current w-7 aspect-square"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 6h16M4 12h16M4 18h16"
-                      ></path>
-                    </svg> */}
+
                     <div className="">
                       <p>{student?.getStudent?.fullName}</p>
                       <p>{user?.getUsername()}</p>
@@ -93,6 +82,9 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                   </ul>
                 </div>
               )}
+              <div className="md:dropdown-end md:items-end md:absolute md:left-4 md:top-4">
+                <LangSwitcher></LangSwitcher>
+              </div>
               <div className="w-full mt-10 md:mt-16">{props.header}</div>
               {!props.header && (
                 <div className="prose prose-headings:text-white">

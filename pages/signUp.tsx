@@ -4,8 +4,23 @@ import { useEffect } from "react";
 import SignUpForm from "../components/auth/sign-up-form";
 import { VerifyEmail } from "../components/auth/verify-email";
 import { PageComponent } from "../components/PageComponent";
-
 import { useAuth } from "../hooks/use-auth";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { locale } = ctx;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", [
+        "common",
+        "footer",
+        "pageTitles",
+      ])),
+    },
+  };
+};
 
 interface Props {}
 

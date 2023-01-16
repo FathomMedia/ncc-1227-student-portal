@@ -5,6 +5,22 @@ import { SignInForm } from "../components/auth/sign-in-form";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuth } from "../hooks/use-auth";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { locale } = ctx;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", [
+        "common",
+        "footer",
+        "pageTitles",
+      ])),
+    },
+  };
+};
 
 interface Props {}
 

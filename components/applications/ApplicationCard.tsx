@@ -7,12 +7,14 @@ import { useTranslation } from "react-i18next";
 import cross from "../../public/svg/cross.svg";
 import check from "../../public/svg/check.svg";
 import glasses from "../../public/svg/glasses.svg";
+import { useRouter } from "next/router";
 
 interface IApplicationCard {
   application: Application;
 }
 
 export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
+  const { locale } = useRouter();
   const { t } = useTranslation("applications");
   return (
     <div className="relative duration-200 hover:cursor-pointer hover:scale-105">
@@ -39,9 +41,10 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
                 }`
               )}
             </h3>
+            {/* Submit Date */}
             <div className=" stat-desc">
-              Submit Date:{" "}
-              {Intl.DateTimeFormat("en-US").format(
+              {t("submitDate")}{" "}
+              {Intl.DateTimeFormat(locale).format(
                 new Date(application.createdAt)
               )}
             </div>
@@ -49,12 +52,12 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
           {/* Programs */}
           <div>
             <div className="mb-2 -mt-2 text-sm stat-title">
-              Selected Programs
+              {t("selectedPrograms")}
             </div>
             {application.programs?.items
               .sort((a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0))
               .map((program) => (
-                <div key={program?.id} className="stat-desc">
+                <div dir="ltr" key={program?.id} className="stat-desc">
                   {program?.choiceOrder}
                   {"- "}
                   {`${program?.program?.name}-${program?.program?.university?.name}`}
@@ -64,14 +67,14 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
           {/* Attachments */}
           <div>
             <div className="flex gap-2 mb-2 -mt-2 text-sm stat-title">
-              Uploaded Attachments{" "}
+              {t("uploadedAttachments")}{" "}
               {application.attachment?.cprDoc === (undefined || null) ||
                 application.attachment?.transcriptDoc === (undefined || null) ||
                 application.attachment?.acceptanceLetterDoc ===
                   (undefined || null) ||
                 (application.attachment?.signedContractDoc ===
                   (undefined || null) && (
-                  <span className="text-error">Not Completed</span>
+                  <span className="text-error">{t("notCompleted")}</span>
                 ))}
             </div>
             <div className="flex flex-wrap gap-2">
@@ -81,7 +84,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
                   "badge-error !badge-outline"
                 }`}
               >
-                CPR
+                {t("CPR")}
               </div>
               <div
                 className={`badge  badge-ghost ${
@@ -89,7 +92,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
                   "badge-error !badge-outline"
                 }`}
               >
-                Transcript
+                {t("transcript")}
               </div>
               <div
                 className={`badge  badge-ghost ${
@@ -97,7 +100,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
                   "badge-error !badge-outline"
                 }`}
               >
-                Acceptance Letter
+                {t("acceptanceLetter")}
               </div>
               <div
                 className={`badge  badge-ghost ${
@@ -105,7 +108,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
                   "badge-error !badge-outline"
                 }`}
               >
-                Signed Contract
+                {t("signedContract")}
               </div>
             </div>
           </div>

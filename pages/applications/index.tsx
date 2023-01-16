@@ -17,6 +17,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
         "common",
+        "footer",
         "pageTitles",
         "applications",
       ])),
@@ -54,7 +55,7 @@ export default function ApplicationsPage() {
             >
               <div className="flex flex-col items-center justify-center stat">
                 <div className="prose">
-                  <h3>Create new Application</h3>
+                  <h3>{t("createNewApplication")}</h3>
                 </div>
               </div>
             </Link>

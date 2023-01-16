@@ -1,5 +1,21 @@
 import React from "react";
 import { PageComponent } from "../components/PageComponent";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { locale } = ctx;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", [
+        "common",
+        "footer",
+        "pageTitles",
+      ])),
+    },
+  };
+};
 
 const ContactPage = () => {
   return (

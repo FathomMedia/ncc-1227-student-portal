@@ -1,5 +1,5 @@
-import Link from "next/link";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Application, Status } from "../../src/API";
 import GetStorageLinkComponent from "../get-storage-link-component";
 
@@ -8,18 +8,19 @@ interface Props {
 }
 
 export default function ViewApplication({ application }: Props) {
+  const { t } = useTranslation("applicationPage");
   return (
     <div className="overflow-x-auto">
       <table dir="ltr" className="table w-full">
         <thead>
           <tr>
-            <th>Field</th>
-            <th>Value</th>
+            <th>{t("field")}</th>
+            <th>{t("value")}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Created at</td>
+            <td>{t("submitDate")}</td>
             <td>
               {Intl.DateTimeFormat("en", {
                 timeStyle: "short",
@@ -29,23 +30,27 @@ export default function ViewApplication({ application }: Props) {
           </tr>
 
           <tr>
-            <td>Status</td>
+            <td>{t("Status")}</td>
             <td>
               <div className="badge badge-warning">
-                {application.status === Status.ELIGIBLE
-                  ? Status.REVIEW
-                  : application.status}
+                {t(
+                  `${
+                    application.status === Status.ELIGIBLE
+                      ? Status.REVIEW
+                      : application.status
+                  }`
+                )}
               </div>
             </td>
           </tr>
 
           <tr>
-            <td>GPA</td>
+            <td>{t("GPA")}</td>
             <td>{application.gpa}</td>
           </tr>
 
           <tr>
-            <td>Primary Program</td>
+            <td>{t("primaryProgram")}</td>
             <td>{`${
               application.programs?.items?.sort(
                 (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
@@ -57,7 +62,7 @@ export default function ViewApplication({ application }: Props) {
             }`}</td>
           </tr>
           <tr>
-            <td>Secondary Program</td>
+            <td>{t("secondaryProgram")}</td>
             <td>{`${
               application.programs?.items?.sort(
                 (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
@@ -69,7 +74,9 @@ export default function ViewApplication({ application }: Props) {
             }`}</td>
           </tr>
           <tr>
-            <td>CPR Document</td>
+            <td>
+              {t("CPR")} {t("document")}
+            </td>
             <td>
               <GetStorageLinkComponent
                 storageKey={application.attachment?.cprDoc}
@@ -77,7 +84,9 @@ export default function ViewApplication({ application }: Props) {
             </td>
           </tr>
           <tr>
-            <td>Acceptance Letter Document</td>
+            <td>
+              {t("acceptanceLetter")} {t("document")}
+            </td>
             <td>
               <GetStorageLinkComponent
                 storageKey={application.attachment?.acceptanceLetterDoc}
@@ -85,7 +94,9 @@ export default function ViewApplication({ application }: Props) {
             </td>
           </tr>
           <tr>
-            <td>Transcript Document</td>
+            <td>
+              {t("transcript")} {t("document")}
+            </td>
             <td>
               <GetStorageLinkComponent
                 storageKey={application.attachment?.transcriptDoc}
@@ -93,7 +104,9 @@ export default function ViewApplication({ application }: Props) {
             </td>
           </tr>
           <tr>
-            <td>Signed Contract Document</td>
+            <td>
+              {t("signedContract")} {t("document")}
+            </td>
             <td>
               <GetStorageLinkComponent
                 storageKey={application.attachment?.signedContractDoc}

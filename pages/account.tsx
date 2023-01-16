@@ -3,6 +3,22 @@ import ViewAccount from "../components/account/ViewAccount";
 import ViewParentInfo from "../components/account/ViewParentInfo";
 import { PageComponent } from "../components/PageComponent";
 import { useAppContext } from "../contexts/AppContexts";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { locale } = ctx;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", [
+        "common",
+        "footer",
+        "pageTitles",
+      ])),
+    },
+  };
+};
 
 export default function AccountPage() {
   const { studentAsStudent } = useAppContext();
@@ -12,7 +28,7 @@ export default function AccountPage() {
   return (
     <PageComponent title="Account">
       <div className="flex flex-col justify-center">
-        <div className="tabs mx-auto mb-6">
+        <div className="mx-auto mb-6 tabs">
           <a
             onClick={() => setIsStudentInfo(true)}
             className={`tab tab-bordered ${isStudentInfo && " tab-active"}`}

@@ -7,7 +7,8 @@ import ViewApplication from "../../components/applications/ViewApplication";
 import { CognitoUser } from "@aws-amplify/auth";
 import { ApplicationForm } from "../../components/applications/ApplicationForm";
 import { getApplicationData, listAllPrograms } from "../../src/CustomAPI";
-import { Divider } from "@aws-amplify/ui-react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   application: Application | null;
@@ -16,6 +17,7 @@ interface Props {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { Auth } = withSSRContext(ctx);
+  const { locale } = ctx;
 
   let authUser = (await Auth.currentAuthenticatedUser()) as
     | CognitoUser
@@ -29,6 +31,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
+      ...(await serverSideTranslations(locale ?? "en", [
+        "common",
+        "footer",
+        "pageTitles",
+        "applicationPage",
+      ])),
       application:
         authUser?.getUsername() === application?.studentCPR && application,
       programs: programs,
@@ -40,10 +48,12 @@ export default function SingleApplicationPage({
   application,
   programs,
 }: Props) {
+  const { t } = useTranslation("applicationPage");
+
   const [isEdit, setIsEdit] = useState(false);
 
   return (
-    <PageComponent title="Application" authRequired>
+    <PageComponent title={"Application"} authRequired>
       {(application?.status === Status.REVIEW ||
         application?.status === Status.NOT_COMPLETED ||
         application?.status === Status.ELIGIBLE) && (
@@ -53,7 +63,7 @@ export default function SingleApplicationPage({
             onClick={() => setIsEdit(!isEdit)}
             type="button"
           >
-            {isEdit ? "View" : "Edit"}
+            {isEdit ? t("view") : t("edit")}
           </button>
         </div>
       )}
@@ -66,7 +76,7 @@ export default function SingleApplicationPage({
       {!application && (
         <div className="flex flex-col items-center justify-center">
           <div className="prose">
-            <h1 className="text-error">Access denied</h1>
+            <h1 className="text-error">{t("accessDenied")}</h1>
           </div>
         </div>
       )}

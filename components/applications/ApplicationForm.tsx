@@ -34,6 +34,7 @@ import {
 } from "../../src/CustomAPI";
 import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
 import GetStorageLinkComponent from "../get-storage-link-component";
+import { useTranslation } from "react-i18next";
 
 export interface CreateApplicationFormValues {
   application: CreateApplicationMutationVariables;
@@ -69,6 +70,7 @@ export const ApplicationForm: FC<Props> = (props) => {
   const { user } = useAuth();
   const { push } = useRouter();
   const { student, syncStudentApplication } = useAppContext();
+  const { t } = useTranslation("applicationPage");
 
   const [cprDoc, setCprDoc] = useState<File | undefined>(undefined);
   const [acceptanceLetterDoc, setAcceptanceLetterDoc] = useState<
@@ -525,7 +527,7 @@ export const ApplicationForm: FC<Props> = (props) => {
           <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2 ">
             {/* FullName */}
             <div className="flex flex-col justify-start w-full">
-              <label className="label">Full Name</label>
+              <label className="label">{t("fullName")}</label>
               <Field
                 type="text"
                 name="fullName"
@@ -540,7 +542,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             </div>
             {/* CPR */}
             <div className="flex flex-col justify-start w-full">
-              <label className="label">CPR</label>
+              <label className="label">{t("CPR")}</label>
               <Field
                 type="text"
                 name="cpr"
@@ -556,7 +558,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="divider md:col-span-2"></div>
             {/* GPA */}
             <div className="flex flex-col justify-start w-full md:col-span-2">
-              <label className="label">Student GPA</label>
+              <label className="label">{t("studentGPA")}</label>
               <Field
                 type="number"
                 name="gpa"
@@ -576,8 +578,9 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* Primary Program */}
             {
               <div className="flex flex-col justify-start w-full">
-                <label className="label">Primary Program</label>
+                <label className="label">{t("primaryProgram")}</label>
                 <Field
+                  dir="ltr"
                   as="select"
                   name="primaryProgramID"
                   title="primaryProgramID"
@@ -619,8 +622,9 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* Secondary Program */}
             {
               <div className="flex flex-col justify-start w-full">
-                <label className="label">Secondary Program</label>
+                <label className="label">{t("secondaryProgram")}</label>
                 <Field
+                  dir="ltr"
                   as="select"
                   name="secondaryProgramID"
                   title="secondaryProgramID"
@@ -664,7 +668,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* cprDoc */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
-                CPR Document{" "}
+                {t("CPR")} {t("document")}{" "}
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}{" "}
@@ -675,6 +679,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 )}
               </label>
               <Field
+                dir="ltr"
                 type="file"
                 accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
                 id="cprDoc"
@@ -706,7 +711,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* acceptanceLetterDoc */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
-                Acceptance Letter Document{" "}
+                {t("acceptanceLetter")} {t("document")}{" "}
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}
@@ -719,6 +724,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 )}
               </label>
               <Field
+                dir="ltr"
                 type="file"
                 accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
                 id="acceptanceLetterDoc"
@@ -752,7 +758,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* transcriptDoc */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
-                Transcript Document{" "}
+                {t("transcript")} {t("document")}{" "}
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}
@@ -763,6 +769,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 )}
               </label>
               <Field
+                dir="ltr"
                 type="file"
                 accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
                 id="transcriptDoc"
@@ -796,7 +803,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* signedContractDoc */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
-                Signed Contract Document
+                {t("signedContract")} {t("document")}
                 {props.application && (
                   <GetStorageLinkComponent
                     storageKey={
@@ -807,6 +814,7 @@ export const ApplicationForm: FC<Props> = (props) => {
               </label>
 
               <Field
+                dir="ltr"
                 type="file"
                 accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
                 id="signedContractDoc"
@@ -840,12 +848,12 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* Reason */}
             {props.application && (
               <div className="flex flex-col justify-start w-full md:col-span-2">
-                <label className="label">Reason For Update</label>
+                <label className="label">{t("reasonForUpdate")}</label>
                 <Field
                   type="text"
                   name="reasonForUpdate"
                   title="reasonForUpdate"
-                  placeholder="Reason For Update..."
+                  placeholder={`${t("reasonForUpdate")}...`}
                   className={`input input-bordered input-primary ${
                     errors.reasonForUpdate && "input-error"
                   }`}
@@ -867,17 +875,15 @@ export const ApplicationForm: FC<Props> = (props) => {
               type="submit"
               disabled={isSubmitting || !isValid}
             >
-              {props.application ? "Update" : "Apply"}
+              {props.application ? t("update") : t("apply")}
             </button>
 
             <input type="checkbox" id="my-modal" className="modal-toggle" />
             <label htmlFor="my-modal" className="cursor-pointer modal">
               <label className="relative modal-box" htmlFor="">
-                <h3 className="text-lg font-bold">Confirm withdraw</h3>
-                <p className="py-4">
-                  Are you sure you want to withdraw your application?
-                </p>
-                <div className="modal-action">
+                <h3 className="text-lg font-bold">{t("confirmWithdraw")}</h3>
+                <p className="py-4">{t("confirmWithdrawMessage")}</p>
+                <div className="modal-action gap-3">
                   <button
                     className={`btn btn-error btn-sm ${
                       withdrawing && "loading"
@@ -894,10 +900,10 @@ export const ApplicationForm: FC<Props> = (props) => {
                       });
                     }}
                   >
-                    Withdraw
+                    {t("withdraw")}
                   </button>
                   <label htmlFor="my-modal" className="btn btn-sm">
-                    No
+                    {t("no")}
                   </label>
                 </div>
               </label>
@@ -910,7 +916,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                   htmlFor="my-modal"
                   className="mx-auto btn btn-ghost hover:bg-error/20 btn-xs w-min text-error md:col-span-2 btn-error"
                 >
-                  Withdraw
+                  {t("withdraw")}
                 </label>
               )}
           </Form>

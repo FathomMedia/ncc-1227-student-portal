@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Storage } from "aws-amplify";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   storageKey: string | undefined | null;
@@ -17,25 +18,30 @@ export default function GetStorageLinkComponent({ storageKey }: Props) {
     setIsLoading(false);
   }
 
+  const { t } = useTranslation("applicationPage");
+
   return (
     <div>
       {storageKey &&
         (!link ? (
           <button
             disabled={isLoading}
+            type="button"
             className={`btn btn-ghost btn-sm text-primary hover:bg-primary/20 ${
               isLoading && "loading"
             }`}
             onClick={() => getLink(storageKey)}
           >
-            {isLoading ? "Loading..." : "Get Link"}
+            {isLoading ? t("loading") : t("getLink")}
           </button>
         ) : (
           <Link className="link link-success" target="_blank" href={link}>
-            View Document
+            {t("view")} {t("document")}
           </Link>
         ))}
-      {!storageKey && <div className="text-error">Document Not Submitted</div>}
+      {!storageKey && (
+        <div className="text-error">{t("documentNotSubmitted")}</div>
+      )}
     </div>
   );
 }
