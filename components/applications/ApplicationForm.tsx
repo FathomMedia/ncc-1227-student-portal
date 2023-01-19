@@ -82,6 +82,9 @@ export const ApplicationForm: FC<Props> = (props) => {
   const [signedContractDoc, setSignedContractDoc] = useState<File | undefined>(
     undefined
   );
+  const [primaryProgram, setPrimaryProgram] = useState<Program | undefined>(
+    undefined
+  );
 
   const [withdrawing, setWithdrawing] = useState(false);
   const initialValues: FormValues = {
@@ -289,7 +292,6 @@ export const ApplicationForm: FC<Props> = (props) => {
         }
         onSubmit={async (values, actions) => {
           console.log({ values, actions });
-
           let checkStorageKeys: (string | null | undefined)[] = [
             props.application
               ? props.application.attachment?.cprDoc
@@ -588,7 +590,9 @@ export const ApplicationForm: FC<Props> = (props) => {
                   className={`input input-bordered input-primary ${
                     errors.primaryProgramID && "input-error"
                   }`}
-                  onChange={handleChange}
+                  onChange={() => {
+                    // setPrimaryProgram(values.)
+                  }}
                   onBlur={handleBlur}
                   value={values.primaryProgramID}
                 >
@@ -617,6 +621,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                     touched.primaryProgramID &&
                     errors.primaryProgramID}
                 </label>
+                {/* <div>{props.programs?.find([])}</div> */}
               </div>
             }
             {/* Secondary Program */}

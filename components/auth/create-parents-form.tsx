@@ -6,6 +6,8 @@ import {
 } from "../../src/API";
 import * as yup from "yup";
 import "yup-phone";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 interface ICreateParentsForm {
   parentInfo: CreateParentInfoMutationVariables;
@@ -15,6 +17,7 @@ interface ICreateParentsForm {
 }
 
 export const CreateParentsForm = (props: ICreateParentsForm) => {
+  const { t } = useTranslation("account");
   return (
     <Formik
       initialValues={props.parentInfo.input}
@@ -72,7 +75,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
         <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* guardianFullName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Guardian Full Name</label>
+            <label className="label">{t("guardianName")}</label>
             <Field
               type="text"
               name="guardianFullName"
@@ -94,7 +97,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* relation */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Relation</label>
+            <label className="label">{t("relation")}</label>
             <Field
               type="text"
               name="relation"
@@ -114,7 +117,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* Guardian CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Guardian CPR</label>
+            <label className="label">{t("guardianCPR")}</label>
             <Field
               type="text"
               name="guardianCPR"
@@ -134,7 +137,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* Address */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Address</label>
+            <label className="label">{t("address")}</label>
             <Field
               type="text"
               name="address"
@@ -156,7 +159,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* primaryMobile */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Primary Mobile</label>
+            <label className="label">{t("primaryMobileNumber")}</label>
             <Field
               type="phone"
               name="primaryMobile"
@@ -178,7 +181,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* secondaryMobile */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Secondary Mobile</label>
+            <label className="label">{t("secondaryMobileNumber")}</label>
             <Field
               type="phone"
               name="secondaryMobile"
@@ -200,7 +203,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* Number Of Family Members */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Number Of Family Members</label>
+            <label className="label">{t("numberOfFamilyMembers")}</label>
             <Field
               type="text"
               name="numberOfFamilyMembers"
@@ -224,7 +227,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* Father Full Name */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Father Full Name</label>
+            <label className="label">{t("fatherFullName")}</label>
             <Field
               type="text"
               name="fatherFullName"
@@ -246,7 +249,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* Father CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Father CPR</label>
+            <label className="label">{t("fatherCPR")}</label>
             <Field
               type="text"
               name="fatherCPR"
@@ -268,7 +271,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* Mother Full Name */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Mother Full Name</label>
+            <label className="label">{t("motherFullName")}</label>
             <Field
               type="text"
               name="motherFullName"
@@ -290,7 +293,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
 
           {/* Mother CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Mother CPR</label>
+            <label className="label">{t("motherCPR")}</label>
             <Field
               type="text"
               name="motherCPR"

@@ -5,6 +5,7 @@ import { PageComponent } from "../components/PageComponent";
 import { useAppContext } from "../contexts/AppContexts";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { locale } = ctx;
@@ -15,6 +16,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         "common",
         "footer",
         "pageTitles",
+        "account",
+        "signIn",
       ])),
     },
   };

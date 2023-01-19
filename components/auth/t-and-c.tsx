@@ -1,5 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import React, { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import * as yup from "yup";
 
@@ -17,6 +18,7 @@ export const TermsAndConditions: FC<ITermsAndConditions> = ({
   let initialValues = {
     accepted: false,
   };
+  const { t } = useTranslation("termsAndConditions");
 
   return (
     <Formik
@@ -46,7 +48,7 @@ export const TermsAndConditions: FC<ITermsAndConditions> = ({
       }) => (
         <Form className="container flex flex-col max-w-3xl gap-3 mx-auto">
           <h1 className="text-2xl font-semibold md:text-3xl">
-            Terms and conditions
+            {t("termsAndConditions")}
           </h1>
           <div className="w-full h-[30rem] overflow-y-scroll p-6 border border-gray-300 rounded-2xl">
             <div className="mx-auto prose">
@@ -88,7 +90,7 @@ export const TermsAndConditions: FC<ITermsAndConditions> = ({
           </div>
           {/* Accepted */}
           <div className="flex flex-wrap items-center justify-start w-full gap-3">
-            <label className="label">I accept the terms and conditions</label>
+            <label className="label">{t("acceptTerms")}</label>
             <Field
               type="checkbox"
               name="accepted"

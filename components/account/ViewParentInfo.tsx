@@ -7,6 +7,7 @@ import { ParentInfo, UpdateParentInfoMutationVariables } from "../../src/API";
 import { updateParentInfoInDB } from "../../src/CustomAPI";
 import { useAppContext } from "../../contexts/AppContexts";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 interface FormValues {
   guardianFullName: string | null | undefined;
@@ -28,6 +29,7 @@ interface Props {
 
 export default function ViewParentInfo({ parentInfo }: Props) {
   const { syncStudent } = useAppContext();
+  const { t } = useTranslation("account");
 
   let initialValues: FormValues = {
     guardianFullName: parentInfo.guardianFullName,
@@ -116,7 +118,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
         <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* guardianFullName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Guardian Full Name</label>
+            <label className="label">{t("guardianName")}</label>
             <Field
               type="text"
               name="guardianFullName"
@@ -138,7 +140,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* relation */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Relation</label>
+            <label className="label">{t("relation")}</label>
             <Field
               type="text"
               name="relation"
@@ -158,7 +160,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* Guardian CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Guardian CPR</label>
+            <label className="label">{t("guardianCPR")}</label>
             <Field
               type="text"
               name="guardianCPR"
@@ -178,7 +180,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* Address */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Address</label>
+            <label className="label">{t("address")}</label>
             <Field
               type="text"
               name="address"
@@ -200,7 +202,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* primaryMobile */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Primary Mobile</label>
+            <label className="label">{t("primaryMobileNumber")}</label>
             <Field
               type="phone"
               name="primaryMobile"
@@ -222,7 +224,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* secondaryMobile */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Secondary Mobile</label>
+            <label className="label">{t("secondaryMobileNumber")}</label>
             <Field
               type="phone"
               name="secondaryMobile"
@@ -244,7 +246,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* Number Of Family Members */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Number Of Family Members</label>
+            <label className="label">{t("numberOfFamilyMembers")}</label>
             <Field
               type="text"
               name="numberOfFamilyMembers"
@@ -268,7 +270,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* Father Full Name */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Father Full Name</label>
+            <label className="label">{t("fatherFullName")}</label>
             <Field
               type="text"
               name="fatherFullName"
@@ -290,7 +292,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* Father CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Father CPR</label>
+            <label className="label">{t("fatherCPR")}</label>
             <Field
               type="text"
               name="fatherCPR"
@@ -312,7 +314,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* Mother Full Name */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Mother Full Name</label>
+            <label className="label">{t("motherFullName")}</label>
             <Field
               type="text"
               name="motherFullName"
@@ -334,7 +336,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
 
           {/* Mother CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Mother CPR</label>
+            <label className="label">{t("motherCPR")}</label>
             <Field
               type="text"
               name="motherCPR"
@@ -360,7 +362,7 @@ export default function ViewParentInfo({ parentInfo }: Props) {
             type="submit"
             disabled={isSubmitting || !isValid}
           >
-            Update
+            {t("update")}
           </button>
         </Form>
       )}

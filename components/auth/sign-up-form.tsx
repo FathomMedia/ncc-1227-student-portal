@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import { CreateStudentForm } from "./create-student-form";
 import { CreateParentsForm } from "./create-parents-form";
 import { TermsAndConditions } from "./t-and-c";
+import { useTranslation } from "react-i18next";
 
 export interface CreateStudentFormValues {
   student: CreateStudentMutationVariables;
@@ -35,7 +36,7 @@ export interface CreateStudentFormValues {
 export default function SignUpForm() {
   const auth = useAuth();
   const router = useRouter();
-
+  const { t } = useTranslation("signUp");
   const [steps, setSteps] = useState<number>(1);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -249,14 +250,14 @@ export default function SignUpForm() {
 
   return (
     <div className="flex flex-col items-center">
-      <ul className="mb-6 steps">
+      <ul dir="ltr" className="mb-6 steps">
         <li
           onClick={() => steps > 1 && setSteps(1)}
           className={`step mr-6  ${steps >= 1 && "step-primary "} ${
             steps > 1 && " cursor-pointer"
           }`}
         >
-          Student Info
+          {t("studentInfo")}
         </li>
 
         <li
@@ -265,7 +266,7 @@ export default function SignUpForm() {
             steps > 2 && " cursor-pointer"
           }`}
         >
-          Parents Info
+          {t("parentsInfo")}
         </li>
         <li
           onClick={() => steps > 3 && setSteps(3)}
@@ -273,7 +274,7 @@ export default function SignUpForm() {
             steps > 3 && " cursor-pointer"
           }`}
         >
-          Terms & Conditions
+          {t("termsAndConditions")}
         </li>
       </ul>
       {steps === 1 && (

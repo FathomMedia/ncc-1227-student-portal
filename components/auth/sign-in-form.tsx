@@ -1,5 +1,6 @@
 import { Field, Form, Formik } from "formik";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { useAuth } from "../../hooks/use-auth";
 interface ISignInForm {
@@ -9,6 +10,7 @@ interface ISignInForm {
 
 export const SignInForm = () => {
   const auth = useAuth();
+  const { t } = useTranslation("signIn");
 
   const initialValues: ISignInForm = {
     cpr: "",
@@ -31,7 +33,7 @@ export const SignInForm = () => {
         {({ errors, touched, isSubmitting, isValid }) => (
           <Form className="flex flex-col gap-3 p-4">
             <div className="flex flex-col">
-              <label className="label">CPR</label>
+              <label className="label">{t("cpr")}</label>
               <Field
                 name="cpr"
                 type="text"
@@ -45,7 +47,7 @@ export const SignInForm = () => {
               </label>
             </div>
             <div className="flex flex-col">
-              <label className="label">Password</label>
+              <label className="label">{t("password")}</label>
               <Field
                 name="password"
                 type="password"
@@ -60,14 +62,14 @@ export const SignInForm = () => {
               className={`btn btn-primary ${isSubmitting && "loading"}`}
               disabled={isSubmitting || !isValid}
             >
-              Sign In
+              {t("signIn")}
             </button>
           </Form>
         )}
       </Formik>
 
-      <Link className="link link-secondary" href="/signUp">
-        New user?
+      <Link dir="ltr" className="link link-secondary" href="/signUp">
+        {t("newUser")}
       </Link>
     </div>
   );

@@ -20,6 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         "footer",
         "pageTitles",
         "applicationPage",
+        "signIn",
       ])),
       programs: programs,
     },

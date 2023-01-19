@@ -6,6 +6,7 @@ import {
 } from "../../src/API";
 import * as yup from "yup";
 import "yup-phone";
+import { useTranslation } from "react-i18next";
 
 interface ICreateStudentForm {
   student: CreateStudentMutationVariables;
@@ -19,6 +20,8 @@ interface ICreateStudentForm {
 }
 
 export const CreateStudentForm = (props: ICreateStudentForm) => {
+  const { t } = useTranslation("account");
+
   return (
     <Formik
       initialValues={{
@@ -83,7 +86,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Student CPR</label>
+            <label className="label">{t("studentCPR")}</label>
             <Field
               type="text"
               name="cpr"
@@ -102,7 +105,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           </div>
           {/* FullName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Full name</label>
+            <label className="label">{t("fullName")}</label>
             <Field
               type="text"
               name="fullName"
@@ -121,7 +124,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           </div>
           {/* Email */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Email</label>
+            <label className="label">{t("email")}</label>
             <Field
               type="email"
               name="email"
@@ -140,7 +143,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           </div>
           {/* Phone */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Phone</label>
+            <label className="label">{t("phone")}</label>
             <Field
               type="phone"
               name="phone"
@@ -160,7 +163,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* Gender */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Gender</label>
+            <label className="label">{t("gender")}</label>
             <Field
               as="select"
               name="gender"
@@ -186,7 +189,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* address */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Student Address</label>
+            <label className="label">{t("studentAddress")}</label>
             <Field
               type="text"
               name="address"
@@ -206,7 +209,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* schoolName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">School name</label>
+            <label className="label">{t("schoolName")}</label>
             <Field
               type="text"
               name="schoolName"
@@ -226,7 +229,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* specialization */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Specialization</label>
+            <label className="label">{t("specialization")}</label>
             <Field
               type="text"
               name="specialization"
@@ -247,7 +250,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           </div>
           {/* placeOfBirth */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Place Of Birth</label>
+            <label className="label">{t("placeOfBirth")}</label>
             <Field
               type="text"
               name="placeOfBirth"
@@ -269,7 +272,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* Student Order Among Siblings */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Student Order Among Siblings</label>
+            <label className="label">{t("studentOrderAmongSiblings")}</label>
             <Field
               type="number"
               name="studentOrderAmongSiblings"
@@ -291,7 +294,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* Household Income */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Household Income</label>
+            <label className="label">{t("householdIncome")}</label>
             <Field
               type="number"
               name="householdIncome"
@@ -313,7 +316,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* preferredLanguage */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Preferred Language</label>
+            <label className="label">{t("preferredLanguage")}</label>
             <Field
               as="select"
               name="preferredLanguage"
@@ -341,7 +344,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* graduationDate */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Graduation Date</label>
+            <label className="label">{t("graduationDate")}</label>
             <Field
               type="date"
               name="graduationDate"
@@ -363,7 +366,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
           {/* Password */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Password</label>
+            <label className="label">{t("password")}</label>
             <Field
               type="password"
               name="password"

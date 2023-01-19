@@ -20,6 +20,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         "footer",
         "pageTitles",
         "applications",
+        "signIn",
       ])),
     },
   };

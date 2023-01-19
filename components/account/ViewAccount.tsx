@@ -10,6 +10,8 @@ import "yup-phone";
 import { updateStudentInDB } from "../../src/CustomAPI";
 import { toast } from "react-hot-toast";
 import { useAppContext } from "../../contexts/AppContexts";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   student: Student;
@@ -30,6 +32,7 @@ interface FormValues {
 
 export default function ViewApplication({ student }: Props) {
   const { syncStudent } = useAppContext();
+  const { t } = useTranslation("account");
 
   let initialValues: FormValues = {
     phone: student.phone,
@@ -113,7 +116,7 @@ export default function ViewApplication({ student }: Props) {
         <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Student CPR</label>
+            <label className="label">{t("studentCPR")}</label>
             <Field
               type="text"
               name="cpr"
@@ -128,7 +131,7 @@ export default function ViewApplication({ student }: Props) {
           </div>
           {/* Email */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Email</label>
+            <label className="label">{t("email")}</label>
             <Field
               type="email"
               name="email"
@@ -143,7 +146,7 @@ export default function ViewApplication({ student }: Props) {
           </div>
           {/* FullName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Full name</label>
+            <label className="label">{t("fullName")}</label>
             <Field
               type="text"
               name="fullName"
@@ -159,7 +162,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* Phone */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Phone</label>
+            <label className="label">{t("phone")}</label>
             <Field
               type="phone"
               name="phone"
@@ -179,7 +182,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* Gender */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Gender</label>
+            <label className="label">{t("gender")}</label>
             <Field
               as="select"
               name="gender"
@@ -205,7 +208,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* address */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Student Address</label>
+            <label className="label">{t("studentAddress")}</label>
             <Field
               type="text"
               name="address"
@@ -225,7 +228,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* schoolName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">School name</label>
+            <label className="label">{t("schoolName")}</label>
             <Field
               type="text"
               name="schoolName"
@@ -245,7 +248,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* specialization */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Specialization</label>
+            <label className="label">{t("specialization")}</label>
             <Field
               type="text"
               name="specialization"
@@ -266,7 +269,7 @@ export default function ViewApplication({ student }: Props) {
           </div>
           {/* placeOfBirth */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Place Of Birth</label>
+            <label className="label">{t("placeOfBirth")}</label>
             <Field
               type="text"
               name="placeOfBirth"
@@ -288,7 +291,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* Student Order Among Siblings */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Student Order Among Siblings</label>
+            <label className="label">{t("studentOrderAmongSiblings")}</label>
             <Field
               type="number"
               name="studentOrderAmongSiblings"
@@ -310,7 +313,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* Household Income */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Household Income</label>
+            <label className="label">{t("householdIncome")}</label>
             <Field
               type="number"
               name="householdIncome"
@@ -332,7 +335,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* preferredLanguage */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Preferred Language</label>
+            <label className="label">{t("preferredLanguage")}</label>
             <Field
               as="select"
               name="preferredLanguage"
@@ -360,7 +363,7 @@ export default function ViewApplication({ student }: Props) {
 
           {/* graduationDate */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">Graduation Date</label>
+            <label className="label">{t("graduationDate")}</label>
             <Field
               type="date"
               name="graduationDate"
@@ -386,7 +389,7 @@ export default function ViewApplication({ student }: Props) {
             type="submit"
             disabled={isSubmitting || !isValid}
           >
-            Update
+            {t("update")}
           </button>
         </Form>
       )}

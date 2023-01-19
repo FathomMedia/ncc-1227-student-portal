@@ -36,6 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         "footer",
         "pageTitles",
         "applicationPage",
+        "signIn",
       ])),
       application:
         authUser?.getUsername() === application?.studentCPR && application,
