@@ -19,7 +19,6 @@ import { Status } from "../../src/models";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 
-import Link from "next/link";
 import {
   createAttachmentInDB,
   createApplicationInDB,
@@ -30,7 +29,6 @@ import {
   createStudentLogInDB,
   DocType,
   uploadFile,
-  DownloadLinks,
 } from "../../src/CustomAPI";
 import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
 import GetStorageLinkComponent from "../get-storage-link-component";
@@ -83,7 +81,14 @@ export const ApplicationForm: FC<Props> = (props) => {
     undefined
   );
   const [primaryProgram, setPrimaryProgram] = useState<Program | undefined>(
-    undefined
+    props.application?.programs?.items.sort(
+      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+    )[0]?.program ?? undefined
+  );
+  const [secondaryProgram, setSecondaryProgram] = useState<Program | undefined>(
+    props.application?.programs?.items.sort(
+      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+    )[1]?.program ?? undefined
   );
 
   const [withdrawing, setWithdrawing] = useState(false);
@@ -590,8 +595,11 @@ export const ApplicationForm: FC<Props> = (props) => {
                   className={`input input-bordered input-primary ${
                     errors.primaryProgramID && "input-error"
                   }`}
-                  onChange={() => {
-                    // setPrimaryProgram(values.)
+                  onChange={(event: any) => {
+                    setPrimaryProgram(
+                      props.programs?.find((p) => p.id === event.target.value)
+                    );
+                    handleChange(event);
                   }}
                   onBlur={handleBlur}
                   value={values.primaryProgramID}
@@ -621,7 +629,17 @@ export const ApplicationForm: FC<Props> = (props) => {
                     touched.primaryProgramID &&
                     errors.primaryProgramID}
                 </label>
-                {/* <div>{props.programs?.find([])}</div> */}
+                {primaryProgram?.requirements && (
+                  <div
+                    dir="ltr"
+                    className="border p-3 mt-2 rounded-md border-gray-300"
+                  >
+                    <div className="stat-title">Requirements</div>
+                    <label className="stat-desc">
+                      {primaryProgram?.requirements}
+                    </label>
+                  </div>
+                )}
               </div>
             }
             {/* Secondary Program */}
@@ -637,7 +655,12 @@ export const ApplicationForm: FC<Props> = (props) => {
                   className={`input input-bordered input-primary ${
                     errors.secondaryProgramID && "input-error"
                   }`}
-                  onChange={handleChange}
+                  onChange={(event: any) => {
+                    setSecondaryProgram(
+                      props.programs?.find((p) => p.id === event.target.value)
+                    );
+                    handleChange(event);
+                  }}
                   onBlur={handleBlur}
                   value={values.secondaryProgramID}
                 >
@@ -666,6 +689,17 @@ export const ApplicationForm: FC<Props> = (props) => {
                     touched.secondaryProgramID &&
                     errors.secondaryProgramID}
                 </label>
+                {secondaryProgram?.requirements && (
+                  <div
+                    dir="ltr"
+                    className="border p-3 mt-2 rounded-md border-gray-300"
+                  >
+                    <div className="stat-title">Requirements</div>
+                    <label className="stat-desc">
+                      {secondaryProgram?.requirements}
+                    </label>
+                  </div>
+                )}
               </div>
             }
             <div className="divider md:col-span-2"></div>

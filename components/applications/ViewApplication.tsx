@@ -51,27 +51,57 @@ export default function ViewApplication({ application }: Props) {
 
           <tr>
             <td>{t("primaryProgram")}</td>
-            <td>{`${
-              application.programs?.items?.sort(
+            <td className="flex flex-col">
+              <div>
+                {`${
+                  application.programs?.items?.sort(
+                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                  )[0]?.program?.name
+                }-${
+                  application.programs?.items?.sort(
+                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                  )[0]?.program?.university?.name
+                }`}
+              </div>
+              {application.programs?.items?.sort(
                 (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-              )[0]?.program?.name
-            }-${
-              application.programs?.items?.sort(
-                (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-              )[0]?.program?.university?.name
-            }`}</td>
+              )[0]?.program?.requirements && (
+                <div className="stat-desc">
+                  {`Requirements: ${
+                    application.programs?.items?.sort(
+                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                    )[0]?.program?.requirements
+                  }`}
+                </div>
+              )}
+            </td>
           </tr>
           <tr>
             <td>{t("secondaryProgram")}</td>
-            <td>{`${
-              application.programs?.items?.sort(
+            <td className="flex flex-col">
+              <div>
+                {`${
+                  application.programs?.items?.sort(
+                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                  )[1]?.program?.name
+                }-${
+                  application.programs?.items?.sort(
+                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                  )[1]?.program?.university?.name
+                }`}
+              </div>
+              {application.programs?.items?.sort(
                 (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-              )[1]?.program?.name
-            }-${
-              application.programs?.items?.sort(
-                (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-              )[1]?.program?.university?.name
-            }`}</td>
+              )[0]?.program?.requirements && (
+                <div className="stat-desc">
+                  {`Requirements: ${
+                    application.programs?.items?.sort(
+                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                    )[0]?.program?.requirements
+                  }`}
+                </div>
+              )}
+            </td>
           </tr>
           <tr>
             <td>
