@@ -38,7 +38,7 @@ const Home = () => {
           <div className="flex flex-col text-center md:text-start">
             <h1 className="mb-1 font-semibold rtl:md:border-r-8 ltr:md:border-l-8 md:pl-4 ">
               {/* Enroll for 2023 */}
-              {t("enrollFor")}
+              {t("enrollFor")} {new Date().getFullYear()}
             </h1>
             <p>{t("enrollForDescription")}</p>
             <div className="flex flex-col gap-3 mx-auto md:flex-row md:mx-0">

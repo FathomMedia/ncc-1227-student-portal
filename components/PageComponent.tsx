@@ -137,14 +137,10 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
               <span className="opacity-100 footer-title text-primary">
                 {footerTranslation.t("contactUs")}
               </span>
-              <a className="link link-hover">1744 4444</a>
-              <a className="link link-hover">edutrust@meo.gov.bh</a>
-              <a className="link link-hover">
-                Building 000, Road 000, Block 000{" "}
-              </a>
-              <a className="link link-hover">
-                {footerTranslation.t("manamaKingdomOfBahrain")}{" "}
-              </a>
+              <a>1744 4444</a>
+              <a>edutrust@meo.gov.bh</a>
+              <a>Building 000, Road 000, Block 000 </a>
+              <a>{footerTranslation.t("manamaKingdomOfBahrain")} </a>
             </div>
           </footer>
           <div className="justify-center px-10 py-4 text-center footer bg-secondary text-secondary-content">
