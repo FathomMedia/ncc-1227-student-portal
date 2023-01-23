@@ -38,7 +38,7 @@ const SignInPage: NextPage<Props> = () => {
   }, [auth.isSignedIn, router]);
 
   return (
-    <PageComponent title="Sign In">
+    <PageComponent title="SignIn">
       <SignInForm></SignInForm>
     </PageComponent>
   );

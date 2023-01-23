@@ -42,7 +42,7 @@ const SignUpPage: NextPage<Props> = () => {
   }, [auth.isSignedIn, router]);
 
   return (
-    <PageComponent title="Sign Up">
+    <PageComponent title="SignUp">
       {!cpr && (
         <div>
           <SignUpForm></SignUpForm>

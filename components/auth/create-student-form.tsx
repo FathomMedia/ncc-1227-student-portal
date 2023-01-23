@@ -165,6 +165,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("gender")}</label>
             <Field
+              dir="ltr"
               as="select"
               name="gender"
               title="gender"
@@ -318,6 +319,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("preferredLanguage")}</label>
             <Field
+              dir="ltr"
               as="select"
               name="preferredLanguage"
               title="preferredLanguage"
@@ -332,7 +334,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               <option disabled selected value={undefined}>
                 Select
               </option>
-              <option value={Language.ARABIC}>Arabic</option>
+              <option value={Language.ARABIC}>العربية</option>
               <option value={Language.ENGLISH}>English</option>
             </Field>
             <label className="label-text-alt text-error">

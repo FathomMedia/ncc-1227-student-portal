@@ -26,7 +26,7 @@ const ContactPage = () => {
 
   return (
     <div>
-      <PageComponent title={"Contact us"}>
+      <PageComponent title={"ContactUs"}>
         <div className="mx-auto prose text-center divide-y">
           <div>
             <h4>{t("email")}</h4>

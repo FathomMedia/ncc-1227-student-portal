@@ -281,7 +281,7 @@ export default function SignUpForm() {
         <CreateStudentForm
           student={createStudentFormValues.student}
           password={createStudentFormValues.password}
-          submitTitle={"Next Step"}
+          submitTitle={t("nextStep")}
           onFormSubmit={(values) => {
             let temp: CreateStudentFormValues = {
               student: values.student,
@@ -302,7 +302,7 @@ export default function SignUpForm() {
         <CreateParentsForm
           parentInfo={createStudentFormValues.parentInfo}
           isLoading={isLoading}
-          submitTitle={"Next Step"}
+          submitTitle={t("nextStep")}
           onFormSubmit={async (values) => {
             console.log("values", values);
 
@@ -322,7 +322,7 @@ export default function SignUpForm() {
       {steps === 3 && (
         <TermsAndConditions
           isLoading={isLoading}
-          submitTitle={"Register"}
+          submitTitle={t("register")}
           onFormSubmit={async () => {
             setIsLoading(true);
             await toast

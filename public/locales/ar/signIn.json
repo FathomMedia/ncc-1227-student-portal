@@ -1,6 +1,6 @@
 {
-  "cpr": "CPR",
-  "password": "Password",
-  "signIn": "Sign In",
-  "newUser": "New user?"
+  "cpr": "الرقم الشخصي",
+  "password": "كلمة المرور",
+  "signIn": "تسجيل الدخول",
+  "newUser": "مستخدم جديد؟"
 }

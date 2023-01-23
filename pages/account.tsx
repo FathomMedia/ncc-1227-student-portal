@@ -27,22 +27,23 @@ export default function AccountPage() {
   const { studentAsStudent } = useAppContext();
 
   const [isStudentInfo, setIsStudentInfo] = useState(true);
+  const { t } = useTranslation("account");
 
   return (
-    <PageComponent title="Account">
+    <PageComponent title="Account" authRequired>
       <div className="flex flex-col justify-center">
         <div className="mx-auto mb-6 tabs">
           <a
             onClick={() => setIsStudentInfo(true)}
             className={`tab tab-bordered ${isStudentInfo && " tab-active"}`}
           >
-            Student Info
+            {t("studentInfo")}
           </a>
           <a
             onClick={() => setIsStudentInfo(false)}
             className={`tab tab-bordered ${!isStudentInfo && " tab-active"}`}
           >
-            Parents Info
+            {t("parentsInfo")}
           </a>
         </div>
         {studentAsStudent && isStudentInfo && (

@@ -2,5 +2,9 @@
   "Home": "Home",
   "Applications": "Applications",
   "Application": "Application",
-  "newApplication": "New Application"
+  "newApplication": "New Application",
+  "Account": "Account",
+  "SignIn": "Sign In",
+  "SignUp": "Sign Up",
+  "ContactUs": "Contact Us"
 }
