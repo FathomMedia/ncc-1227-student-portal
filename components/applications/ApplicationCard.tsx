@@ -22,7 +22,8 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
         href={`../applications/${application.id}`}
         className={`pt-6 shadow card  ${
           (application.status === Status.REVIEW ||
-            application.status === Status.ELIGIBLE) &&
+            application.status === Status.ELIGIBLE ||
+            application.status === Status.NOT_COMPLETED) &&
           "bg-warning"
         } ${application.status === Status.APPROVED && "bg-success"} ${
           application.status === Status.REJECTED && "bg-red-500"
@@ -117,14 +118,16 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
       <div
         className={`absolute   flex items-center justify-center w-12 h-12 border-2 border-white rounded-full top-2 left-2 ${
           (application.status === Status.REVIEW ||
-            application.status === Status.ELIGIBLE) &&
+            application.status === Status.ELIGIBLE ||
+            application.status === Status.NOT_COMPLETED) &&
           "bg-warning"
         } ${application.status === Status.APPROVED && "bg-success"} ${
           application.status === Status.REJECTED && "bg-red-500"
         } ${application.status === Status.WITHDRAWN && "bg-gray-500"}`}
       >
         {(application.status === Status.REVIEW ||
-          application.status === Status.ELIGIBLE) && (
+          application.status === Status.ELIGIBLE ||
+          application.status === Status.NOT_COMPLETED) && (
           <Image
             className="object-contain w-5 aspect-square"
             src={glasses}

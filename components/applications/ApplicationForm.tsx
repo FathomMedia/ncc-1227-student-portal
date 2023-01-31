@@ -30,7 +30,11 @@ import {
   DocType,
   uploadFile,
 } from "../../src/CustomAPI";
-import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
+import {
+  ApplicationSnapshotInput,
+  checkIfFilesAreTooBig,
+  getStudentApplicationSnapshot,
+} from "../../src/HelperFunctions";
 import GetStorageLinkComponent from "../get-storage-link-component";
 import { useTranslation } from "react-i18next";
 
@@ -39,6 +43,7 @@ export interface CreateApplicationFormValues {
   primaryProgram: CreateProgramChoiceMutationVariables;
   secondaryProgram: CreateProgramChoiceMutationVariables;
   attachment: CreateAttachmentMutationVariables;
+  studentLog: CreateStudentLogMutationVariables;
 }
 export interface UpdateApplicationFormValues {
   application: UpdateApplicationMutationVariables;
@@ -191,6 +196,20 @@ export const ApplicationForm: FC<Props> = (props) => {
     await Promise.all([
       createProgramChoiceInDB(tempPrimaryProgramChoice),
       createProgramChoiceInDB(tempSecondaryProgramChoice),
+      createStudentLogInDB({
+        input: {
+          id: undefined,
+          applicationID: createdApplicationInDB.createApplication?.id ?? "",
+          studentCPR: data.studentLog.input.studentCPR,
+          dateTime: data.studentLog.input.dateTime,
+          snapshot: data.studentLog.input.snapshot,
+          reason: data.studentLog.input.reason,
+          _version: undefined,
+          applicationStudentLogsId:
+            createdApplicationInDB.createApplication?.id,
+          studentStudentLogsCpr: data.studentLog.input.studentCPR,
+        },
+      }),
     ])
       .then(async (res) => {
         console.log("Create program choice res", res);
@@ -359,6 +378,85 @@ export const ApplicationForm: FC<Props> = (props) => {
           checkStorageKeys[3] =
             storageKeys[3] !== undefined ? storageKeys[3] : checkStorageKeys[3];
 
+          let newApplicationSnapshotInput: ApplicationSnapshotInput = {
+            gpa: values.gpa,
+            primaryProgram: {
+              id: values.primaryProgramID,
+              name: `${
+                props.programs?.find((p) => p.id === values.primaryProgramID)
+                  ?.name
+              }-${
+                props.programs?.find((p) => p.id === values.primaryProgramID)
+                  ?.university?.name
+              }`,
+            },
+            secondaryProgram: {
+              id: values.secondaryProgramID,
+              name: `${
+                props.programs?.find((p) => p.id === values.secondaryProgramID)
+                  ?.name
+              }-${
+                props.programs?.find((p) => p.id === values.secondaryProgramID)
+                  ?.university?.name
+              }`,
+            },
+            attachments: {
+              cpr: storageKeys[0] ?? undefined,
+              acceptance: storageKeys[1] ?? undefined,
+              transcript: storageKeys[2] ?? undefined,
+              signedContract: storageKeys[3] ?? undefined,
+            },
+          };
+
+          let oldApplicationSnapshotInput:
+            | ApplicationSnapshotInput
+            | undefined = props.application
+            ? {
+                gpa: props.application.gpa ?? undefined,
+                primaryProgram: {
+                  id:
+                    props.application?.programs?.items.sort(
+                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                    )[0]?.program?.id ?? undefined,
+                  name: `${
+                    props.application?.programs?.items.sort(
+                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                    )[0]?.program?.name
+                  }-${
+                    props.application?.programs?.items.sort(
+                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                    )[0]?.program?.university?.name
+                  }`,
+                },
+                secondaryProgram: {
+                  id:
+                    props.application?.programs?.items.sort(
+                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                    )[1]?.program?.id ?? undefined,
+                  name: `${
+                    props.application?.programs?.items.sort(
+                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                    )[1]?.program?.name
+                  }-${
+                    props.application?.programs?.items.sort(
+                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+                    )[1]?.program?.university?.name
+                  }`,
+                },
+                attachments: {
+                  cpr: props.application?.attachment?.cprDoc ?? undefined,
+                  acceptance:
+                    props.application?.attachment?.acceptanceLetterDoc ??
+                    undefined,
+                  transcript:
+                    props.application?.attachment?.transcriptDoc ?? undefined,
+                  signedContract:
+                    props.application?.attachment?.signedContractDoc ??
+                    undefined,
+                },
+              }
+            : undefined;
+
           const createValues: CreateApplicationFormValues = {
             application: {
               input: {
@@ -413,7 +511,29 @@ export const ApplicationForm: FC<Props> = (props) => {
               },
               condition: undefined,
             },
+            studentLog: {
+              input: {
+                id: undefined,
+                applicationID: "",
+                studentCPR: user?.getUsername() ?? "",
+                dateTime: new Date().toISOString(),
+
+                snapshot: getStudentApplicationSnapshot({
+                  newApplication: newApplicationSnapshotInput,
+                  oldApplication: oldApplicationSnapshotInput,
+                }),
+
+                reason: "Initial Submit",
+                _version: undefined,
+                applicationStudentLogsId: "",
+              },
+              condition: undefined,
+            },
           };
+
+          /* -------------------------------------------------------------------------- */
+          /*                                   UPDATE                                   */
+          /* -------------------------------------------------------------------------- */
 
           let updateValues: UpdateApplicationFormValues = {
             application: {
@@ -495,7 +615,12 @@ export const ApplicationForm: FC<Props> = (props) => {
                 applicationID: props.application?.id ?? "",
                 studentCPR: user?.getUsername() ?? "",
                 dateTime: new Date().toISOString(),
-                snapshot: JSON.stringify(props.application),
+
+                snapshot: getStudentApplicationSnapshot({
+                  newApplication: newApplicationSnapshotInput,
+                  oldApplication: oldApplicationSnapshotInput,
+                }),
+
                 reason: values.reasonForUpdate,
                 _version: undefined,
                 applicationStudentLogsId: props.application?.id ?? "",
@@ -632,7 +757,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 {primaryProgram?.requirements && (
                   <div
                     dir="ltr"
-                    className="border p-3 mt-2 rounded-md border-gray-300"
+                    className="p-3 mt-2 border border-gray-300 rounded-md"
                   >
                     <div className="stat-title">Requirements</div>
                     <label className="stat-desc">
@@ -692,7 +817,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 {secondaryProgram?.requirements && (
                   <div
                     dir="ltr"
-                    className="border p-3 mt-2 rounded-md border-gray-300"
+                    className="p-3 mt-2 border border-gray-300 rounded-md"
                   >
                     <div className="stat-title">Requirements</div>
                     <label className="stat-desc">
@@ -922,7 +1047,7 @@ export const ApplicationForm: FC<Props> = (props) => {
               <label className="relative modal-box" htmlFor="">
                 <h3 className="text-lg font-bold">{t("confirmWithdraw")}</h3>
                 <p className="py-4">{t("confirmWithdrawMessage")}</p>
-                <div className="modal-action gap-3">
+                <div className="gap-3 modal-action">
                   <button
                     className={`btn btn-error btn-sm ${
                       withdrawing && "loading"

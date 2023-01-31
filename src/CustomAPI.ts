@@ -401,7 +401,7 @@ export async function createStudentLogInDB(
 export async function uploadFile(file: File, type: DocType, cpr: string) {
   try {
     let res = await Storage.put(
-      `Student${cpr}/${cpr}#${DocType[type]}#${new Date().getDate()}`,
+      `Student${cpr}/${cpr}#${DocType[type]}#${new Date().getTime()}`,
       file,
       {
         contentType: file.type,
