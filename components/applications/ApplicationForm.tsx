@@ -661,6 +661,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="flex flex-col justify-start w-full">
               <label className="label">{t("fullName")}</label>
               <Field
+                dir="ltr"
                 type="text"
                 name="fullName"
                 title="fullName"
@@ -676,6 +677,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="flex flex-col justify-start w-full">
               <label className="label">{t("CPR")}</label>
               <Field
+                dir="ltr"
                 type="text"
                 name="cpr"
                 title="cpr"
@@ -692,6 +694,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="flex flex-col justify-start w-full md:col-span-2">
               <label className="label">{t("studentGPA")}</label>
               <Field
+                dir="ltr"
                 type="number"
                 name="gpa"
                 title="gpa"

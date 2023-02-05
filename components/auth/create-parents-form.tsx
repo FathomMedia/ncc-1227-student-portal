@@ -1,12 +1,7 @@
 import { Formik, Form, Field } from "formik";
-import {
-  CreateParentInfoMutationVariables,
-  Gender,
-  Language,
-} from "../../src/API";
+import { CreateParentInfoMutationVariables } from "../../src/API";
 import * as yup from "yup";
 import "yup-phone";
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 
 interface ICreateParentsForm {
@@ -39,8 +34,6 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
         numberOfFamilyMembers: yup.number().required(),
       })}
       onSubmit={async (values, actions) => {
-        // console.log({ values, actions });
-
         props.onFormSubmit({
           input: {
             id: props.parentInfo.input.id,
@@ -77,6 +70,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("guardianName")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="guardianFullName"
               title="guardianFullName"
@@ -99,6 +93,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("relation")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="relation"
               title="relation"
@@ -119,6 +114,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("guardianCPR")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="guardianCPR"
               title="guardianCPR"
@@ -139,6 +135,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("address")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="address"
               title="address"
@@ -161,6 +158,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("primaryMobileNumber")}</label>
             <Field
+              dir="ltr"
               type="phone"
               name="primaryMobile"
               title="primaryMobile"
@@ -183,6 +181,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("secondaryMobileNumber")}</label>
             <Field
+              dir="ltr"
               type="phone"
               name="secondaryMobile"
               title="secondaryMobile"
@@ -205,6 +204,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("numberOfFamilyMembers")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="numberOfFamilyMembers"
               title="numberOfFamilyMembers"
@@ -229,6 +229,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("fatherFullName")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="fatherFullName"
               title="fatherFullName"
@@ -251,6 +252,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("fatherCPR")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="fatherCPR"
               title="fatherCPR"
@@ -273,6 +275,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("motherFullName")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="motherFullName"
               title="motherFullName"
@@ -295,6 +298,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("motherCPR")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="motherCPR"
               title="motherCPR"

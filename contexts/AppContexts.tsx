@@ -19,7 +19,6 @@ import { getStudent } from "../src/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { getStudentApplications } from "../src/CustomAPI";
 import { Crisp } from "crisp-sdk-web";
-import { useRouter } from "next/router";
 
 // interface for all the values & functions
 interface IUseAppContext {
@@ -58,7 +57,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 //NOTE: declare vars and functions here
 function useProviderApp() {
   const { user } = useAuth();
-  const { locale } = useRouter();
 
   const [student, setStudent] = useState(defaultState.student);
   const [studentAsStudent, setStudentAsStudent] = useState(
@@ -135,7 +133,8 @@ function useProviderApp() {
           (application) =>
             application.status === Status.REVIEW ||
             application.status === Status.APPROVED ||
-            application.status === Status.ELIGIBLE
+            application.status === Status.ELIGIBLE ||
+            application.status === Status.NOT_COMPLETED
         );
         setHaveActiveApplication(active !== undefined);
       });

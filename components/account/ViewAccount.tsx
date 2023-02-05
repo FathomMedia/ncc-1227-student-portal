@@ -118,6 +118,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("studentCPR")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="cpr"
               title="cpr"
@@ -133,6 +134,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("email")}</label>
             <Field
+              dir="ltr"
               type="email"
               name="email"
               title="email"
@@ -148,6 +150,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("fullName")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="fullName"
               title="fullName"
@@ -164,6 +167,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("phone")}</label>
             <Field
+              dir="ltr"
               type="phone"
               name="phone"
               title="phone"
@@ -184,6 +188,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("gender")}</label>
             <Field
+              dir="ltr"
               as="select"
               name="gender"
               title="gender"
@@ -210,6 +215,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("studentAddress")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="address"
               title="address"
@@ -230,6 +236,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("schoolName")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="schoolName"
               title="schoolName"
@@ -250,6 +257,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("specialization")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="specialization"
               title="specialization"
@@ -271,6 +279,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("placeOfBirth")}</label>
             <Field
+              dir="ltr"
               type="text"
               name="placeOfBirth"
               title="placeOfBirth"
@@ -293,6 +302,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("studentOrderAmongSiblings")}</label>
             <Field
+              dir="ltr"
               type="number"
               name="studentOrderAmongSiblings"
               title="studentOrderAmongSiblings"
@@ -315,6 +325,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("householdIncome")}</label>
             <Field
+              dir="ltr"
               type="number"
               name="householdIncome"
               title="householdIncome"
@@ -337,6 +348,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("preferredLanguage")}</label>
             <Field
+              dir="ltr"
               as="select"
               name="preferredLanguage"
               title="preferredLanguage"
@@ -365,6 +377,7 @@ export default function ViewApplication({ student }: Props) {
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("graduationDate")}</label>
             <Field
+              dir="ltr"
               type="date"
               name="graduationDate"
               title="graduationDate"

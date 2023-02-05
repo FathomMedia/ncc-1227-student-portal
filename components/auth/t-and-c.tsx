@@ -92,6 +92,7 @@ export const TermsAndConditions: FC<ITermsAndConditions> = ({
           <div className="flex flex-wrap items-center justify-start w-full gap-3">
             <label className="label">{t("acceptTerms")}</label>
             <Field
+              dir="ltr"
               type="checkbox"
               name="accepted"
               title="accepted"

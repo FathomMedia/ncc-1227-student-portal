@@ -3,5 +3,8 @@
   "parentsInfo": " Parents Info",
   "termsAndConditions": "Terms & Conditions",
   "nextStep": "Next Step",
-  "register": "Register"
+  "register": "Register",
+  "verify": "Verify",
+  "reSend": "Resend Code",
+  "verificationCode": "verification code has been sent to"
 }

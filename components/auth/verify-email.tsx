@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import AppLoader from "./../App-loader";
 import { useRouter } from "next/router";
 import { getStudent } from "../../src/graphql/queries";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   cpr: string;
@@ -27,6 +28,8 @@ export const VerifyEmail = ({ cpr }: Props) => {
   const initialValues: IVerifyEmail = {
     code: "",
   };
+
+  const { t } = useTranslation("signUp");
 
   const { push } = useRouter();
 
@@ -110,7 +113,7 @@ export const VerifyEmail = ({ cpr }: Props) => {
   ) : (
     <div>
       <h2>
-        verification code has been sent to{" "}
+        {t("verificationCode")}{" "}
         <span className="text-goblin-500">{partialEmail}</span>
       </h2>
 
@@ -149,7 +152,7 @@ export const VerifyEmail = ({ cpr }: Props) => {
           isSubmitting,
           isValid,
         }) => (
-          <div>
+          <div dir="ltr">
             <Form className="flex items-start gap-3 p-4">
               {/* Code field */}
               <div className="flex flex-col">
@@ -176,7 +179,7 @@ export const VerifyEmail = ({ cpr }: Props) => {
                 type="submit"
                 disabled={isSubmitting || !isValid}
               >
-                Verify
+                {t("verify")}
               </button>
               <button
                 className="text-white btn btn-accent"
@@ -184,7 +187,7 @@ export const VerifyEmail = ({ cpr }: Props) => {
                 onClick={resendCode}
                 disabled={countdown > 0}
               >
-                {"Resend code"}
+                {t("reSend")}
                 {countdown > 0 && (
                   <span className="mx-2 countdown">
                     <span style={{ ["--value" as any]: countdown }}></span>

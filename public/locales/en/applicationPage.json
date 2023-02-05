@@ -5,6 +5,7 @@
   "REVIEW": "REVIEW",
   "WITHDRAWN": "WITHDRAWN",
   "ELIGIBLE": "ELIGIBLE",
+  "NOT_COMPLETED": "NOT COMPLETED",
   "Application": "Application",
   "submitDate": "Submit Date",
   "selectedPrograms": "Selected Programs",
