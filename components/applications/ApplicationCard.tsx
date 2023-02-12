@@ -69,14 +69,12 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
           <div>
             <div className="flex gap-2 mb-2 -mt-2 text-sm stat-title">
               {t("uploadedAttachments")}{" "}
-              {application.attachment?.cprDoc === (undefined || null) ||
+              {(application.attachment?.cprDoc === (undefined || null) ||
                 application.attachment?.transcriptDoc === (undefined || null) ||
                 application.attachment?.acceptanceLetterDoc ===
-                  (undefined || null) ||
-                (application.attachment?.signedContractDoc ===
-                  (undefined || null) && (
-                  <span className="text-error">{t("notCompleted")}</span>
-                ))}
+                  (undefined || null)) && (
+                <span className="text-error">{t("notCompleted")}</span>
+              )}
             </div>
             <div className="flex flex-wrap gap-2">
               <div
@@ -102,14 +100,6 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
                 }`}
               >
                 {t("acceptanceLetter")}
-              </div>
-              <div
-                className={`badge  badge-ghost ${
-                  !application.attachment?.signedContractDoc &&
-                  "badge-error !badge-outline"
-                }`}
-              >
-                {t("signedContract")}
               </div>
             </div>
           </div>

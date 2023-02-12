@@ -1,6 +1,7 @@
 import {
   Gender,
   Language,
+  SchoolType,
   Student,
   UpdateStudentMutationVariables,
 } from "../../src/API";
@@ -10,7 +11,7 @@ import "yup-phone";
 import { updateStudentInDB } from "../../src/CustomAPI";
 import { toast } from "react-hot-toast";
 import { useAppContext } from "../../contexts/AppContexts";
-import { t } from "i18next";
+
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -21,6 +22,7 @@ interface FormValues {
   phone: string | null | undefined;
   gender: Gender | null | undefined;
   schoolName: string | null | undefined;
+  schoolType: SchoolType | null | undefined;
   specialization: string | null | undefined;
   placeOfBirth: string | null | undefined;
   studentOrderAmongSiblings: number | null | undefined;
@@ -38,6 +40,7 @@ export default function ViewApplication({ student }: Props) {
     phone: student.phone,
     gender: student.gender,
     schoolName: student.schoolName,
+    schoolType: student.schoolType,
     specialization: student.specialization,
     placeOfBirth: student.placeOfBirth,
     studentOrderAmongSiblings: student.studentOrderAmongSiblings,
@@ -65,6 +68,7 @@ export default function ViewApplication({ student }: Props) {
         phone: yup.string().phone().required(),
         gender: yup.string().required(),
         schoolName: yup.string().required(),
+        schoolType: yup.string().required(),
         specialization: yup.string().required(),
         address: yup.string().required(),
         placeOfBirth: yup.string().required(),
@@ -82,6 +86,7 @@ export default function ViewApplication({ student }: Props) {
             phone: values.phone,
             gender: values.gender,
             schoolName: values.schoolName,
+            schoolType: values.schoolType,
             specialization: values.specialization,
             placeOfBirth: values.placeOfBirth,
             studentOrderAmongSiblings: values.studentOrderAmongSiblings,
@@ -250,6 +255,33 @@ export default function ViewApplication({ student }: Props) {
             />
             <label className="label-text-alt text-error">
               {errors.schoolName && touched.schoolName && errors.schoolName}
+            </label>
+          </div>
+
+          {/* schoolType */}
+          <div className="flex flex-col justify-start w-full">
+            <label className="label">{t("schoolType")}</label>
+            <Field
+              dir="ltr"
+              as="select"
+              name="schoolType"
+              title="schoolType"
+              placeholder="Preferred Language"
+              className={`input input-bordered input-primary ${
+                errors.schoolType && "input-error"
+              }`}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.schoolType}
+            >
+              <option disabled selected value={undefined}>
+                Select
+              </option>
+              <option value={SchoolType.PRIVATE}>Private</option>
+              <option value={SchoolType.PUBLIC}>Public</option>
+            </Field>
+            <label className="label-text-alt text-error">
+              {errors.schoolType && touched.schoolType && errors.schoolType}
             </label>
           </div>
 

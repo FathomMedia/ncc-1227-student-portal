@@ -154,6 +154,7 @@ export const getApplication = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -196,6 +197,9 @@ export const getApplication = /* GraphQL */ `
         _lastChangedAt
       }
       dateTime
+      isEmailSent
+      schoolName
+      schoolType
       createdAt
       updatedAt
       _version
@@ -249,6 +253,7 @@ export const listApplications = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -264,6 +269,9 @@ export const listApplications = /* GraphQL */ `
           _lastChangedAt
         }
         dateTime
+        isEmailSent
+        schoolName
+        schoolType
         createdAt
         updatedAt
         _version
@@ -326,6 +334,7 @@ export const syncApplications = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -341,6 +350,9 @@ export const syncApplications = /* GraphQL */ `
           _lastChangedAt
         }
         dateTime
+        isEmailSent
+        schoolName
+        schoolType
         createdAt
         updatedAt
         _version
@@ -424,6 +436,7 @@ export const getProgramChoice = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -439,6 +452,9 @@ export const getProgramChoice = /* GraphQL */ `
           _lastChangedAt
         }
         dateTime
+        isEmailSent
+        schoolName
+        schoolType
         createdAt
         updatedAt
         _version
@@ -489,6 +505,9 @@ export const listProgramChoices = /* GraphQL */ `
           attachmentID
           studentCPR
           dateTime
+          isEmailSent
+          schoolName
+          schoolType
           createdAt
           updatedAt
           _version
@@ -548,6 +567,9 @@ export const syncProgramChoices = /* GraphQL */ `
           attachmentID
           studentCPR
           dateTime
+          isEmailSent
+          schoolName
+          schoolType
           createdAt
           updatedAt
           _version
@@ -923,6 +945,7 @@ export const getStudentLog = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -995,6 +1018,7 @@ export const listStudentLogs = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -1049,6 +1073,7 @@ export const syncStudentLogs = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -1275,6 +1300,7 @@ export const getStudent = /* GraphQL */ `
       phone
       gender
       schoolName
+      schoolType
       specialization
       placeOfBirth
       studentOrderAmongSiblings
@@ -1290,6 +1316,9 @@ export const getStudent = /* GraphQL */ `
           attachmentID
           studentCPR
           dateTime
+          isEmailSent
+          schoolName
+          schoolType
           createdAt
           updatedAt
           _version
@@ -1369,6 +1398,7 @@ export const listStudents = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -1435,6 +1465,7 @@ export const syncStudents = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -1535,6 +1566,7 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -1550,6 +1582,9 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
           _lastChangedAt
         }
         dateTime
+        isEmailSent
+        schoolName
+        schoolType
         createdAt
         updatedAt
         _version

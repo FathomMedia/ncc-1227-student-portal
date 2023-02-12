@@ -144,6 +144,7 @@ export const createApplication = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -186,6 +187,9 @@ export const createApplication = /* GraphQL */ `
         _lastChangedAt
       }
       dateTime
+      isEmailSent
+      schoolName
+      schoolType
       createdAt
       updatedAt
       _version
@@ -280,6 +284,7 @@ export const updateApplication = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -322,6 +327,9 @@ export const updateApplication = /* GraphQL */ `
         _lastChangedAt
       }
       dateTime
+      isEmailSent
+      schoolName
+      schoolType
       createdAt
       updatedAt
       _version
@@ -416,6 +424,7 @@ export const deleteApplication = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -458,6 +467,9 @@ export const deleteApplication = /* GraphQL */ `
         _lastChangedAt
       }
       dateTime
+      isEmailSent
+      schoolName
+      schoolType
       createdAt
       updatedAt
       _version
@@ -541,6 +553,7 @@ export const createProgramChoice = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -556,6 +569,9 @@ export const createProgramChoice = /* GraphQL */ `
           _lastChangedAt
         }
         dateTime
+        isEmailSent
+        schoolName
+        schoolType
         createdAt
         updatedAt
         _version
@@ -648,6 +664,7 @@ export const updateProgramChoice = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -663,6 +680,9 @@ export const updateProgramChoice = /* GraphQL */ `
           _lastChangedAt
         }
         dateTime
+        isEmailSent
+        schoolName
+        schoolType
         createdAt
         updatedAt
         _version
@@ -755,6 +775,7 @@ export const deleteProgramChoice = /* GraphQL */ `
           phone
           gender
           schoolName
+          schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
@@ -770,6 +791,9 @@ export const deleteProgramChoice = /* GraphQL */ `
           _lastChangedAt
         }
         dateTime
+        isEmailSent
+        schoolName
+        schoolType
         createdAt
         updatedAt
         _version
@@ -1176,6 +1200,7 @@ export const createStudentLog = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -1246,6 +1271,7 @@ export const updateStudentLog = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -1316,6 +1342,7 @@ export const deleteStudentLog = /* GraphQL */ `
         phone
         gender
         schoolName
+        schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
@@ -1565,6 +1592,7 @@ export const createStudent = /* GraphQL */ `
       phone
       gender
       schoolName
+      schoolType
       specialization
       placeOfBirth
       studentOrderAmongSiblings
@@ -1580,6 +1608,9 @@ export const createStudent = /* GraphQL */ `
           attachmentID
           studentCPR
           dateTime
+          isEmailSent
+          schoolName
+          schoolType
           createdAt
           updatedAt
           _version
@@ -1649,6 +1680,7 @@ export const updateStudent = /* GraphQL */ `
       phone
       gender
       schoolName
+      schoolType
       specialization
       placeOfBirth
       studentOrderAmongSiblings
@@ -1664,6 +1696,9 @@ export const updateStudent = /* GraphQL */ `
           attachmentID
           studentCPR
           dateTime
+          isEmailSent
+          schoolName
+          schoolType
           createdAt
           updatedAt
           _version
@@ -1733,6 +1768,7 @@ export const deleteStudent = /* GraphQL */ `
       phone
       gender
       schoolName
+      schoolType
       specialization
       placeOfBirth
       studentOrderAmongSiblings
@@ -1748,6 +1784,9 @@ export const deleteStudent = /* GraphQL */ `
           attachmentID
           studentCPR
           dateTime
+          isEmailSent
+          schoolName
+          schoolType
           createdAt
           updatedAt
           _version

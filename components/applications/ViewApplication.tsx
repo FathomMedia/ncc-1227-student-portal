@@ -133,16 +133,6 @@ export default function ViewApplication({ application }: Props) {
               ></GetStorageLinkComponent>
             </td>
           </tr>
-          <tr>
-            <td>
-              {t("signedContract")} {t("document")}
-            </td>
-            <td>
-              <GetStorageLinkComponent
-                storageKey={application.attachment?.signedContractDoc}
-              ></GetStorageLinkComponent>
-            </td>
-          </tr>
         </tbody>
       </table>
     </div>

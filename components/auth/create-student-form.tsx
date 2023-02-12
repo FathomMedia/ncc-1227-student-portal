@@ -3,6 +3,7 @@ import {
   CreateStudentMutationVariables,
   Gender,
   Language,
+  SchoolType,
 } from "../../src/API";
 import * as yup from "yup";
 import "yup-phone";
@@ -38,6 +39,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         phone: yup.string().phone().required(),
         gender: yup.string().required(),
         schoolName: yup.string().required(),
+        schoolType: yup.string().required(),
         specialization: yup.string().required(),
         address: yup.string().required(),
         placeOfBirth: yup.string().required(),
@@ -59,6 +61,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               phone: values.phone,
               gender: values.gender,
               schoolName: values.schoolName,
+              schoolType: values.schoolType,
               specialization: values.specialization,
               placeOfBirth: values.placeOfBirth,
               studentOrderAmongSiblings: values.studentOrderAmongSiblings,
@@ -234,6 +237,33 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
             />
             <label className="label-text-alt text-error">
               {errors.schoolName && touched.schoolName && errors.schoolName}
+            </label>
+          </div>
+
+          {/* schoolType */}
+          <div className="flex flex-col justify-start w-full">
+            <label className="label">{t("schoolType")}</label>
+            <Field
+              dir="ltr"
+              as="select"
+              name="schoolType"
+              title="schoolType"
+              placeholder="Preferred Language"
+              className={`input input-bordered input-primary ${
+                errors.schoolType && "input-error"
+              }`}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.schoolType}
+            >
+              <option disabled selected value={undefined}>
+                Select
+              </option>
+              <option value={SchoolType.PRIVATE}>Private</option>
+              <option value={SchoolType.PUBLIC}>Public</option>
+            </Field>
+            <label className="label-text-alt text-error">
+              {errors.schoolType && touched.schoolType && errors.schoolType}
             </label>
           </div>
 

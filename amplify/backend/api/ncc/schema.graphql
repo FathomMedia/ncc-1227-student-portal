@@ -18,6 +18,9 @@ type Application @model @auth(rules: [{ allow: public }]) {
   programs: [ProgramChoice] @hasMany
   student: Student @belongsTo(fields: ["studentCPR"])
   dateTime: AWSDateTime!
+  isEmailSent: Boolean @default(value: "false")
+  schoolName: String
+  schoolType: SchoolType
 }
 
 type ProgramChoice @model @auth(rules: [{ allow: public }]) {
@@ -108,6 +111,11 @@ enum Gender {
   MALE
 }
 
+enum SchoolType {
+  PRIVATE
+  PUBLIC
+}
+
 type Student @model @auth(rules: [{ allow: public }]) {
   cpr: String! @primaryKey
   fullName: String
@@ -115,6 +123,7 @@ type Student @model @auth(rules: [{ allow: public }]) {
   phone: String
   gender: Gender
   schoolName: String
+  schoolType: SchoolType
   specialization: String
   placeOfBirth: String
   studentOrderAmongSiblings: Int

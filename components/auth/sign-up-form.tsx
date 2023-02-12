@@ -50,6 +50,7 @@ export default function SignUpForm() {
         gender: undefined,
         address: undefined,
         schoolName: undefined,
+        schoolType: undefined,
         specialization: undefined,
         placeOfBirth: undefined,
         studentOrderAmongSiblings: undefined,
@@ -208,6 +209,7 @@ export default function SignUpForm() {
           phone: data.student.input.phone,
           gender: data.student.input.gender,
           schoolName: data.student.input.schoolName,
+          schoolType: data.student.input.schoolType,
           specialization: data.student.input.specialization,
           placeOfBirth: data.student.input.placeOfBirth,
           studentOrderAmongSiblings:

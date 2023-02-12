@@ -208,6 +208,29 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "isEmailSent": {
+                    "name": "isEmailSent",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "schoolName": {
+                    "name": "schoolName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "schoolType": {
+                    "name": "schoolType",
+                    "isArray": false,
+                    "type": {
+                        "enum": "SchoolType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -651,6 +674,15 @@ export const schema = {
                     "name": "schoolName",
                     "isArray": false,
                     "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "schoolType": {
+                    "name": "schoolType",
+                    "isArray": false,
+                    "type": {
+                        "enum": "SchoolType"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1285,6 +1317,13 @@ export const schema = {
                 "MALE"
             ]
         },
+        "SchoolType": {
+            "name": "SchoolType",
+            "values": [
+                "PRIVATE",
+                "PUBLIC"
+            ]
+        },
         "Language": {
             "name": "Language",
             "values": [
@@ -1295,5 +1334,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "6dc1eb8827a8d45bb835463d143d117c"
+    "version": "602cb86e78608afe001bc846f54536b8"
 };

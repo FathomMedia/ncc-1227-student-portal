@@ -16,6 +16,11 @@ const Gender = {
   "MALE": "MALE"
 };
 
+const SchoolType = {
+  "PRIVATE": "PRIVATE",
+  "PUBLIC": "PUBLIC"
+};
+
 const Language = {
   "ARABIC": "ARABIC",
   "ENGLISH": "ENGLISH"
@@ -36,5 +41,6 @@ export {
   University,
   Status,
   Gender,
+  SchoolType,
   Language
 };

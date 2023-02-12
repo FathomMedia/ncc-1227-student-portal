@@ -60,7 +60,7 @@ interface FormValues {
   cprDoc: File | undefined;
   acceptanceLetterDoc: File | undefined;
   transcriptDoc: File | undefined;
-  signedContractDoc: File | undefined;
+
   reasonForUpdate?: string | undefined;
 }
 
@@ -82,9 +82,7 @@ export const ApplicationForm: FC<Props> = (props) => {
   const [transcriptDoc, setTranscriptDoc] = useState<File | undefined>(
     undefined
   );
-  const [signedContractDoc, setSignedContractDoc] = useState<File | undefined>(
-    undefined
-  );
+
   const [primaryProgram, setPrimaryProgram] = useState<Program | undefined>(
     props.application?.programs?.items.sort(
       (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
@@ -110,7 +108,7 @@ export const ApplicationForm: FC<Props> = (props) => {
     cprDoc: undefined,
     acceptanceLetterDoc: undefined,
     transcriptDoc: undefined,
-    signedContractDoc: undefined,
+
     reasonForUpdate: undefined,
   };
 
@@ -157,6 +155,8 @@ export const ApplicationForm: FC<Props> = (props) => {
         applicationAttachmentId: createdAttachmentInDB.createAttachment?.id,
         _version: undefined,
         dateTime: new Date().toISOString(),
+        schoolType: student?.getStudent?.schoolType,
+        schoolName: student?.getStudent?.schoolName,
       },
     };
 
@@ -326,9 +326,6 @@ export const ApplicationForm: FC<Props> = (props) => {
             props.application
               ? props.application.attachment?.transcriptDoc
               : undefined,
-            props.application
-              ? props.application.attachment?.signedContractDoc
-              : undefined,
           ];
 
           let storageKeys = await toast.promise(
@@ -345,12 +342,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                 uploadFile(
                   transcriptDoc,
                   DocType.TRANSCRIPT,
-                  `${student?.getStudent?.cpr}`
-                ),
-              signedContractDoc &&
-                uploadFile(
-                  signedContractDoc,
-                  DocType.SIGNED_CONTRACT,
                   `${student?.getStudent?.cpr}`
                 ),
             ])
@@ -375,8 +366,6 @@ export const ApplicationForm: FC<Props> = (props) => {
             storageKeys[1] !== undefined ? storageKeys[1] : checkStorageKeys[1];
           checkStorageKeys[2] =
             storageKeys[2] !== undefined ? storageKeys[2] : checkStorageKeys[2];
-          checkStorageKeys[3] =
-            storageKeys[3] !== undefined ? storageKeys[3] : checkStorageKeys[3];
 
           let newApplicationSnapshotInput: ApplicationSnapshotInput = {
             gpa: values.gpa,
@@ -404,7 +393,6 @@ export const ApplicationForm: FC<Props> = (props) => {
               cpr: storageKeys[0] ?? undefined,
               acceptance: storageKeys[1] ?? undefined,
               transcript: storageKeys[2] ?? undefined,
-              signedContract: storageKeys[3] ?? undefined,
             },
           };
 
@@ -450,9 +438,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                     undefined,
                   transcript:
                     props.application?.attachment?.transcriptDoc ?? undefined,
-                  signedContract:
-                    props.application?.attachment?.signedContractDoc ??
-                    undefined,
                 },
               }
             : undefined;
@@ -462,12 +447,7 @@ export const ApplicationForm: FC<Props> = (props) => {
               input: {
                 id: undefined,
                 gpa: values.gpa,
-                status: Array.prototype.every.call(
-                  checkStorageKeys,
-                  (x) => typeof x === "string"
-                )
-                  ? Status.REVIEW
-                  : Status.NOT_COMPLETED,
+                status: Status.REVIEW,
                 studentCPR: `${student?.getStudent?.cpr}`,
                 _version: null,
                 attachmentID: null,
@@ -506,7 +486,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                 cprDoc: storageKeys?.[0],
                 acceptanceLetterDoc: storageKeys?.[1],
                 transcriptDoc: storageKeys?.[2],
-                signedContractDoc: storageKeys?.[3],
                 _version: undefined,
               },
               condition: undefined,
@@ -602,9 +581,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                 transcriptDoc:
                   storageKeys?.[2] ??
                   props.application?.attachment?.transcriptDoc,
-                signedContractDoc:
-                  storageKeys?.[3] ??
-                  props.application?.attachment?.signedContractDoc,
                 _version: props.application?.attachment?._version,
               },
               condition: undefined,
@@ -968,7 +944,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             </div>
 
             {/* signedContractDoc */}
-            <div className="flex flex-col justify-start w-full">
+            {/* <div className="flex flex-col justify-start w-full">
               <label className="label">
                 {t("signedContract")} {t("document")}
                 {props.application && (
@@ -1010,7 +986,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                   touched.signedContractDoc &&
                   errors.signedContractDoc}
               </label>
-            </div>
+            </div> */}
 
             {/* Reason */}
             {props.application && (
