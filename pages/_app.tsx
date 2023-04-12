@@ -33,7 +33,7 @@ function App({ Component, pageProps }: AppProps) {
   }, [locale]);
 
   return (
-    <div dir={dir}>
+    <div dir={dir} className={locale === "ar" ? "font-IBMArabic" : "font-IBM"}>
       <AuthProvider>
         <AppProvider>
           <NextNProgress color="#E1BA3D" />

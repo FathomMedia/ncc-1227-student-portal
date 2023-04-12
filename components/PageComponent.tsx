@@ -47,7 +47,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
           >
             <div className="relative flex flex-col items-center w-full gap-3 bg-secondary/80 text-secondary-content p-11 md:p-20 md:pt-10">
               <Image
-                className="w-40 md:w-52 btn btn-ghost"
+                className="w-40 md:w-52 hover:cursor-pointer"
                 src={logo}
                 alt="logo"
                 onClick={() => router.push("/")}
@@ -110,7 +110,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
           <footer className="justify-center p-10 md:justify-around footer bg-secondary text-secondary-content">
             <div className="flex flex-col justify-center h-full mx-auto">
               <Image
-                className="w-40 md:w-52 btn btn-ghost"
+                className="w-40 md:w-52 max-h-24 hover:cursor-pointer"
                 src={logo}
                 alt="logo"
                 onClick={() => router.push("/")}
