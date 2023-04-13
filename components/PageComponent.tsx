@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { useAuth } from "../hooks/use-auth";
 import { SignInForm } from "./auth/sign-in-form";
 
-import logo from "../public/svg/logo.svg";
+import logo from "../public/svg/logo-white-no-bottom.svg";
 import account from "../public/svg/account.svg";
 import background from "../public/images/graduates-university.png";
 import Image from "next/image";
