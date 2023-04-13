@@ -36,7 +36,7 @@ function App({ Component, pageProps }: AppProps) {
     <div dir={dir} className={locale === "ar" ? "font-IBMArabic" : "font-IBM"}>
       <AuthProvider>
         <AppProvider>
-          <NextNProgress color="#E1BA3D" />
+          <NextNProgress color="#BB9869" />
           <Component {...pageProps} />
         </AppProvider>
       </AuthProvider>

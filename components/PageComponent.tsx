@@ -60,7 +60,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                   <div className="flex ">
                     <Image className="w-10 p-2 " src={account} alt="account" />
 
-                    <div className="">
+                    <div className="text-white">
                       <p>{student?.getStudent?.fullName}</p>
                       <p>{user?.getUsername()}</p>
                     </div>
@@ -116,7 +116,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 onClick={() => router.push("/")}
               />
             </div>
-            <div className="flex flex-col items-center mx-auto md:items-start">
+            <div className="flex text-base-100 flex-col items-center mx-auto md:items-start">
               <span className="opacity-100 footer-title text-primary">
                 {footerTranslation.t("quickLinks")}
               </span>
@@ -133,7 +133,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 {footerTranslation.t("contact")}
               </a>
             </div>
-            <div className="flex flex-col items-center mx-auto md:items-start">
+            <div className="flex text-base-100 flex-col items-center mx-auto md:items-start">
               <span className="opacity-100 footer-title text-primary">
                 {footerTranslation.t("contactUs")}
               </span>

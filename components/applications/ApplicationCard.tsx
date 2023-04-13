@@ -26,8 +26,8 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
             application.status === Status.NOT_COMPLETED) &&
           "bg-warning"
         } ${application.status === Status.APPROVED && "bg-success"} ${
-          application.status === Status.REJECTED && "bg-red-500"
-        } ${application.status === Status.WITHDRAWN && "bg-gray-500"}`}
+          application.status === Status.REJECTED && "bg-error"
+        } ${application.status === Status.WITHDRAWN && "bg-neutral"}`}
         key={application.id}
       >
         <div className="p-4 bg-white min-h-[15rem] pt-10 card gap-4 flex flex-col justify-between">
@@ -112,8 +112,8 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
             application.status === Status.NOT_COMPLETED) &&
           "bg-warning"
         } ${application.status === Status.APPROVED && "bg-success"} ${
-          application.status === Status.REJECTED && "bg-red-500"
-        } ${application.status === Status.WITHDRAWN && "bg-gray-500"}`}
+          application.status === Status.REJECTED && "bg-error"
+        } ${application.status === Status.WITHDRAWN && "bg-neutral"}`}
       >
         {(application.status === Status.REVIEW ||
           application.status === Status.ELIGIBLE ||

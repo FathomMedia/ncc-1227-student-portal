@@ -739,7 +739,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                     className="p-3 mt-2 border border-gray-300 rounded-md"
                   >
                     <div className="stat-title">Requirements</div>
-                    <label className="stat-desc">
+                    <label className="stat-desc whitespace-pre-wrap">
                       {primaryProgram?.requirements}
                     </label>
                   </div>
@@ -799,7 +799,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                     className="p-3 mt-2 border border-gray-300 rounded-md"
                   >
                     <div className="stat-title">Requirements</div>
-                    <label className="stat-desc">
+                    <label className="stat-desc whitespace-pre-wrap">
                       {secondaryProgram?.requirements}
                     </label>
                   </div>
