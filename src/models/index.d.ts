@@ -81,6 +81,7 @@ type EagerApplication = {
   readonly isEmailSent?: boolean | null;
   readonly schoolName?: string | null;
   readonly schoolType?: SchoolType | keyof typeof SchoolType | null;
+  readonly batch?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationAttachmentId?: string | null;
@@ -105,6 +106,7 @@ type LazyApplication = {
   readonly isEmailSent?: boolean | null;
   readonly schoolName?: string | null;
   readonly schoolType?: SchoolType | keyof typeof SchoolType | null;
+  readonly batch?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationAttachmentId?: string | null;

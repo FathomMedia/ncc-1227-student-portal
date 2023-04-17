@@ -3,7 +3,6 @@ import { PageComponent } from "../../components/PageComponent";
 import React from "react";
 import Link from "next/link";
 import { useAppContext } from "../../contexts/AppContexts";
-import { Status } from "../../src/API";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "react-i18next";

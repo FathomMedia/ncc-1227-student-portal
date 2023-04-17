@@ -186,6 +186,7 @@ export const onCreateApplication = /* GraphQL */ `
       isEmailSent
       schoolName
       schoolType
+      batch
       createdAt
       updatedAt
       _version
@@ -325,6 +326,7 @@ export const onUpdateApplication = /* GraphQL */ `
       isEmailSent
       schoolName
       schoolType
+      batch
       createdAt
       updatedAt
       _version
@@ -464,6 +466,7 @@ export const onDeleteApplication = /* GraphQL */ `
       isEmailSent
       schoolName
       schoolType
+      batch
       createdAt
       updatedAt
       _version
@@ -565,6 +568,7 @@ export const onCreateProgramChoice = /* GraphQL */ `
         isEmailSent
         schoolName
         schoolType
+        batch
         createdAt
         updatedAt
         _version
@@ -675,6 +679,7 @@ export const onUpdateProgramChoice = /* GraphQL */ `
         isEmailSent
         schoolName
         schoolType
+        batch
         createdAt
         updatedAt
         _version
@@ -785,6 +790,7 @@ export const onDeleteProgramChoice = /* GraphQL */ `
         isEmailSent
         schoolName
         schoolType
+        batch
         createdAt
         updatedAt
         _version
@@ -1563,6 +1569,7 @@ export const onCreateStudent = /* GraphQL */ `
           isEmailSent
           schoolName
           schoolType
+          batch
           createdAt
           updatedAt
           _version
@@ -1648,6 +1655,7 @@ export const onUpdateStudent = /* GraphQL */ `
           isEmailSent
           schoolName
           schoolType
+          batch
           createdAt
           updatedAt
           _version
@@ -1733,6 +1741,7 @@ export const onDeleteStudent = /* GraphQL */ `
           isEmailSent
           schoolName
           schoolType
+          batch
           createdAt
           updatedAt
           _version

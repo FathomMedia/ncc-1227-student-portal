@@ -200,6 +200,7 @@ export const getApplication = /* GraphQL */ `
       isEmailSent
       schoolName
       schoolType
+      batch
       createdAt
       updatedAt
       _version
@@ -272,6 +273,7 @@ export const listApplications = /* GraphQL */ `
         isEmailSent
         schoolName
         schoolType
+        batch
         createdAt
         updatedAt
         _version
@@ -353,6 +355,7 @@ export const syncApplications = /* GraphQL */ `
         isEmailSent
         schoolName
         schoolType
+        batch
         createdAt
         updatedAt
         _version
@@ -455,6 +458,7 @@ export const getProgramChoice = /* GraphQL */ `
         isEmailSent
         schoolName
         schoolType
+        batch
         createdAt
         updatedAt
         _version
@@ -508,6 +512,7 @@ export const listProgramChoices = /* GraphQL */ `
           isEmailSent
           schoolName
           schoolType
+          batch
           createdAt
           updatedAt
           _version
@@ -570,6 +575,7 @@ export const syncProgramChoices = /* GraphQL */ `
           isEmailSent
           schoolName
           schoolType
+          batch
           createdAt
           updatedAt
           _version
@@ -1319,6 +1325,7 @@ export const getStudent = /* GraphQL */ `
           isEmailSent
           schoolName
           schoolType
+          batch
           createdAt
           updatedAt
           _version
@@ -1512,6 +1519,92 @@ export const syncStudents = /* GraphQL */ `
     }
   }
 `;
+export const applicationsByIdAndDateTime = /* GraphQL */ `
+  query ApplicationsByIdAndDateTime(
+    $id: ID!
+    $dateTime: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelApplicationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    applicationsByIdAndDateTime(
+      id: $id
+      dateTime: $dateTime
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        gpa
+        status
+        attachmentID
+        studentCPR
+        adminLogs {
+          nextToken
+          startedAt
+        }
+        studentLogs {
+          nextToken
+          startedAt
+        }
+        attachment {
+          id
+          cprDoc
+          acceptanceLetterDoc
+          transcriptDoc
+          signedContractDoc
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        programs {
+          nextToken
+          startedAt
+        }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          schoolType
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        dateTime
+        isEmailSent
+        schoolName
+        schoolType
+        batch
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        applicationAttachmentId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
   query ApplicationsByStudentCPRAndGpa(
     $studentCPR: String!
@@ -1585,6 +1678,93 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
         isEmailSent
         schoolName
         schoolType
+        batch
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        applicationAttachmentId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const applicationsByBatchAndDateTime = /* GraphQL */ `
+  query ApplicationsByBatchAndDateTime(
+    $batch: Int!
+    $dateTime: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelApplicationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    applicationsByBatchAndDateTime(
+      batch: $batch
+      dateTime: $dateTime
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        gpa
+        status
+        attachmentID
+        studentCPR
+        adminLogs {
+          nextToken
+          startedAt
+        }
+        studentLogs {
+          nextToken
+          startedAt
+        }
+        attachment {
+          id
+          cprDoc
+          acceptanceLetterDoc
+          transcriptDoc
+          signedContractDoc
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        programs {
+          nextToken
+          startedAt
+        }
+        student {
+          cpr
+          fullName
+          email
+          phone
+          gender
+          schoolName
+          schoolType
+          specialization
+          placeOfBirth
+          studentOrderAmongSiblings
+          householdIncome
+          preferredLanguage
+          graduationDate
+          address
+          parentInfoID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        dateTime
+        isEmailSent
+        schoolName
+        schoolType
+        batch
         createdAt
         updatedAt
         _version

@@ -7,7 +7,7 @@ type Attachment @model @auth(rules: [{ allow: public }]) {
 }
 
 type Application @model @auth(rules: [{ allow: public }]) {
-  id: ID!
+  id: ID! @index(name: "byDateTime", sortKeyFields: ["dateTime"])
   gpa: Float
   status: Status
   attachmentID: String
@@ -21,6 +21,7 @@ type Application @model @auth(rules: [{ allow: public }]) {
   isEmailSent: Boolean @default(value: "false")
   schoolName: String
   schoolType: SchoolType
+  batch: Int @index(name: "byBatch", sortKeyFields: ["dateTime"])
 }
 
 type ProgramChoice @model @auth(rules: [{ allow: public }]) {

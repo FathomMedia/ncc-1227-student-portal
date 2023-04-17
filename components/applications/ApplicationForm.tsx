@@ -157,6 +157,7 @@ export const ApplicationForm: FC<Props> = (props) => {
         dateTime: new Date().toISOString(),
         schoolType: student?.getStudent?.schoolType,
         schoolName: student?.getStudent?.schoolName,
+        batch: new Date().getFullYear(),
       },
     };
 
@@ -199,12 +200,12 @@ export const ApplicationForm: FC<Props> = (props) => {
       createStudentLogInDB({
         input: {
           id: undefined,
+          _version: undefined,
           applicationID: createdApplicationInDB.createApplication?.id ?? "",
           studentCPR: data.studentLog.input.studentCPR,
           dateTime: data.studentLog.input.dateTime,
           snapshot: data.studentLog.input.snapshot,
           reason: data.studentLog.input.reason,
-          _version: undefined,
           applicationStudentLogsId:
             createdApplicationInDB.createApplication?.id,
           studentStudentLogsCpr: data.studentLog.input.studentCPR,
@@ -739,7 +740,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                     className="p-3 mt-2 border border-gray-300 rounded-md"
                   >
                     <div className="stat-title">Requirements</div>
-                    <label className="stat-desc whitespace-pre-wrap">
+                    <label className="whitespace-pre-wrap stat-desc">
                       {primaryProgram?.requirements}
                     </label>
                   </div>
@@ -799,7 +800,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                     className="p-3 mt-2 border border-gray-300 rounded-md"
                   >
                     <div className="stat-title">Requirements</div>
-                    <label className="stat-desc whitespace-pre-wrap">
+                    <label className="whitespace-pre-wrap stat-desc">
                       {secondaryProgram?.requirements}
                     </label>
                   </div>

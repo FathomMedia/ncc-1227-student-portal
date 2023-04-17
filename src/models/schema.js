@@ -231,6 +231,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "batch": {
+                    "name": "batch",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -265,10 +272,30 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
+                        "name": "byDateTime",
+                        "fields": [
+                            "id",
+                            "dateTime"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
                         "name": "byCPR",
                         "fields": [
                             "studentCPR",
                             "gpa"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byBatch",
+                        "fields": [
+                            "batch",
+                            "dateTime"
                         ]
                     }
                 },
@@ -1334,5 +1361,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "602cb86e78608afe001bc846f54536b8"
+    "version": "aabcd9a6c5420e12e790323edf6cef19"
 };
