@@ -12,7 +12,9 @@ export const createAttachment = /* GraphQL */ `
       cprDoc
       acceptanceLetterDoc
       transcriptDoc
+      lastYearGPA
       signedContractDoc
+      certificateOfPrivateEducation
       createdAt
       updatedAt
       _version
@@ -31,7 +33,9 @@ export const updateAttachment = /* GraphQL */ `
       cprDoc
       acceptanceLetterDoc
       transcriptDoc
+      lastYearGPA
       signedContractDoc
+      certificateOfPrivateEducation
       createdAt
       updatedAt
       _version
@@ -50,7 +54,9 @@ export const deleteAttachment = /* GraphQL */ `
       cprDoc
       acceptanceLetterDoc
       transcriptDoc
+      lastYearGPA
       signedContractDoc
+      certificateOfPrivateEducation
       createdAt
       updatedAt
       _version
@@ -113,7 +119,9 @@ export const createApplication = /* GraphQL */ `
         cprDoc
         acceptanceLetterDoc
         transcriptDoc
+        lastYearGPA
         signedContractDoc
+        certificateOfPrivateEducation
         createdAt
         updatedAt
         _version
@@ -143,12 +151,15 @@ export const createApplication = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -254,7 +265,9 @@ export const updateApplication = /* GraphQL */ `
         cprDoc
         acceptanceLetterDoc
         transcriptDoc
+        lastYearGPA
         signedContractDoc
+        certificateOfPrivateEducation
         createdAt
         updatedAt
         _version
@@ -284,12 +297,15 @@ export const updateApplication = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -395,7 +411,9 @@ export const deleteApplication = /* GraphQL */ `
         cprDoc
         acceptanceLetterDoc
         transcriptDoc
+        lastYearGPA
         signedContractDoc
+        certificateOfPrivateEducation
         createdAt
         updatedAt
         _version
@@ -425,12 +443,15 @@ export const deleteApplication = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -538,7 +559,9 @@ export const createProgramChoice = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -555,12 +578,15 @@ export const createProgramChoice = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -650,7 +676,9 @@ export const updateProgramChoice = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -667,12 +695,15 @@ export const updateProgramChoice = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -762,7 +793,9 @@ export const deleteProgramChoice = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -779,12 +812,15 @@ export const deleteProgramChoice = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -1205,12 +1241,15 @@ export const createStudentLog = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -1276,12 +1315,15 @@ export const updateStudentLog = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -1347,12 +1389,15 @@ export const deleteStudentLog = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -1597,12 +1642,15 @@ export const createStudent = /* GraphQL */ `
       email
       phone
       gender
+      nationality
       schoolName
       schoolType
       specialization
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
+      familyIncome
+      familyIncomeProofDoc
       preferredLanguage
       graduationDate
       address
@@ -1686,12 +1734,15 @@ export const updateStudent = /* GraphQL */ `
       email
       phone
       gender
+      nationality
       schoolName
       schoolType
       specialization
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
+      familyIncome
+      familyIncomeProofDoc
       preferredLanguage
       graduationDate
       address
@@ -1775,12 +1826,15 @@ export const deleteStudent = /* GraphQL */ `
       email
       phone
       gender
+      nationality
       schoolName
       schoolType
       specialization
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
+      familyIncome
+      familyIncomeProofDoc
       preferredLanguage
       graduationDate
       address

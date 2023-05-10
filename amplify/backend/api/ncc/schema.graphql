@@ -3,7 +3,9 @@ type Attachment @model @auth(rules: [{ allow: public }]) {
   cprDoc: String
   acceptanceLetterDoc: String
   transcriptDoc: String
+  lastYearGPA: Float
   signedContractDoc: String
+  certificateOfPrivateEducation: String
 }
 
 type Application @model @auth(rules: [{ allow: public }]) {
@@ -123,12 +125,15 @@ type Student @model @auth(rules: [{ allow: public }]) {
   email: String
   phone: String
   gender: Gender
+  nationality: String
   schoolName: String
   schoolType: SchoolType
   specialization: String
   placeOfBirth: String
   studentOrderAmongSiblings: Int
   householdIncome: Float
+  familyIncome: FamilyIncome
+  familyIncomeProofDoc: String
   preferredLanguage: Language
   graduationDate: AWSDate
   address: String
@@ -136,4 +141,11 @@ type Student @model @auth(rules: [{ allow: public }]) {
   ParentInfo: ParentInfo @hasOne(fields: ["parentInfoID"])
   parentInfoID: ID
   StudentLogs: [StudentLog] @hasMany
+}
+
+enum FamilyIncome {
+  LESS_THAN_500
+  BETWEEN_500_AND_700
+  BETWEEN_700_AND_1000
+  OVER_1000
 }

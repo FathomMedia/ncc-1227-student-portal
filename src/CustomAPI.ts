@@ -42,6 +42,7 @@ export enum DocType {
   ACCEPTANCE,
   TRANSCRIPT,
   SIGNED_CONTRACT,
+  FAMILY_INCOME_PROOF,
 }
 
 export interface DownloadLinks {

@@ -27,5 +27,9 @@
   "motherFullName": "اسم الام الكامل",
   "motherCPR": "رقم الام الشخصي",
   "update": "تحديث",
-  "password": "كلمة المرور"
+  "password": "كلمة المرور",
+  "nationality": "الجنسية",
+  "familyIncome": "دخل العائلة",
+  "familyIncomeProof": "اثبات دخل الأسرة",
+  "documentNotSubmitted": "لم يتم تقديم المستند"
 }

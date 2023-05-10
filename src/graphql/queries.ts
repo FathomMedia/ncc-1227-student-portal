@@ -9,7 +9,9 @@ export const getAttachment = /* GraphQL */ `
       cprDoc
       acceptanceLetterDoc
       transcriptDoc
+      lastYearGPA
       signedContractDoc
+      certificateOfPrivateEducation
       createdAt
       updatedAt
       _version
@@ -30,7 +32,9 @@ export const listAttachments = /* GraphQL */ `
         cprDoc
         acceptanceLetterDoc
         transcriptDoc
+        lastYearGPA
         signedContractDoc
+        certificateOfPrivateEducation
         createdAt
         updatedAt
         _version
@@ -60,7 +64,9 @@ export const syncAttachments = /* GraphQL */ `
         cprDoc
         acceptanceLetterDoc
         transcriptDoc
+        lastYearGPA
         signedContractDoc
+        certificateOfPrivateEducation
         createdAt
         updatedAt
         _version
@@ -123,7 +129,9 @@ export const getApplication = /* GraphQL */ `
         cprDoc
         acceptanceLetterDoc
         transcriptDoc
+        lastYearGPA
         signedContractDoc
+        certificateOfPrivateEducation
         createdAt
         updatedAt
         _version
@@ -153,12 +161,15 @@ export const getApplication = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -236,7 +247,9 @@ export const listApplications = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -253,12 +266,15 @@ export const listApplications = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -318,7 +334,9 @@ export const syncApplications = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -335,12 +353,15 @@ export const syncApplications = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -421,7 +442,9 @@ export const getProgramChoice = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -438,12 +461,15 @@ export const getProgramChoice = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -950,12 +976,15 @@ export const getStudentLog = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -1023,12 +1052,15 @@ export const listStudentLogs = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -1078,12 +1110,15 @@ export const syncStudentLogs = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -1305,12 +1340,15 @@ export const getStudent = /* GraphQL */ `
       email
       phone
       gender
+      nationality
       schoolName
       schoolType
       specialization
       placeOfBirth
       studentOrderAmongSiblings
       householdIncome
+      familyIncome
+      familyIncomeProofDoc
       preferredLanguage
       graduationDate
       address
@@ -1404,12 +1442,15 @@ export const listStudents = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -1471,12 +1512,15 @@ export const syncStudents = /* GraphQL */ `
         email
         phone
         gender
+        nationality
         schoolName
         schoolType
         specialization
         placeOfBirth
         studentOrderAmongSiblings
         householdIncome
+        familyIncome
+        familyIncomeProofDoc
         preferredLanguage
         graduationDate
         address
@@ -1555,7 +1599,9 @@ export const applicationsByIdAndDateTime = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -1572,12 +1618,15 @@ export const applicationsByIdAndDateTime = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -1641,7 +1690,9 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -1658,12 +1709,15 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address
@@ -1727,7 +1781,9 @@ export const applicationsByBatchAndDateTime = /* GraphQL */ `
           cprDoc
           acceptanceLetterDoc
           transcriptDoc
+          lastYearGPA
           signedContractDoc
+          certificateOfPrivateEducation
           createdAt
           updatedAt
           _version
@@ -1744,12 +1800,15 @@ export const applicationsByBatchAndDateTime = /* GraphQL */ `
           email
           phone
           gender
+          nationality
           schoolName
           schoolType
           specialization
           placeOfBirth
           studentOrderAmongSiblings
           householdIncome
+          familyIncome
+          familyIncomeProofDoc
           preferredLanguage
           graduationDate
           address

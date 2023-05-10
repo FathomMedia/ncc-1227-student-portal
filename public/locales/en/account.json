@@ -27,5 +27,9 @@
   "motherFullName": "Mother Full Name",
   "motherCPR": "Mother CPR",
   "update": "Update",
-  "password": "Password"
+  "password": "Password",
+  "nationality": "Nationality",
+  "familyIncome": "Family income",
+  "familyIncomeProof": "Family income proof",
+  "documentNotSubmitted": "Document Not Submitted"
 }

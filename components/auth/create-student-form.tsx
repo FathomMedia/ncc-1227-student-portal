@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from "formik";
 import {
   CreateStudentMutationVariables,
+  FamilyIncome,
   Gender,
   Language,
   SchoolType,
@@ -9,11 +10,13 @@ import * as yup from "yup";
 import "yup-phone";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import GetStorageLinkComponent from "../get-storage-link-component";
+import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
+import { uploadFile, DocType } from "../../src/CustomAPI";
 
 interface ICreateStudentForm {
   student: CreateStudentMutationVariables;
   password: string;
-
   submitTitle: string;
   onFormSubmit: (values: {
     student: CreateStudentMutationVariables;
@@ -26,11 +29,16 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const [familyIncomeProofDocFile, setFamilyIncomeProofDocFile] = useState<
+    File | undefined
+  >(undefined);
+
   return (
     <Formik
       initialValues={{
         ...props.student.input,
         password: "",
+        familyIncomeProofDocFile: undefined,
       }}
       validationSchema={yup.object({
         cpr: yup.string().min(9).max(9).required(),
@@ -43,14 +51,26 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         specialization: yup.string().required(),
         address: yup.string().required(),
         placeOfBirth: yup.string().required(),
+        familyIncome: yup.string().required(),
+        familyIncomeProofDoc: yup.string(),
+        familyIncomeProofDocFile: yup.string().required(),
+        nationality: yup.string().required(),
         studentOrderAmongSiblings: yup.number().required(),
-        householdIncome: yup.number().required(),
         preferredLanguage: yup.string().required(),
         graduationDate: yup.date().required(),
         password: yup.string().required(),
       })}
       onSubmit={async (values, actions) => {
-        // console.log({ values, actions });
+        if (!familyIncomeProofDocFile) {
+          throw new Error("Family proof is missing.");
+        }
+
+        // TODO! can't upload before signing-in
+        const familyIncomeProofStorageKey = await uploadFile(
+          familyIncomeProofDocFile,
+          DocType.FAMILY_INCOME_PROOF,
+          `${values.cpr}`
+        );
 
         props.onFormSubmit({
           student: {
@@ -64,8 +84,10 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               schoolType: values.schoolType,
               specialization: values.specialization,
               placeOfBirth: values.placeOfBirth,
+              nationality: values.nationality,
               studentOrderAmongSiblings: values.studentOrderAmongSiblings,
-              householdIncome: values.householdIncome,
+              familyIncome: values.familyIncome,
+              familyIncomeProofDoc: familyIncomeProofStorageKey,
               preferredLanguage: values.preferredLanguage,
               graduationDate: values.graduationDate,
               address: values.address,
@@ -88,6 +110,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         handleBlur,
         isSubmitting,
         isValid,
+        setFieldError,
       }) => (
         <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* CPR */}
@@ -312,6 +335,27 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
             </label>
           </div>
 
+          {/* nationality */}
+          <div className="flex flex-col justify-start w-full">
+            <label className="label">{t("nationality")}</label>
+            <Field
+              dir="ltr"
+              type="text"
+              name="nationality"
+              title="nationality"
+              placeholder="Nationality"
+              className={`input input-bordered input-primary ${
+                errors.nationality && "input-error"
+              }`}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.nationality}
+            />
+            <label className="label-text-alt text-error">
+              {errors.nationality && touched.nationality && errors.nationality}
+            </label>
+          </div>
+
           {/* Student Order Among Siblings */}
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("studentOrderAmongSiblings")}</label>
@@ -335,26 +379,82 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
             </label>
           </div>
 
-          {/* Household Income */}
+          {/* familyIncome */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("householdIncome")}</label>
+            <label className="label">{t("familyIncome")}</label>
             <Field
               dir="ltr"
-              type="number"
-              name="householdIncome"
-              title="householdIncome"
-              placeholder="Household Income"
+              as="select"
+              name="familyIncome"
+              title="familyIncome"
+              placeholder="Preferred Language"
               className={`input input-bordered input-primary ${
-                errors.householdIncome && "input-error"
+                errors.familyIncome && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.householdIncome}
+              value={values.familyIncome}
+            >
+              <option disabled selected value={undefined}>
+                Select
+              </option>
+
+              <option value={FamilyIncome.LESS_THAN_500}>Less than 500</option>
+              <option value={FamilyIncome.BETWEEN_500_AND_700}>500-700</option>
+              <option value={FamilyIncome.BETWEEN_700_AND_1000}>
+                700-1000
+              </option>
+              <option value={FamilyIncome.OVER_1000}>More than 1000</option>
+            </Field>
+            <label className="label-text-alt text-error">
+              {errors.familyIncome &&
+                touched.familyIncome &&
+                errors.familyIncome}
+            </label>
+          </div>
+
+          {/* Family income proof */}
+          <div className="flex flex-col justify-start w-full">
+            <label className="label">
+              {t("familyIncomeProof")} {t("document")}{" "}
+              {!props.student.input && (
+                <span className="ml-1 mr-auto text-red-500">*</span>
+              )}
+              {props.student.input && (
+                <GetStorageLinkComponent
+                  storageKey={props.student.input?.familyIncomeProofDoc}
+                ></GetStorageLinkComponent>
+              )}
+            </label>
+            <Field
+              dir="ltr"
+              type="file"
+              accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
+              id="familyIncomeProofDocFile"
+              name="familyIncomeProofDocFile"
+              title="familyIncomeProofDocFile"
+              placeholder="Transcript Doc"
+              className={`file-input file-input-bordered file-input-secondary bg-secondary text-secondary-content ${
+                errors.familyIncomeProofDocFile && "input-error"
+              }`}
+              onChange={(event: any) => {
+                let file: File | undefined = event.currentTarget.files[0];
+
+                let isValid = checkIfFilesAreTooBig(file);
+                if (isValid) {
+                  setFamilyIncomeProofDocFile(file);
+                  handleChange(event);
+                } else {
+                  setFieldError("familyIncomeProofDoc", "File is too large");
+                }
+              }}
+              onBlur={handleBlur}
+              value={values.familyIncomeProofDocFile ?? ""}
             />
             <label className="label-text-alt text-error">
-              {errors.householdIncome &&
-                touched.householdIncome &&
-                errors.householdIncome}
+              {errors.familyIncomeProofDocFile &&
+                touched.familyIncomeProofDocFile &&
+                errors.familyIncomeProofDocFile}
             </label>
           </div>
 

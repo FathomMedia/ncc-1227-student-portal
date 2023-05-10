@@ -83,8 +83,6 @@ function useProviderApp() {
         Crisp.session.setData({
           cpr: info?.getStudent?.cpr,
         });
-
-        console.log("user", info);
       });
       getStudentApplications(cpr).then((allStudentApplications) => {
         setApplications(allStudentApplications);
@@ -117,10 +115,10 @@ function useProviderApp() {
       getStudentInfo(cpr).then((info) => {
         setStudent(info);
         setStudentAsStudent(info?.getStudent as Student);
-        console.log("user", info);
       });
     }
   }
+
   async function syncStudentApplication() {
     let cpr = user?.getUsername();
 
