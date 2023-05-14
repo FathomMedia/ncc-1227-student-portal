@@ -68,6 +68,13 @@ export const SignInForm = () => {
         )}
       </Formik>
 
+      <Link
+        dir="ltr"
+        className="my-3 link link-secondary"
+        href="/forgetPassword"
+      >
+        {t("forgetPassword")}
+      </Link>
       <Link dir="ltr" className="link link-secondary" href="/signUp">
         {t("newUser")}
       </Link>

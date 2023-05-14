@@ -25,6 +25,12 @@ interface IUseAuthContext {
   signIn: (cpr: string, password: string) => Promise<CognitoUser | undefined>;
   signOut: () => Promise<void>;
   checkIfCprExist: (cpr: string) => Promise<boolean>;
+  sendForgetPassword: (email: string) => Promise<boolean>;
+  verifyForgetPassword: (
+    cpr: string,
+    otp: string,
+    newPassword: string
+  ) => Promise<boolean>;
 }
 
 const defaultState: IUseAuthContext = {
@@ -33,6 +39,8 @@ const defaultState: IUseAuthContext = {
   signIn: async () => undefined,
   signOut: async () => {},
   checkIfCprExist: async () => false,
+  sendForgetPassword: async () => false,
+  verifyForgetPassword: async () => false,
 };
 
 const AuthContext = createContext<IUseAuthContext>(defaultState);
@@ -78,6 +86,36 @@ function useProvideAuth() {
     })) as GraphQLResult<GetStudentQuery>;
 
     return res.data?.getStudent != null;
+  }
+
+  async function sendForgetPassword(email: string): Promise<boolean> {
+    try {
+      return await Auth.forgotPassword(email).then(() => true);
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: use-auth.tsx:89 ~ sendForgetPassword ~ error:",
+        error
+      );
+      return false;
+    }
+  }
+
+  async function verifyForgetPassword(
+    cpr: string,
+    otp: string,
+    newPassword: string
+  ): Promise<boolean> {
+    try {
+      return await Auth.forgotPasswordSubmit(cpr, otp, newPassword).then(
+        () => true
+      );
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: use-auth.tsx:89 ~ sendForgetPassword ~ error:",
+        error
+      );
+      return false;
+    }
   }
 
   async function checkAuthUser(user: CognitoUser): Promise<boolean> {
@@ -176,5 +214,7 @@ function useProvideAuth() {
     signIn,
     signOut,
     checkIfCprExist,
+    sendForgetPassword,
+    verifyForgetPassword,
   };
 }
