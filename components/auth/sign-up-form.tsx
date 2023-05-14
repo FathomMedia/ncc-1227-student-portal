@@ -24,6 +24,8 @@ import { CreateStudentForm } from "./create-student-form";
 import { CreateParentsForm } from "./create-parents-form";
 import { TermsAndConditions } from "./t-and-c";
 import { useTranslation } from "react-i18next";
+import { DocType, uploadFile } from "../../src/CustomAPI";
+import { values } from "lodash";
 
 export interface CreateStudentFormValues {
   student: CreateStudentMutationVariables;
@@ -219,6 +221,9 @@ export default function SignUpForm() {
           graduationDate: data.student.input.graduationDate,
           address: data.student.input.address,
           parentInfoID: createdParentInfo?.data?.createParentInfo?.id,
+          familyIncome: data.student.input.familyIncome,
+          familyIncomeProofDoc: data.student.input.familyIncomeProofDoc,
+          nationality: data.student.input.nationality,
           _version: data.student.input._version,
         },
         condition: data.student.condition,
@@ -295,8 +300,6 @@ export default function SignUpForm() {
 
             setCreateStudentFormValues(temp);
             setSteps(2);
-
-            console.log(temp);
           }}
         ></CreateStudentForm>
       )}
@@ -306,8 +309,6 @@ export default function SignUpForm() {
           isLoading={isLoading}
           submitTitle={t("nextStep")}
           onFormSubmit={async (values) => {
-            console.log("values", values);
-
             let temp: CreateStudentFormValues = {
               student: createStudentFormValues.student,
 

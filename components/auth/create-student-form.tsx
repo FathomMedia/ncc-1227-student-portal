@@ -21,6 +21,7 @@ interface ICreateStudentForm {
   onFormSubmit: (values: {
     student: CreateStudentMutationVariables;
     password: string;
+    familyIncomeProofDocFile: File;
   }) => void;
 }
 
@@ -97,6 +98,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
             condition: props.student.condition,
           },
           password: values.password,
+          familyIncomeProofDocFile: familyIncomeProofDocFile,
         });
 
         actions.setSubmitting(false);
