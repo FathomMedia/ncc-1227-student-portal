@@ -1,11 +1,9 @@
 type Attachment @model @auth(rules: [{ allow: public }]) {
   id: ID!
   cprDoc: String
-  acceptanceLetterDoc: String
-  transcriptDoc: String
-  lastYearGPA: Float
   signedContractDoc: String
-  certificateOfPrivateEducation: String
+  transcriptDoc: String
+  schoolCertificate: String
 }
 
 type Application @model @auth(rules: [{ allow: public }]) {
@@ -33,6 +31,7 @@ type ProgramChoice @model @auth(rules: [{ allow: public }]) {
   program: Program @belongsTo(fields: ["programID"])
   application: Application @belongsTo(fields: ["applicationID"])
   choiceOrder: Int
+  acceptanceLetterDoc: String
 }
 
 type Program @model @auth(rules: [{ allow: public }]) {

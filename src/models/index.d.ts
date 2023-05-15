@@ -42,11 +42,9 @@ type EagerAttachment = {
   };
   readonly id: string;
   readonly cprDoc?: string | null;
-  readonly acceptanceLetterDoc?: string | null;
-  readonly transcriptDoc?: string | null;
-  readonly lastYearGPA?: number | null;
   readonly signedContractDoc?: string | null;
-  readonly certificateOfPrivateEducation?: string | null;
+  readonly transcriptDoc?: string | null;
+  readonly schoolCertificate?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -58,11 +56,9 @@ type LazyAttachment = {
   };
   readonly id: string;
   readonly cprDoc?: string | null;
-  readonly acceptanceLetterDoc?: string | null;
-  readonly transcriptDoc?: string | null;
-  readonly lastYearGPA?: number | null;
   readonly signedContractDoc?: string | null;
-  readonly certificateOfPrivateEducation?: string | null;
+  readonly transcriptDoc?: string | null;
+  readonly schoolCertificate?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -140,6 +136,7 @@ type EagerProgramChoice = {
   readonly program?: Program | null;
   readonly application?: Application | null;
   readonly choiceOrder?: number | null;
+  readonly acceptanceLetterDoc?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationProgramsId?: string | null;
@@ -157,6 +154,7 @@ type LazyProgramChoice = {
   readonly program: AsyncItem<Program | undefined>;
   readonly application: AsyncItem<Application | undefined>;
   readonly choiceOrder?: number | null;
+  readonly acceptanceLetterDoc?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly applicationProgramsId?: string | null;

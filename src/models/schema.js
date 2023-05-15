@@ -17,8 +17,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "acceptanceLetterDoc": {
-                    "name": "acceptanceLetterDoc",
+                "signedContractDoc": {
+                    "name": "signedContractDoc",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -31,22 +31,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "lastYearGPA": {
-                    "name": "lastYearGPA",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "signedContractDoc": {
-                    "name": "signedContractDoc",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "certificateOfPrivateEducation": {
-                    "name": "certificateOfPrivateEducation",
+                "schoolCertificate": {
+                    "name": "schoolCertificate",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -389,6 +375,13 @@ export const schema = {
                     "name": "choiceOrder",
                     "isArray": false,
                     "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "acceptanceLetterDoc": {
+                    "name": "acceptanceLetterDoc",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1407,5 +1400,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "84addbf1bc62ed509aa0d5176b4a968b"
+    "version": "282d10467afde43d78d360c200fdae1d"
 };

@@ -115,11 +115,11 @@ export default function ViewApplication({ application }: Props) {
           </tr>
           <tr>
             <td>
-              {t("acceptanceLetter")} {t("document")}
+              {t("schoolCertificate")} {t("document")}
             </td>
             <td>
               <GetStorageLinkComponent
-                storageKey={application.attachment?.acceptanceLetterDoc}
+                storageKey={application.attachment?.schoolCertificate}
               ></GetStorageLinkComponent>
             </td>
           </tr>

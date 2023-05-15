@@ -38,7 +38,6 @@ const NewApplicationPage: FC<Props> = (props) => {
   return (
     <PageComponent title={t("newApplication")} authRequired>
       {!haveActiveApplication && (
-        // {haveActiveApplication && (
         <ApplicationForm programs={props.programs}></ApplicationForm>
       )}
       {haveActiveApplication && (

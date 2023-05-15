@@ -7,11 +7,9 @@ export const getAttachment = /* GraphQL */ `
     getAttachment(id: $id) {
       id
       cprDoc
-      acceptanceLetterDoc
-      transcriptDoc
-      lastYearGPA
       signedContractDoc
-      certificateOfPrivateEducation
+      transcriptDoc
+      schoolCertificate
       createdAt
       updatedAt
       _version
@@ -30,11 +28,9 @@ export const listAttachments = /* GraphQL */ `
       items {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -62,11 +58,9 @@ export const syncAttachments = /* GraphQL */ `
       items {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -127,11 +121,9 @@ export const getApplication = /* GraphQL */ `
       attachment {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -144,6 +136,7 @@ export const getApplication = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -245,11 +238,9 @@ export const listApplications = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -332,11 +323,9 @@ export const syncApplications = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -440,11 +429,9 @@ export const getProgramChoice = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -493,6 +480,7 @@ export const getProgramChoice = /* GraphQL */ `
         applicationAttachmentId
       }
       choiceOrder
+      acceptanceLetterDoc
       createdAt
       updatedAt
       _version
@@ -547,6 +535,7 @@ export const listProgramChoices = /* GraphQL */ `
           applicationAttachmentId
         }
         choiceOrder
+        acceptanceLetterDoc
         createdAt
         updatedAt
         _version
@@ -610,6 +599,7 @@ export const syncProgramChoices = /* GraphQL */ `
           applicationAttachmentId
         }
         choiceOrder
+        acceptanceLetterDoc
         createdAt
         updatedAt
         _version
@@ -651,6 +641,7 @@ export const getProgram = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -1597,11 +1588,9 @@ export const applicationsByIdAndDateTime = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -1688,11 +1677,9 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -1779,11 +1766,9 @@ export const applicationsByBatchAndDateTime = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version

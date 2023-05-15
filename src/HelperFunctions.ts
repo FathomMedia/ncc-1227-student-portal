@@ -8,9 +8,10 @@ import { Application, Status } from "./API";
  */
 export function checkIfFilesAreTooBig(file?: File, maxSize?: number): boolean {
   let valid = true;
+  const allowedSizeInMegabytes = maxSize ?? 2;
   if (file) {
     const size = file.size / 1024 / 1024;
-    if (size > (maxSize ?? 2)) {
+    if (size > allowedSizeInMegabytes) {
       valid = false;
     }
   }

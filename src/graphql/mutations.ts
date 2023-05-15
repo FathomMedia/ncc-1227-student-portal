@@ -10,11 +10,9 @@ export const createAttachment = /* GraphQL */ `
     createAttachment(input: $input, condition: $condition) {
       id
       cprDoc
-      acceptanceLetterDoc
-      transcriptDoc
-      lastYearGPA
       signedContractDoc
-      certificateOfPrivateEducation
+      transcriptDoc
+      schoolCertificate
       createdAt
       updatedAt
       _version
@@ -31,11 +29,9 @@ export const updateAttachment = /* GraphQL */ `
     updateAttachment(input: $input, condition: $condition) {
       id
       cprDoc
-      acceptanceLetterDoc
-      transcriptDoc
-      lastYearGPA
       signedContractDoc
-      certificateOfPrivateEducation
+      transcriptDoc
+      schoolCertificate
       createdAt
       updatedAt
       _version
@@ -52,11 +48,9 @@ export const deleteAttachment = /* GraphQL */ `
     deleteAttachment(input: $input, condition: $condition) {
       id
       cprDoc
-      acceptanceLetterDoc
-      transcriptDoc
-      lastYearGPA
       signedContractDoc
-      certificateOfPrivateEducation
+      transcriptDoc
+      schoolCertificate
       createdAt
       updatedAt
       _version
@@ -117,11 +111,9 @@ export const createApplication = /* GraphQL */ `
       attachment {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -134,6 +126,7 @@ export const createApplication = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -263,11 +256,9 @@ export const updateApplication = /* GraphQL */ `
       attachment {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -280,6 +271,7 @@ export const updateApplication = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -409,11 +401,9 @@ export const deleteApplication = /* GraphQL */ `
       attachment {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -426,6 +416,7 @@ export const deleteApplication = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -557,11 +548,9 @@ export const createProgramChoice = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -610,6 +599,7 @@ export const createProgramChoice = /* GraphQL */ `
         applicationAttachmentId
       }
       choiceOrder
+      acceptanceLetterDoc
       createdAt
       updatedAt
       _version
@@ -674,11 +664,9 @@ export const updateProgramChoice = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -727,6 +715,7 @@ export const updateProgramChoice = /* GraphQL */ `
         applicationAttachmentId
       }
       choiceOrder
+      acceptanceLetterDoc
       createdAt
       updatedAt
       _version
@@ -791,11 +780,9 @@ export const deleteProgramChoice = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -844,6 +831,7 @@ export const deleteProgramChoice = /* GraphQL */ `
         applicationAttachmentId
       }
       choiceOrder
+      acceptanceLetterDoc
       createdAt
       updatedAt
       _version
@@ -885,6 +873,7 @@ export const createProgram = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -937,6 +926,7 @@ export const updateProgram = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -989,6 +979,7 @@ export const deleteProgram = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version

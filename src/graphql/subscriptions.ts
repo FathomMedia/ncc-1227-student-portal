@@ -9,11 +9,9 @@ export const onCreateAttachment = /* GraphQL */ `
     onCreateAttachment(filter: $filter) {
       id
       cprDoc
-      acceptanceLetterDoc
-      transcriptDoc
-      lastYearGPA
       signedContractDoc
-      certificateOfPrivateEducation
+      transcriptDoc
+      schoolCertificate
       createdAt
       updatedAt
       _version
@@ -29,11 +27,9 @@ export const onUpdateAttachment = /* GraphQL */ `
     onUpdateAttachment(filter: $filter) {
       id
       cprDoc
-      acceptanceLetterDoc
-      transcriptDoc
-      lastYearGPA
       signedContractDoc
-      certificateOfPrivateEducation
+      transcriptDoc
+      schoolCertificate
       createdAt
       updatedAt
       _version
@@ -49,11 +45,9 @@ export const onDeleteAttachment = /* GraphQL */ `
     onDeleteAttachment(filter: $filter) {
       id
       cprDoc
-      acceptanceLetterDoc
-      transcriptDoc
-      lastYearGPA
       signedContractDoc
-      certificateOfPrivateEducation
+      transcriptDoc
+      schoolCertificate
       createdAt
       updatedAt
       _version
@@ -113,11 +107,9 @@ export const onCreateApplication = /* GraphQL */ `
       attachment {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -130,6 +122,7 @@ export const onCreateApplication = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -258,11 +251,9 @@ export const onUpdateApplication = /* GraphQL */ `
       attachment {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -275,6 +266,7 @@ export const onUpdateApplication = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -403,11 +395,9 @@ export const onDeleteApplication = /* GraphQL */ `
       attachment {
         id
         cprDoc
-        acceptanceLetterDoc
-        transcriptDoc
-        lastYearGPA
         signedContractDoc
-        certificateOfPrivateEducation
+        transcriptDoc
+        schoolCertificate
         createdAt
         updatedAt
         _version
@@ -420,6 +410,7 @@ export const onDeleteApplication = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -550,11 +541,9 @@ export const onCreateProgramChoice = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -603,6 +592,7 @@ export const onCreateProgramChoice = /* GraphQL */ `
         applicationAttachmentId
       }
       choiceOrder
+      acceptanceLetterDoc
       createdAt
       updatedAt
       _version
@@ -666,11 +656,9 @@ export const onUpdateProgramChoice = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -719,6 +707,7 @@ export const onUpdateProgramChoice = /* GraphQL */ `
         applicationAttachmentId
       }
       choiceOrder
+      acceptanceLetterDoc
       createdAt
       updatedAt
       _version
@@ -782,11 +771,9 @@ export const onDeleteProgramChoice = /* GraphQL */ `
         attachment {
           id
           cprDoc
-          acceptanceLetterDoc
-          transcriptDoc
-          lastYearGPA
           signedContractDoc
-          certificateOfPrivateEducation
+          transcriptDoc
+          schoolCertificate
           createdAt
           updatedAt
           _version
@@ -835,6 +822,7 @@ export const onDeleteProgramChoice = /* GraphQL */ `
         applicationAttachmentId
       }
       choiceOrder
+      acceptanceLetterDoc
       createdAt
       updatedAt
       _version
@@ -873,6 +861,7 @@ export const onCreateProgram = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -922,6 +911,7 @@ export const onUpdateProgram = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version
@@ -971,6 +961,7 @@ export const onDeleteProgram = /* GraphQL */ `
           programID
           applicationID
           choiceOrder
+          acceptanceLetterDoc
           createdAt
           updatedAt
           _version

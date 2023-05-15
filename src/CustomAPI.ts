@@ -42,12 +42,13 @@ export enum DocType {
   ACCEPTANCE,
   TRANSCRIPT,
   SIGNED_CONTRACT,
+  SCHOOL_CERTIFICATE,
   FAMILY_INCOME_PROOF,
 }
 
 export interface DownloadLinks {
   cprDoc?: string | null;
-  acceptanceLetterDoc?: string | null;
+  schoolCertificate?: string | null;
   transcriptDoc?: string | null;
   signedContractDoc?: string | null;
 }
@@ -82,7 +83,7 @@ export async function getApplicationData(
                   transcriptDoc
                   signedContractDoc
                   cprDoc
-                  acceptanceLetterDoc
+                  schoolCertificate
                   _version
                   _deleted
                   _lastChangedAt
@@ -93,6 +94,7 @@ export async function getApplicationData(
                   items {
                     id
                     choiceOrder
+                    acceptanceLetterDoc
                     applicationID
                     applicationProgramsId
                     programApplicationsId
@@ -162,8 +164,8 @@ export async function getStudentApplications(
           id
           transcriptDoc
           signedContractDoc
+          schoolCertificate
           cprDoc
-          acceptanceLetterDoc
           _version
           _deleted
           _lastChangedAt
@@ -174,6 +176,7 @@ export async function getStudentApplications(
           items {
             id
             choiceOrder
+            acceptanceLetterDoc
             program {
               id
               name

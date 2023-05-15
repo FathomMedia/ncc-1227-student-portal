@@ -116,7 +116,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 onClick={() => router.push("/")}
               />
             </div>
-            <div className="flex text-base-100 flex-col items-center mx-auto md:items-start">
+            <div className="flex flex-col items-center mx-auto text-base-100 md:items-start">
               <span className="opacity-100 footer-title text-primary">
                 {footerTranslation.t("quickLinks")}
               </span>
@@ -133,7 +133,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 {footerTranslation.t("contact")}
               </a>
             </div>
-            <div className="flex text-base-100 flex-col items-center mx-auto md:items-start">
+            <div className="flex flex-col items-center mx-auto text-base-100 md:items-start">
               <span className="opacity-100 footer-title text-primary">
                 {footerTranslation.t("contactUs")}
               </span>

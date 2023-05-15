@@ -11,6 +11,7 @@ import {
   CreateProgramChoiceMutationVariables,
   CreateStudentLogMutationVariables,
   Program,
+  SchoolType,
   UpdateApplicationMutationVariables,
   UpdateAttachmentMutationVariables,
   UpdateProgramChoiceMutationVariables,
@@ -58,8 +59,10 @@ interface FormValues {
   primaryProgramID: string | undefined;
   secondaryProgramID: string | undefined;
   cprDoc: File | undefined;
-  acceptanceLetterDoc: File | undefined;
+  schoolCertificate: File | undefined;
   transcriptDoc: File | undefined;
+  primaryAcceptanceDoc: File | undefined;
+  secondaryAcceptanceDoc: File | undefined;
 
   reasonForUpdate?: string | undefined;
 }
@@ -76,9 +79,9 @@ export const ApplicationForm: FC<Props> = (props) => {
   const { t } = useTranslation("applicationPage");
 
   const [cprDoc, setCprDoc] = useState<File | undefined>(undefined);
-  const [acceptanceLetterDoc, setAcceptanceLetterDoc] = useState<
-    File | undefined
-  >(undefined);
+  const [schoolCertificate, setSchoolCertificate] = useState<File | undefined>(
+    undefined
+  );
   const [transcriptDoc, setTranscriptDoc] = useState<File | undefined>(
     undefined
   );
@@ -106,9 +109,10 @@ export const ApplicationForm: FC<Props> = (props) => {
         (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
       )[1]?.program?.id ?? undefined,
     cprDoc: undefined,
-    acceptanceLetterDoc: undefined,
+    schoolCertificate: undefined,
     transcriptDoc: undefined,
-
+    primaryAcceptanceDoc: undefined,
+    secondaryAcceptanceDoc: undefined,
     reasonForUpdate: undefined,
   };
 
@@ -301,17 +305,20 @@ export const ApplicationForm: FC<Props> = (props) => {
         validationSchema={
           props.application
             ? yup.object({
-                gpa: yup.number().min(70).max(100).required(),
+                gpa: yup.number().min(88).max(100).required(),
                 primaryProgramID: yup.string().required(),
                 secondaryProgramID: yup.string().required(),
                 reasonForUpdate: yup.string().required(),
               })
             : yup.object({
-                gpa: yup.number().min(70).max(100).required(),
+                gpa: yup.number().min(88).max(100).required(),
                 primaryProgramID: yup.string().required(),
                 secondaryProgramID: yup.string().required(),
                 cprDoc: yup.mixed().required(),
-                acceptanceLetterDoc: yup.mixed().required(),
+                schoolCertificate:
+                  student?.getStudent?.schoolType == SchoolType.PRIVATE
+                    ? yup.mixed().required()
+                    : yup.mixed(),
                 transcriptDoc: yup.mixed().required(),
               })
         }
@@ -322,7 +329,7 @@ export const ApplicationForm: FC<Props> = (props) => {
               ? props.application.attachment?.cprDoc
               : undefined,
             props.application
-              ? props.application.attachment?.acceptanceLetterDoc
+              ? props.application.attachment?.schoolCertificate
               : undefined,
             props.application
               ? props.application.attachment?.transcriptDoc
@@ -333,10 +340,10 @@ export const ApplicationForm: FC<Props> = (props) => {
             Promise.all([
               cprDoc &&
                 uploadFile(cprDoc, DocType.CPR, `${student?.getStudent?.cpr}`),
-              acceptanceLetterDoc &&
+              schoolCertificate &&
                 uploadFile(
-                  acceptanceLetterDoc,
-                  DocType.ACCEPTANCE,
+                  schoolCertificate,
+                  DocType.SCHOOL_CERTIFICATE,
                   `${student?.getStudent?.cpr}`
                 ),
               transcriptDoc &&
@@ -435,7 +442,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 attachments: {
                   cpr: props.application?.attachment?.cprDoc ?? undefined,
                   acceptance:
-                    props.application?.attachment?.acceptanceLetterDoc ??
+                    props.application?.attachment?.schoolCertificate ??
                     undefined,
                   transcript:
                     props.application?.attachment?.transcriptDoc ?? undefined,
@@ -485,7 +492,7 @@ export const ApplicationForm: FC<Props> = (props) => {
               input: {
                 id: undefined,
                 cprDoc: storageKeys?.[0],
-                acceptanceLetterDoc: storageKeys?.[1],
+                schoolCertificate: storageKeys?.[1],
                 transcriptDoc: storageKeys?.[2],
                 _version: undefined,
               },
@@ -576,9 +583,9 @@ export const ApplicationForm: FC<Props> = (props) => {
                 id: props.application?.attachment?.id ?? "",
                 cprDoc:
                   storageKeys?.[0] ?? props.application?.attachment?.cprDoc,
-                acceptanceLetterDoc:
+                schoolCertificate:
                   storageKeys?.[1] ??
-                  props.application?.attachment?.acceptanceLetterDoc,
+                  props.application?.attachment?.schoolCertificate,
                 transcriptDoc:
                   storageKeys?.[2] ??
                   props.application?.attachment?.transcriptDoc,
@@ -675,7 +682,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 type="number"
                 name="gpa"
                 title="gpa"
-                placeholder="GPA (70 - 100)"
+                placeholder="GPA (88 - 100)"
                 className={`input input-bordered input-primary ${
                   errors.gpa && "input-error"
                 }`}
@@ -852,17 +859,17 @@ export const ApplicationForm: FC<Props> = (props) => {
               </label>
             </div>
 
-            {/* acceptanceLetterDoc */}
+            {/* schoolCertificate */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
-                {t("acceptanceLetter")} {t("document")}{" "}
+                {t("schoolCertificate")} {t("document")}{" "}
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}
                 {props.application && (
                   <GetStorageLinkComponent
                     storageKey={
-                      props.application?.attachment?.acceptanceLetterDoc
+                      props.application?.attachment?.schoolCertificate
                     }
                   ></GetStorageLinkComponent>
                 )}
@@ -871,31 +878,31 @@ export const ApplicationForm: FC<Props> = (props) => {
                 dir="ltr"
                 type="file"
                 accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
-                id="acceptanceLetterDoc"
-                name="acceptanceLetterDoc"
-                title="acceptanceLetterDoc"
-                placeholder="Acceptance Letter Doc"
+                id="schoolCertificate"
+                name="schoolCertificate"
+                title="schoolCertificate"
+                placeholder="School Certificate Doc"
                 className={`file-input file-input-bordered file-input-secondary bg-secondary text-secondary-content ${
-                  errors.acceptanceLetterDoc && "input-error"
+                  errors.schoolCertificate && "input-error"
                 }`}
                 onChange={(event: any) => {
                   let file: File | undefined = event.currentTarget.files[0];
 
                   let isValid = checkIfFilesAreTooBig(file);
                   if (isValid) {
-                    setAcceptanceLetterDoc(file);
+                    setSchoolCertificate(file);
                     handleChange(event);
                   } else {
-                    setFieldError("acceptanceLetterDoc", "File is too large");
+                    setFieldError("schoolCertificate", "File is too large");
                   }
                 }}
                 onBlur={handleBlur}
-                value={values.acceptanceLetterDoc ?? ""}
+                value={values.schoolCertificate ?? ""}
               />
               <label className="label-text-alt text-error">
-                {errors.acceptanceLetterDoc &&
-                  touched.acceptanceLetterDoc &&
-                  errors.acceptanceLetterDoc}
+                {errors.schoolCertificate &&
+                  touched.schoolCertificate &&
+                  errors.schoolCertificate}
               </label>
             </div>
 
