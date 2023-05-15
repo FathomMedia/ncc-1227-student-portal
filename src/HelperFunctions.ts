@@ -6,11 +6,11 @@ import { Application, Status } from "./API";
  * @param {File} [file] - The file that is being checked.
  * @returns A boolean value.
  */
-export function checkIfFilesAreTooBig(file?: File): boolean {
+export function checkIfFilesAreTooBig(file?: File, maxSize?: number): boolean {
   let valid = true;
   if (file) {
     const size = file.size / 1024 / 1024;
-    if (size > 1) {
+    if (size > (maxSize ?? 2)) {
       valid = false;
     }
   }

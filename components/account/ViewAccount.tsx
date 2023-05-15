@@ -88,8 +88,8 @@ export default function ViewApplication({ student }: Props) {
         address: yup.string().required(),
         placeOfBirth: yup.string().required(),
         familyIncome: yup.string().required(),
-        familyIncomeProofDoc: yup.string().required(),
-        familyIncomeProofDocFile: yup.string(),
+        familyIncomeProofDoc: yup.string().nullable(),
+        familyIncomeProofDocFile: yup.string().nullable(),
         nationality: yup.string().required(),
         studentOrderAmongSiblings: yup.number().required(),
         preferredLanguage: yup.string().required(),
@@ -97,10 +97,19 @@ export default function ViewApplication({ student }: Props) {
       })}
       onSubmit={async (values, actions) => {
         const familyIncomeProofStorageKey = familyIncomeProofDocFile
-          ? await uploadFile(
-              familyIncomeProofDocFile,
-              DocType.FAMILY_INCOME_PROOF,
-              `${student?.cpr}`
+          ? await toast.promise(
+              uploadFile(
+                familyIncomeProofDocFile,
+                DocType.FAMILY_INCOME_PROOF,
+                `${student?.cpr}`
+              ),
+              {
+                loading: "Uploading...",
+                success: "Document uploaded successfully",
+                error: (err) => {
+                  return `${err.message}`;
+                },
+              }
             )
           : student.familyIncomeProofDoc;
 
