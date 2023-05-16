@@ -327,10 +327,8 @@ export const ApplicationForm: FC<Props> = (props) => {
                     ? yup.mixed().required()
                     : yup.mixed(),
                 transcriptDoc: yup.mixed().required(),
-                primaryAcceptanceDoc: yup.mixed(),
-                secondaryAcceptanceDoc: yup.mixed(),
-                // primaryAcceptanceDoc: yup.mixed().required(),
-                // secondaryAcceptanceDoc: yup.mixed().required(),
+                primaryAcceptanceDoc: yup.mixed().required(),
+                secondaryAcceptanceDoc: yup.mixed().required(),
               })
         }
         onSubmit={async (values, actions) => {
