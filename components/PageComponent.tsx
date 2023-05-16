@@ -139,12 +139,12 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
               </span>
               <a>1744 4444</a>
               <a>edutrust@meo.gov.bh</a>
-              <a>Building 000, Road 000, Block 000 </a>
-              <a>{footerTranslation.t("manamaKingdomOfBahrain")} </a>
+              {/* <a>Building 000, Road 000, Block 000 </a> */}
+              {/* <a>{footerTranslation.t("manamaKingdomOfBahrain")} </a> */}
             </div>
           </footer>
-          <div className="justify-center px-10 py-4 text-center footer bg-secondary text-secondary-content">
-            <p>© 2022 isa bin salman education charitable trust</p>
+          <div dir="ltr" className="justify-center px-10 py-4 text-center footer bg-secondary text-secondary-content">
+            <p>© {new Date().getFullYear()} isa bin salman education charitable trust</p>
           </div>
         </div>
       </div>
