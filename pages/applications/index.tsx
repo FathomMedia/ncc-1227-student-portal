@@ -8,6 +8,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "react-i18next";
 import { ApplicationCard } from "../../components/applications/ApplicationCard";
 import { getStatusOrder } from "../../src/HelperFunctions";
+import { NewApplicationCard } from "../../components/applications/NewApplicationCard";
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { locale } = ctx;
@@ -34,6 +35,21 @@ export default function ApplicationsPage() {
     <PageComponent title={"Applications"} authRequired>
       <div className="container mx-auto">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 [grid-auto-rows:1fr]">
+          {!appContext.haveActiveApplication && (
+            // <Link
+            //   href={"../applications/new-application"}
+            //   className="duration-200 shadow stats hover:cursor-pointer hover:scale-105 bg-white"
+            // >
+            //   <div className="flex flex-col items-center justify-center stat">
+            //     <div className="prose">
+            //       <h3>{t("createNewApplication")}</h3>
+            //     </div>
+            //   </div>
+            // </Link>
+            <Link href={"../applications/new-application"}>
+              <NewApplicationCard></NewApplicationCard>
+            </Link>
+          )}
           {appContext.applications
             .sort((a, b) => {
               if (a.status && b.status) {
@@ -47,19 +63,6 @@ export default function ApplicationsPage() {
             .map((application) => (
               <ApplicationCard key={application.id} application={application} />
             ))}
-
-          {!appContext.haveActiveApplication && (
-            <Link
-              href={"../applications/new-application"}
-              className="duration-200 shadow stats hover:cursor-pointer hover:scale-105"
-            >
-              <div className="flex flex-col items-center justify-center stat">
-                <div className="prose">
-                  <h3>{t("createNewApplication")}</h3>
-                </div>
-              </div>
-            </Link>
-          )}
         </div>
       </div>
     </PageComponent>

@@ -327,8 +327,10 @@ export const ApplicationForm: FC<Props> = (props) => {
                     ? yup.mixed().required()
                     : yup.mixed(),
                 transcriptDoc: yup.mixed().required(),
-                primaryAcceptanceDoc: yup.mixed().required(),
-                secondaryAcceptanceDoc: yup.mixed().required(),
+                primaryAcceptanceDoc: yup.mixed(),
+                secondaryAcceptanceDoc: yup.mixed(),
+                // primaryAcceptanceDoc: yup.mixed().required(),
+                // secondaryAcceptanceDoc: yup.mixed().required(),
               })
         }
         onSubmit={async (values, actions) => {
@@ -426,12 +428,18 @@ export const ApplicationForm: FC<Props> = (props) => {
             primaryProgram: {
               id: values.primaryProgramID,
               name: `${selectedPrimaryProgram?.name}-${selectedPrimaryProgram?.university?.name}`,
-              acceptanceLetterDoc: storageKeys?.[3] ?? undefined,
+              acceptanceLetterDoc:
+                storageKeys?.[3] ??
+                oldPrimaryProgram?.acceptanceLetterDoc ??
+                undefined,
             },
             secondaryProgram: {
               id: values.secondaryProgramID,
               name: `${selectedSecondaryProgram?.name}-${selectedSecondaryProgram?.university?.name}`,
-              acceptanceLetterDoc: storageKeys?.[4] ?? undefined,
+              acceptanceLetterDoc:
+                storageKeys?.[4] ??
+                oldSecondaryProgram?.acceptanceLetterDoc ??
+                undefined,
             },
             attachments: {
               cpr: storageKeys?.[0] ?? undefined,
@@ -782,9 +790,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
                       {t("primaryAcceptance")} {t("document")}{" "}
-                      {!props.application && (
-                        <span className="ml-1 mr-auto text-red-500">*</span>
-                      )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
                           storageKey={
@@ -902,9 +907,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
                       {t("secondaryAcceptance")} {t("document")}{" "}
-                      {!props.application && (
-                        <span className="ml-1 mr-auto text-red-500">*</span>
-                      )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
                           storageKey={
