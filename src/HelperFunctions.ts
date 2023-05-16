@@ -41,17 +41,19 @@ export interface ApplicationSnapshotInput {
   primaryProgram: {
     id: string | undefined;
     name: string | undefined;
+    acceptanceLetterDoc: string | undefined;
   };
 
   secondaryProgram: {
     id: string | undefined;
     name: string | undefined;
+    acceptanceLetterDoc: string | undefined;
   };
 
   attachments: {
     cpr?: string | undefined;
     transcript?: string | undefined;
-    acceptance?: string | undefined;
+    schoolCertificate?: string | undefined;
     signedContract?: string | undefined;
   };
 }
@@ -63,7 +65,7 @@ export interface ApplicationSnapshot {
   attachments?: {
     cpr?: string;
     transcript?: string;
-    acceptance?: string;
+    schoolCertificate?: string;
     signedContract?: string;
   };
 }
@@ -101,8 +103,9 @@ export function getStudentApplicationSnapshot(inputData: {
               transcript: inputData.newApplication.attachments.transcript
                 ? `Changed ${inputData.oldApplication.attachments.transcript} to ${inputData.newApplication.attachments.transcript}`
                 : undefined,
-              acceptance: inputData.newApplication.attachments.acceptance
-                ? `Changed ${inputData.oldApplication.attachments.acceptance} to ${inputData.newApplication.attachments.acceptance}`
+              schoolCertificate: inputData.newApplication.attachments
+                .schoolCertificate
+                ? `Changed ${inputData.oldApplication.attachments.schoolCertificate} to ${inputData.newApplication.attachments.schoolCertificate}`
                 : undefined,
               signedContract: inputData.newApplication.attachments
                 .signedContract
@@ -117,7 +120,7 @@ export function getStudentApplicationSnapshot(inputData: {
         attachments: {
           cpr: `Initial submit with CPR ${inputData.newApplication.attachments.cpr}`,
           transcript: `Initial submit with transcript ${inputData.newApplication.attachments.transcript}`,
-          acceptance: `Initial submit with acceptance ${inputData.newApplication.attachments.acceptance}`,
+          schoolCertificate: `Initial submit with acceptance ${inputData.newApplication.attachments.schoolCertificate}`,
           signedContract: `Initial submit with signed contract ${inputData.newApplication.attachments.signedContract}`,
         },
       };
