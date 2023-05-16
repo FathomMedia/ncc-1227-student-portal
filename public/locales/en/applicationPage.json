@@ -37,5 +37,6 @@
   "edit": "Edit",
   "view": "View",
   "youAlreadyHaveAnActiveApplication": "You already have an active application",
-  "goToApplications": "Go to Applications"
+  "goToApplications": "Go to Applications",
+  "transcriptNote": "Transcripts must show the student's high school GPA for the last year of secondary school"
 }

@@ -1088,6 +1088,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 onBlur={handleBlur}
                 value={values.transcriptDoc ?? ""}
               />
+              <p className=" stat-desc whitespace-pre-wrap py-2 italic">{t(`transcriptNote`)}</p>
               <label className="label-text-alt text-error">
                 {errors.transcriptDoc &&
                   touched.transcriptDoc &&

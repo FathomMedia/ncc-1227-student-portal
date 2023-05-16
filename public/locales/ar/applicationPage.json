@@ -37,5 +37,6 @@
   "edit": "تعديل",
   "view": "معاينة",
   "youAlreadyHaveAnActiveApplication": "لديك بالفعل طلب نشط",
-  "goToApplications": "اذهب الى الطلبات"
+  "goToApplications": "اذهب الى الطلبات",
+  "transcriptNote": "يجب أن تُظهر كشوف الدرجات المعدل التراكمي للطالب في السنة الأخيرة من المدرسة الثانوية."
 }
