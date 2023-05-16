@@ -9,6 +9,14 @@ interface Props {
 
 export default function ViewApplication({ application }: Props) {
   const { t } = useTranslation("applicationPage");
+
+  const primaryProgram = application.programs?.items?.sort(
+    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+  )[0];
+  const secondaryProgram = application.programs?.items?.sort(
+    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+  )[1];
+
   return (
     <div className="overflow-x-auto">
       <table dir="ltr" className="table w-full">
@@ -51,56 +59,40 @@ export default function ViewApplication({ application }: Props) {
 
           <tr>
             <td>{t("primaryProgram")}</td>
-            <td className="flex flex-col">
+            <td className="flex flex-col gap-3">
               <div>
-                {`${
-                  application.programs?.items?.sort(
-                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-                  )[0]?.program?.name
-                }-${
-                  application.programs?.items?.sort(
-                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-                  )[0]?.program?.university?.name
-                }`}
+                {`${primaryProgram?.program?.name}-${primaryProgram?.program?.university?.name}`}
               </div>
-              {application.programs?.items?.sort(
-                (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-              )[0]?.program?.requirements && (
+              {primaryProgram?.program?.requirements && (
                 <div className="stat-desc">
-                  {`Requirements: ${
-                    application.programs?.items?.sort(
-                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-                    )[0]?.program?.requirements
-                  }`}
+                  {`Requirements: ${primaryProgram?.program?.requirements}`}
                 </div>
               )}
+              <div className="flex gap-4 items-center">
+                <p className="text-xs">{t("acceptanceLetter")}</p>
+                <GetStorageLinkComponent
+                  storageKey={primaryProgram?.acceptanceLetterDoc}
+                ></GetStorageLinkComponent>
+              </div>
             </td>
           </tr>
           <tr>
             <td>{t("secondaryProgram")}</td>
-            <td className="flex flex-col">
+            <td className="flex flex-col gap-3">
               <div>
-                {`${
-                  application.programs?.items?.sort(
-                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-                  )[1]?.program?.name
-                }-${
-                  application.programs?.items?.sort(
-                    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-                  )[1]?.program?.university?.name
-                }`}
+                {`${secondaryProgram?.program?.name}-${secondaryProgram?.program?.university?.name}`}
               </div>
-              {application.programs?.items?.sort(
-                (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-              )[0]?.program?.requirements && (
+              {secondaryProgram?.program?.requirements && (
                 <div className="stat-desc">
-                  {`Requirements: ${
-                    application.programs?.items?.sort(
-                      (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-                    )[0]?.program?.requirements
-                  }`}
+                  {`Requirements: ${secondaryProgram?.program?.requirements}`}
                 </div>
               )}
+              <div className="flex gap-4 items-center">
+                <p className="text-xs">{t("acceptanceLetter")}</p>
+                <GetStorageLinkComponent
+                  storageKey={secondaryProgram?.acceptanceLetterDoc}
+                ></GetStorageLinkComponent>
+              </div>
             </td>
           </tr>
           <tr>

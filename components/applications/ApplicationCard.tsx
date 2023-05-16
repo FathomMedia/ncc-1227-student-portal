@@ -71,7 +71,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
               {t("uploadedAttachments")}{" "}
               {(application.attachment?.cprDoc === (undefined || null) ||
                 application.attachment?.transcriptDoc === (undefined || null) ||
-                application.attachment?.acceptanceLetterDoc ===
+                application.attachment?.schoolCertificate ===
                   (undefined || null)) && (
                 <span className="text-error">{t("notCompleted")}</span>
               )}
@@ -95,11 +95,11 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
               </div>
               <div
                 className={`badge  badge-ghost ${
-                  !application.attachment?.acceptanceLetterDoc &&
+                  !application.attachment?.schoolCertificate &&
                   "badge-error !badge-outline"
                 }`}
               >
-                {t("acceptanceLetter")}
+                {t("schoolCertificate")}
               </div>
             </div>
           </div>
