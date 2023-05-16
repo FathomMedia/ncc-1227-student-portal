@@ -111,14 +111,8 @@ export const ApplicationForm: FC<Props> = (props) => {
   const [withdrawing, setWithdrawing] = useState(false);
   const initialValues: FormValues = {
     gpa: props.application?.gpa ?? undefined,
-    primaryProgramID:
-      props.application?.programs?.items.sort(
-        (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-      )[0]?.program?.id ?? undefined,
-    secondaryProgramID:
-      props.application?.programs?.items.sort(
-        (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-      )[1]?.program?.id ?? undefined,
+    primaryProgramID: oldPrimaryProgram?.program?.id ?? undefined,
+    secondaryProgramID: oldSecondaryProgram?.program?.id ?? undefined,
     cprDoc: undefined,
     schoolCertificate: undefined,
     transcriptDoc: undefined,
@@ -302,7 +296,6 @@ export const ApplicationForm: FC<Props> = (props) => {
       createStudentLogInDB(data.studentLog),
     ])
       .then(async (res) => {
-        console.log("Update program choice res", res);
         await syncStudentApplication();
         push("/applications");
       })
@@ -433,12 +426,18 @@ export const ApplicationForm: FC<Props> = (props) => {
             primaryProgram: {
               id: values.primaryProgramID,
               name: `${selectedPrimaryProgram?.name}-${selectedPrimaryProgram?.university?.name}`,
-              acceptanceLetterDoc: storageKeys?.[3] ?? undefined,
+              acceptanceLetterDoc:
+                storageKeys?.[3] ??
+                oldPrimaryProgram?.acceptanceLetterDoc ??
+                undefined,
             },
             secondaryProgram: {
               id: values.secondaryProgramID,
               name: `${selectedSecondaryProgram?.name}-${selectedSecondaryProgram?.university?.name}`,
-              acceptanceLetterDoc: storageKeys?.[4] ?? undefined,
+              acceptanceLetterDoc:
+                storageKeys?.[4] ??
+                oldSecondaryProgram?.acceptanceLetterDoc ??
+                undefined,
             },
             attachments: {
               cpr: storageKeys?.[0] ?? undefined,
@@ -587,8 +586,10 @@ export const ApplicationForm: FC<Props> = (props) => {
                 programApplicationsId: values.primaryProgramID ?? "",
                 acceptanceLetterDoc:
                   storageKeys?.[3] ??
-                  oldPrimaryProgram?.acceptanceLetterDoc ??
-                  undefined,
+                  (primaryProgram?.id === oldPrimaryProgram?.program?.id
+                    ? oldPrimaryProgram?.acceptanceLetterDoc
+                    : null) ??
+                  null,
               },
               condition: undefined,
             },
@@ -608,8 +609,10 @@ export const ApplicationForm: FC<Props> = (props) => {
                 programApplicationsId: values.secondaryProgramID ?? "",
                 acceptanceLetterDoc:
                   storageKeys?.[4] ??
-                  oldSecondaryProgram?.acceptanceLetterDoc ??
-                  undefined,
+                  (secondaryProgram?.id === oldSecondaryProgram?.program?.id
+                    ? oldSecondaryProgram?.acceptanceLetterDoc
+                    : null) ??
+                  null,
               },
               condition: undefined,
             },
@@ -732,9 +735,9 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="divider md:col-span-2"></div>
             {/* Primary Program */}
             {
-              <div className="flex flex-col justify-start w-full col-span-2">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
-                  <div>
+              <div className="flex flex-col justify-start w-full md:col-span-2">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 items-end">
+                  <div className="w-full">
                     <label className="label">{t("primaryProgram")}</label>
                     <Field
                       dir="ltr"
@@ -742,7 +745,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                       name="primaryProgramID"
                       title="primaryProgramID"
                       placeholder="Primary Program"
-                      className={`input input-bordered input-primary ${
+                      className={`input input-bordered w-full input-primary ${
                         errors.primaryProgramID && "input-error"
                       }`}
                       onChange={(event: any) => {
@@ -785,12 +788,14 @@ export const ApplicationForm: FC<Props> = (props) => {
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
                       {t("primaryAcceptance")} {t("document")}{" "}
-                      {!props.application && (
-                        <span className="ml-1 mr-auto text-red-500">*</span>
-                      )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
-                          storageKey={oldPrimaryProgram?.acceptanceLetterDoc}
+                          storageKey={
+                            primaryProgram?.id ===
+                            oldPrimaryProgram?.program?.id
+                              ? oldPrimaryProgram?.acceptanceLetterDoc
+                              : undefined
+                          }
                         ></GetStorageLinkComponent>
                       )}
                     </label>
@@ -846,8 +851,8 @@ export const ApplicationForm: FC<Props> = (props) => {
 
             {/* secondaryProgram */}
             {
-              <div className="flex flex-col justify-start w-full col-span-2">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
+              <div className="flex flex-col justify-start w-full md:col-span-2">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 items-end">
                   <div className="">
                     <label className="label">{t("secondaryProgram")}</label>
                     <Field
@@ -856,7 +861,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                       name="secondaryProgramID"
                       title="secondaryProgramID"
                       placeholder="Secondary Program"
-                      className={`input input-bordered input-primary ${
+                      className={`input input-bordered w-full input-primary ${
                         errors.secondaryProgramID && "input-error"
                       }`}
                       onChange={(event: any) => {
@@ -900,12 +905,14 @@ export const ApplicationForm: FC<Props> = (props) => {
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
                       {t("secondaryAcceptance")} {t("document")}{" "}
-                      {!props.application && (
-                        <span className="ml-1 mr-auto text-red-500">*</span>
-                      )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
-                          storageKey={oldSecondaryProgram?.acceptanceLetterDoc}
+                          storageKey={
+                            secondaryProgram?.id ===
+                            oldSecondaryProgram?.program?.id
+                              ? oldSecondaryProgram?.acceptanceLetterDoc
+                              : undefined
+                          }
                         ></GetStorageLinkComponent>
                       )}
                     </label>
