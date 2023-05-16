@@ -16,6 +16,13 @@ interface IApplicationCard {
 export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
   const { locale } = useRouter();
   const { t } = useTranslation("applications");
+
+  const primaryProgram = application?.programs?.items.sort(
+    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+  )[0];
+  const secondaryProgram = application?.programs?.items.sort(
+    (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
+  )[1];
   return (
     <div className="relative duration-200 hover:cursor-pointer hover:scale-105">
       <Link
@@ -66,16 +73,20 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
               ))}
           </div>
           {/* Attachments */}
-          <div>
-            <div className="flex gap-2 mb-2 -mt-2 text-sm stat-title">
+          <div className="p-3 rounded-xl border border-gray-200">
+            <div className="flex gap-2 mb-2 -mt-2 text-sm stat-title ">
               {t("uploadedAttachments")}{" "}
               {(application.attachment?.cprDoc === (undefined || null) ||
                 application.attachment?.transcriptDoc === (undefined || null) ||
                 application.attachment?.schoolCertificate ===
+                  (undefined || null) ||
+                primaryProgram?.acceptanceLetterDoc === (undefined || null) ||
+                secondaryProgram?.acceptanceLetterDoc ===
                   (undefined || null)) && (
                 <span className="text-error">{t("notCompleted")}</span>
               )}
             </div>
+
             <div className="flex flex-wrap gap-2">
               <div
                 className={`badge  badge-ghost ${
@@ -100,6 +111,22 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application }) => {
                 }`}
               >
                 {t("schoolCertificate")}
+              </div>
+              <div
+                className={`badge  badge-ghost ${
+                  !primaryProgram?.acceptanceLetterDoc &&
+                  "badge-error !badge-outline"
+                }`}
+              >
+                {t("primaryProgramAcceptanceLetter")}
+              </div>
+              <div
+                className={`badge  badge-ghost ${
+                  !secondaryProgram?.acceptanceLetterDoc &&
+                  "badge-error !badge-outline"
+                }`}
+              >
+                {t("secondaryProgramAcceptanceLetter")}
               </div>
             </div>
           </div>

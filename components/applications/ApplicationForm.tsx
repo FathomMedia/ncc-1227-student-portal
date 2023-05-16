@@ -732,9 +732,9 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="divider md:col-span-2"></div>
             {/* Primary Program */}
             {
-              <div className="flex flex-col justify-start w-full col-span-2">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
-                  <div>
+              <div className="flex flex-col justify-start w-full md:col-span-2">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 items-end">
+                  <div className="w-full">
                     <label className="label">{t("primaryProgram")}</label>
                     <Field
                       dir="ltr"
@@ -742,7 +742,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                       name="primaryProgramID"
                       title="primaryProgramID"
                       placeholder="Primary Program"
-                      className={`input input-bordered input-primary ${
+                      className={`input input-bordered w-full input-primary ${
                         errors.primaryProgramID && "input-error"
                       }`}
                       onChange={(event: any) => {
@@ -846,8 +846,8 @@ export const ApplicationForm: FC<Props> = (props) => {
 
             {/* secondaryProgram */}
             {
-              <div className="flex flex-col justify-start w-full col-span-2">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
+              <div className="flex flex-col justify-start w-full md:col-span-2">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 items-end">
                   <div className="">
                     <label className="label">{t("secondaryProgram")}</label>
                     <Field
@@ -856,7 +856,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                       name="secondaryProgramID"
                       title="secondaryProgramID"
                       placeholder="Secondary Program"
-                      className={`input input-bordered input-primary ${
+                      className={`input input-bordered w-full input-primary ${
                         errors.secondaryProgramID && "input-error"
                       }`}
                       onChange={(event: any) => {
