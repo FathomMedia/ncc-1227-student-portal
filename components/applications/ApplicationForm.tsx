@@ -111,14 +111,8 @@ export const ApplicationForm: FC<Props> = (props) => {
   const [withdrawing, setWithdrawing] = useState(false);
   const initialValues: FormValues = {
     gpa: props.application?.gpa ?? undefined,
-    primaryProgramID:
-      props.application?.programs?.items.sort(
-        (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-      )[0]?.program?.id ?? undefined,
-    secondaryProgramID:
-      props.application?.programs?.items.sort(
-        (a, b) => (a?.choiceOrder ?? 0) - (b?.choiceOrder ?? 0)
-      )[1]?.program?.id ?? undefined,
+    primaryProgramID: oldPrimaryProgram?.program?.id ?? undefined,
+    secondaryProgramID: oldSecondaryProgram?.program?.id ?? undefined,
     cprDoc: undefined,
     schoolCertificate: undefined,
     transcriptDoc: undefined,
@@ -302,7 +296,6 @@ export const ApplicationForm: FC<Props> = (props) => {
       createStudentLogInDB(data.studentLog),
     ])
       .then(async (res) => {
-        console.log("Update program choice res", res);
         await syncStudentApplication();
         push("/applications");
       })
@@ -587,8 +580,10 @@ export const ApplicationForm: FC<Props> = (props) => {
                 programApplicationsId: values.primaryProgramID ?? "",
                 acceptanceLetterDoc:
                   storageKeys?.[3] ??
-                  oldPrimaryProgram?.acceptanceLetterDoc ??
-                  undefined,
+                  (primaryProgram?.id === oldPrimaryProgram?.program?.id
+                    ? oldPrimaryProgram?.acceptanceLetterDoc
+                    : null) ??
+                  null,
               },
               condition: undefined,
             },
@@ -608,8 +603,10 @@ export const ApplicationForm: FC<Props> = (props) => {
                 programApplicationsId: values.secondaryProgramID ?? "",
                 acceptanceLetterDoc:
                   storageKeys?.[4] ??
-                  oldSecondaryProgram?.acceptanceLetterDoc ??
-                  undefined,
+                  (secondaryProgram?.id === oldSecondaryProgram?.program?.id
+                    ? oldSecondaryProgram?.acceptanceLetterDoc
+                    : null) ??
+                  null,
               },
               condition: undefined,
             },
@@ -790,7 +787,12 @@ export const ApplicationForm: FC<Props> = (props) => {
                       )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
-                          storageKey={oldPrimaryProgram?.acceptanceLetterDoc}
+                          storageKey={
+                            primaryProgram?.id ===
+                            oldPrimaryProgram?.program?.id
+                              ? oldPrimaryProgram?.acceptanceLetterDoc
+                              : undefined
+                          }
                         ></GetStorageLinkComponent>
                       )}
                     </label>
@@ -905,7 +907,12 @@ export const ApplicationForm: FC<Props> = (props) => {
                       )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
-                          storageKey={oldSecondaryProgram?.acceptanceLetterDoc}
+                          storageKey={
+                            secondaryProgram?.id ===
+                            oldSecondaryProgram?.program?.id
+                              ? oldSecondaryProgram?.acceptanceLetterDoc
+                              : undefined
+                          }
                         ></GetStorageLinkComponent>
                       )}
                     </label>
