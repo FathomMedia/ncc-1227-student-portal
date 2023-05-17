@@ -1732,18 +1732,18 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
     }
   }
 `;
-export const applicationsByBatchAndDateTime = /* GraphQL */ `
-  query ApplicationsByBatchAndDateTime(
+export const applicationsByBatchAndStatus = /* GraphQL */ `
+  query ApplicationsByBatchAndStatus(
     $batch: Int!
-    $dateTime: ModelStringKeyConditionInput
+    $status: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelApplicationFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    applicationsByBatchAndDateTime(
+    applicationsByBatchAndStatus(
       batch: $batch
-      dateTime: $dateTime
+      status: $status
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit

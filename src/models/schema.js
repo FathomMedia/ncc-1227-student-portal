@@ -295,7 +295,7 @@ export const schema = {
                         "name": "byBatch",
                         "fields": [
                             "batch",
-                            "dateTime"
+                            "status"
                         ]
                     }
                 },
@@ -1359,9 +1359,9 @@ export const schema = {
         "Status": {
             "name": "Status",
             "values": [
+                "APPROVED",
                 "ELIGIBLE",
                 "REVIEW",
-                "APPROVED",
                 "NOT_COMPLETED",
                 "REJECTED",
                 "WITHDRAWN"
@@ -1399,6 +1399,6 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "codegenVersion": "3.4.3",
+    "codegenVersion": "3.4.2",
     "version": "282d10467afde43d78d360c200fdae1d"
 };

@@ -21,7 +21,7 @@ type Application @model @auth(rules: [{ allow: public }]) {
   isEmailSent: Boolean @default(value: "false")
   schoolName: String
   schoolType: SchoolType
-  batch: Int @index(name: "byBatch", sortKeyFields: ["dateTime"])
+  batch: Int @index(name: "byBatch", sortKeyFields: ["status"])
 }
 
 type ProgramChoice @model @auth(rules: [{ allow: public }]) {
@@ -80,9 +80,9 @@ type Admin @model @auth(rules: [{ allow: public }]) {
 }
 
 enum Status {
+  APPROVED
   ELIGIBLE
   REVIEW
-  APPROVED
   NOT_COMPLETED
   REJECTED
   WITHDRAWN
