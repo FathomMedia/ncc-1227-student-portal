@@ -3,9 +3,9 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, CustomIdenti
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
 export enum Status {
+  APPROVED = "APPROVED",
   ELIGIBLE = "ELIGIBLE",
   REVIEW = "REVIEW",
-  APPROVED = "APPROVED",
   NOT_COMPLETED = "NOT_COMPLETED",
   REJECTED = "REJECTED",
   WITHDRAWN = "WITHDRAWN"

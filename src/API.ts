@@ -105,9 +105,9 @@ export type CreateApplicationInput = {
 };
 
 export enum Status {
+  APPROVED = "APPROVED",
   ELIGIBLE = "ELIGIBLE",
   REVIEW = "REVIEW",
-  APPROVED = "APPROVED",
   NOT_COMPLETED = "NOT_COMPLETED",
   REJECTED = "REJECTED",
   WITHDRAWN = "WITHDRAWN",
@@ -5098,17 +5098,17 @@ export type ApplicationsByStudentCPRAndGpaQuery = {
   } | null,
 };
 
-export type ApplicationsByBatchAndDateTimeQueryVariables = {
+export type ApplicationsByBatchAndStatusQueryVariables = {
   batch: number,
-  dateTime?: ModelStringKeyConditionInput | null,
+  status?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelApplicationFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ApplicationsByBatchAndDateTimeQuery = {
-  applicationsByBatchAndDateTime?:  {
+export type ApplicationsByBatchAndStatusQuery = {
+  applicationsByBatchAndStatus?:  {
     __typename: "ModelApplicationConnection",
     items:  Array< {
       __typename: "Application",
