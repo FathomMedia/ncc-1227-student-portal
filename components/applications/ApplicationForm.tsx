@@ -787,7 +787,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                   </div>
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
-                      {t("primaryAcceptance")} {t("document")}{" "}
+                      {t("primaryAcceptance")}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
                           storageKey={
@@ -904,7 +904,7 @@ export const ApplicationForm: FC<Props> = (props) => {
 
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
-                      {t("secondaryAcceptance")} {t("document")}{" "}
+                      {t("secondaryAcceptance")}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
                           storageKey={
@@ -970,7 +970,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* cprDoc */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
-                {t("CPR")} {t("document")}{" "}
+                {t("CPRDoc")}{" "}
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}{" "}
@@ -1013,7 +1013,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* schoolCertificate */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
-                {t("schoolCertificate")} {t("document")}{" "}
+                {t("schoolCertificate")}{" "}
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}
@@ -1060,7 +1060,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* transcriptDoc */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
-                {t("transcript")} {t("document")}{" "}
+                {t("transcript")}{" "}
                 {!props.application && (
                   <span className="ml-1 mr-auto text-red-500">*</span>
                 )}

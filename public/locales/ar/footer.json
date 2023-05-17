@@ -1,11 +1,12 @@
 {
   "quickLinks": "روابط سريعة",
-  "theFund": "التمويل",
-  "aboutUs": "عنى",
-  "application": "استمارة التقديم",
-  "contact": "اتصل",
-  "contactUs": "اتصل بنا",
+  "theFund": "الوقف",
+  "aboutUs": "نبذة",
+  "application": "الطلبات",
+  "contact": "تواصل معنا",
+  "contactUs": "تواصل معنا",
   "manamaKingdomOfBahrain": "المنامة، مملكة البحرين",
   "account": "الحساب",
-  "signOut": "تسجيل خروج"
+  "signOut": "تسجيل خروج",
+  "mediaCenter":"المركز الإعلامي"
 }

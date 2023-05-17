@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { useAuth } from "../hooks/use-auth";
 import { SignInForm } from "./auth/sign-in-form";
 
-import logo from "../public/svg/logo-white-no-bottom.svg";
+import logo from "../public/svg/logo-white.svg";
 import account from "../public/svg/account.svg";
 import background from "../public/images/graduates-university.png";
 import Image from "next/image";
@@ -130,6 +130,9 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 {footerTranslation.t("application")}
               </a>
               <a className="link link-hover">
+                {footerTranslation.t("mediaCenter")}
+              </a>
+              <a className="link link-hover">
                 {footerTranslation.t("contact")}
               </a>
             </div>
@@ -137,7 +140,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
               <span className="opacity-100 footer-title text-primary">
                 {footerTranslation.t("contactUs")}
               </span>
-              <a>1744 4444</a>
+              <a dir="ltr">1744 4444</a>
               <a>edutrust@meo.gov.bh</a>
               {/* <a>Building 000, Road 000, Block 000 </a> */}
               {/* <a>{footerTranslation.t("manamaKingdomOfBahrain")} </a> */}

@@ -1,10 +1,10 @@
 {
   "Status": "الحالة",
-  "APPROVED": "موافق عليه",
+  "APPROVED": "مقبول",
   "ELIGIBLE": "مؤهل",
   "REJECTED": "مرفوض",
-  "REVIEW": "مراجعة",
-  "WITHDRAWN": "الانسحاب",
+  "REVIEW": "تحت المراجعة",
+  "WITHDRAWN": "منسحب",
   "NOT_COMPLETED": "غير مكتمل",
   "Applications": "الطلبات",
   "submitDate": "تاريخ التقديم",

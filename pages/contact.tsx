@@ -30,25 +30,15 @@ const ContactPage = () => {
         <div className="mx-auto prose text-center divide-y">
           <div>
             <h4>{t("email")}</h4>
-            <p>edutrust@meo.gov.bh</p>
+            {/* <p>edutrust@meo.gov.bh</p> */}
+            <a href="mailto:edutrust@meo.gov.bh">edutrust@meo.gov.bh</a>
           </div>
           <div>
             <h4>{t("phone")}</h4>
-            <p>17444444</p>
+            {/* <p>17444444</p> */}
+            <a href="tel:+97317444444">17444444</a>
           </div>
-          <div>
-            <h4>{t("email")}</h4>
-            <p>edutrust@meo.gov.bh</p>
-          </div>
-          <div>
-            <h4>{t("phone")}</h4>
-            <p>17444444</p>
-          </div>
-          <div>
-            <h4>{t("address")}</h4>
-            <p>Building 000, Road 000, Block 000</p>
-            <p>{t("manamaKingdomOfBahrain")}</p>
-          </div>
+      
         </div>
       </PageComponent>
     </div>
