@@ -149,7 +149,7 @@ export async function getStudentApplications(
 ): Promise<Application[]> {
   let q = `
   query GetAllApplicationsByCPR {
-    applicationsByStudentCPRAndGpa(studentCPR: "${cpr}") {
+    applicationsByStudentCPRAndGpa(studentCPR: "${cpr}", limit: 9999999) {
       items {
         id
         _version
@@ -225,7 +225,7 @@ export async function getStudentApplications(
 export async function listAllPrograms() {
   let q = `
   query ListAllPrograms {
-    listPrograms {
+    listPrograms(limit: 9999999) {
       items {
         id
         name
@@ -248,8 +248,7 @@ export async function listAllPrograms() {
       }
     }
   }
-  
-    `;
+`;
 
   let res = (await API.graphql(graphqlOperation(q))) as GraphQLResult<any>; // your fetch function here
   let programs = res.data?.listPrograms.items as Program[];
