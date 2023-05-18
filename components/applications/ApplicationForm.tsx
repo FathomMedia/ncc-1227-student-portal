@@ -788,6 +788,9 @@ export const ApplicationForm: FC<Props> = (props) => {
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
                       {t("primaryAcceptance")}{" "}
+                      {!props.application && (
+                        <span className="ml-1 mr-auto text-red-500">*</span>
+                      )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
                           storageKey={
@@ -905,6 +908,9 @@ export const ApplicationForm: FC<Props> = (props) => {
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
                       {t("secondaryAcceptance")}{" "}
+                      {!props.application && (
+                        <span className="ml-1 mr-auto text-red-500">*</span>
+                      )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
                           storageKey={
@@ -1095,7 +1101,9 @@ export const ApplicationForm: FC<Props> = (props) => {
                 onBlur={handleBlur}
                 value={values.transcriptDoc ?? ""}
               />
-              <p className=" stat-desc whitespace-pre-wrap py-2 italic">{t(`transcriptNote`)}</p>
+              <p className=" stat-desc whitespace-pre-wrap py-2 italic">
+                {t(`transcriptNote`)}
+              </p>
               <label className="label-text-alt text-error">
                 {errors.transcriptDoc &&
                   touched.transcriptDoc &&
