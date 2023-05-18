@@ -15,5 +15,8 @@
   "transcript": "Transcript",
   "acceptanceLetter": "Acceptance Letter",
   "signedContract": "Signed Contract",
-  "createNewApplication": "Create New Application"
+  "createNewApplication": "Create New Application",
+  "primaryProgramAcceptanceLetter":"Primary Program Acceptance Letter",
+  "secondaryProgramAcceptanceLetter":"Secondary Program Acceptance Letter",
+  "schoolCertificate":"School Certificate"
 }

@@ -8,12 +8,15 @@
   "NOT_COMPLETED": "غير مكتمل",
   "Applications": "الطلبات",
   "submitDate": "تاريخ التقديم",
-  "selectedPrograms": "البرامج مختارة",
+  "selectedPrograms": "البرامج المختارة",
   "notCompleted": "غير مكتمل",
   "uploadedAttachments": "المرفقات التي تم تحميلها",
   "CPR": "الرقم الشخصي",
   "transcript": "كشف الدرجات",
   "acceptanceLetter": "رسالة قبول",
   "signedContract": "عقد موقع",
-  "createNewApplication": "طلب جديد"
+  "createNewApplication": "طلب جديد",
+  "primaryProgramAcceptanceLetter":"رسالة القبول للبرنامج الأساسي",
+  "secondaryProgramAcceptanceLetter":"رسالة القبول للبرنامج الثانوي",
+  "schoolCertificate":"الشهادة المدرسية"
 }
