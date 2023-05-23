@@ -29,6 +29,8 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
   const { t } = useTranslation("account");
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
   const [familyIncomeProofDocFile, setFamilyIncomeProofDocFile] = useState<
     File | undefined
@@ -39,6 +41,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
       initialValues={{
         ...props.student.input,
         password: "",
+        confirmPassword: "",
         familyIncomeProofDocFile: undefined,
       }}
       validationSchema={yup.object({
@@ -59,14 +62,17 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         studentOrderAmongSiblings: yup.number().required(),
         preferredLanguage: yup.string().required(),
         graduationDate: yup.date().required(),
-        password: yup.string().required(),
+        password: yup.string().required("Password is required"),
+        confirmPassword: yup
+          .string()
+          .oneOf([yup.ref("password"), null], "Passwords must match")
+          .required("Password is required"),
       })}
       onSubmit={async (values, actions) => {
         if (!familyIncomeProofDocFile) {
           throw new Error("Family proof is missing.");
         }
 
-        // TODO! can't upload before signing-in
         const familyIncomeProofStorageKey = await uploadFile(
           familyIncomeProofDocFile,
           DocType.FAMILY_INCOME_PROOF,
@@ -114,10 +120,16 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         isValid,
         setFieldError,
       }) => (
-        <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
+        <Form className="container grid items-end max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("studentCPR")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("studentCPR")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.cpr && touched.cpr && errors.cpr}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -125,19 +137,22 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="cpr"
               placeholder="CPR"
               className={`input input-bordered input-primary ${
-                errors.cpr && "input-error"
+                errors.cpr && touched.cpr && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.cpr ?? ""}
             />
-            <label className="label-text-alt text-error">
-              {errors.cpr && touched.cpr && errors.cpr}
-            </label>
           </div>
           {/* FullName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("fullName")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("fullName")}</label>
+              <label className="text-error label">*</label>
+              <label className="label-text-alt text-error">
+                {errors.fullName && touched.fullName && errors.fullName}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -145,19 +160,22 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="fullName"
               placeholder="Full name"
               className={`input input-bordered input-primary ${
-                errors.fullName && "input-error"
+                errors.fullName && touched.fullName && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.fullName}
             />
-            <label className="label-text-alt text-error">
-              {errors.fullName && touched.fullName && errors.fullName}
-            </label>
           </div>
           {/* Email */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("email")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("email")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.email && touched.email && errors.email}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="email"
@@ -165,19 +183,22 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="email"
               placeholder="Email"
               className={`input input-bordered input-primary ${
-                errors.email && "input-error"
+                errors.email && touched.email && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.email}
             />
-            <label className="label-text-alt text-error">
-              {errors.email && touched.email && errors.email}
-            </label>
           </div>
           {/* Phone */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("phone")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("phone")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.phone && touched.phone && errors.phone}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="phone"
@@ -185,20 +206,23 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="phone"
               placeholder="Phone (+973)"
               className={`input input-bordered input-primary ${
-                errors.phone && "input-error"
+                errors.phone && touched.phone && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.phone}
             />
-            <label className="label-text-alt text-error">
-              {errors.phone && touched.phone && errors.phone}
-            </label>
           </div>
 
           {/* Gender */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("gender")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("gender")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.gender && touched.gender && errors.gender}
+              </label>
+            </div>
             <Field
               dir="ltr"
               as="select"
@@ -206,7 +230,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="gender"
               placeholder="Gender"
               className={`input input-bordered input-primary ${
-                errors.gender && "input-error"
+                errors.gender && touched.gender && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -218,14 +242,17 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               <option value={Gender.MALE}>Male</option>
               <option value={Gender.FEMALE}>Female</option>
             </Field>
-            <label className="label-text-alt text-error">
-              {errors.gender && touched.gender && errors.gender}
-            </label>
           </div>
 
           {/* address */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("studentAddress")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("studentAddress")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.address && touched.address && errors.address}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -233,20 +260,23 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="address"
               placeholder="Student Address"
               className={`input input-bordered input-primary ${
-                errors.address && "input-error"
+                errors.address && touched.address && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.address}
             />
-            <label className="label-text-alt text-error">
-              {errors.address && touched.address && errors.address}
-            </label>
           </div>
 
           {/* schoolName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("schoolName")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("schoolName")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.schoolName && touched.schoolName && errors.schoolName}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -254,20 +284,23 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="schoolName"
               placeholder="School name"
               className={`input input-bordered input-primary ${
-                errors.schoolName && "input-error"
+                errors.schoolName && touched.schoolName && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.schoolName}
             />
-            <label className="label-text-alt text-error">
-              {errors.schoolName && touched.schoolName && errors.schoolName}
-            </label>
           </div>
 
           {/* schoolType */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("schoolType")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("schoolType")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.schoolType && touched.schoolType && errors.schoolType}
+              </label>
+            </div>
             <Field
               dir="ltr"
               as="select"
@@ -275,7 +308,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="schoolType"
               placeholder="Preferred Language"
               className={`input input-bordered input-primary ${
-                errors.schoolType && "input-error"
+                errors.schoolType && touched.schoolType && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -287,14 +320,19 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               <option value={SchoolType.PRIVATE}>Private</option>
               <option value={SchoolType.PUBLIC}>Public</option>
             </Field>
-            <label className="label-text-alt text-error">
-              {errors.schoolType && touched.schoolType && errors.schoolType}
-            </label>
           </div>
 
           {/* specialization */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("specialization")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("specialization")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.specialization &&
+                  touched.specialization &&
+                  errors.specialization}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -302,21 +340,24 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="specialization"
               placeholder="Specialization"
               className={`input input-bordered input-primary ${
-                errors.specialization && "input-error"
+                errors.specialization && touched.specialization && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.specialization}
             />
-            <label className="label-text-alt text-error">
-              {errors.specialization &&
-                touched.specialization &&
-                errors.specialization}
-            </label>
           </div>
           {/* placeOfBirth */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("placeOfBirth")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("placeOfBirth")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.placeOfBirth &&
+                  touched.placeOfBirth &&
+                  errors.placeOfBirth}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -324,22 +365,25 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="placeOfBirth"
               placeholder="Place Of Birth"
               className={`input input-bordered input-primary ${
-                errors.placeOfBirth && "input-error"
+                errors.placeOfBirth && touched.placeOfBirth && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.placeOfBirth}
             />
-            <label className="label-text-alt text-error">
-              {errors.placeOfBirth &&
-                touched.placeOfBirth &&
-                errors.placeOfBirth}
-            </label>
           </div>
 
           {/* nationality */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("nationality")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("nationality")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.nationality &&
+                  touched.nationality &&
+                  errors.nationality}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -347,20 +391,25 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="nationality"
               placeholder="Nationality"
               className={`input input-bordered input-primary ${
-                errors.nationality && "input-error"
+                errors.nationality && touched.nationality && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.nationality}
             />
-            <label className="label-text-alt text-error">
-              {errors.nationality && touched.nationality && errors.nationality}
-            </label>
           </div>
 
           {/* Student Order Among Siblings */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("studentOrderAmongSiblings")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("studentOrderAmongSiblings")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.studentOrderAmongSiblings &&
+                  touched.studentOrderAmongSiblings &&
+                  errors.studentOrderAmongSiblings}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="number"
@@ -368,22 +417,27 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="studentOrderAmongSiblings"
               placeholder="Student Order Among Siblings"
               className={`input input-bordered input-primary ${
-                errors.studentOrderAmongSiblings && "input-error"
+                errors.studentOrderAmongSiblings &&
+                touched.studentOrderAmongSiblings &&
+                "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.studentOrderAmongSiblings}
             />
-            <label className="label-text-alt text-error">
-              {errors.studentOrderAmongSiblings &&
-                touched.studentOrderAmongSiblings &&
-                errors.studentOrderAmongSiblings}
-            </label>
           </div>
 
           {/* familyIncome */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("familyIncome")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("familyIncome")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.familyIncome &&
+                  touched.familyIncome &&
+                  errors.familyIncome}
+              </label>
+            </div>
             <Field
               dir="ltr"
               as="select"
@@ -391,7 +445,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="familyIncome"
               placeholder="Preferred Language"
               className={`input input-bordered input-primary ${
-                errors.familyIncome && "input-error"
+                errors.familyIncome && touched.familyIncome && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -408,25 +462,27 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               </option>
               <option value={FamilyIncome.OVER_1000}>More than 1000</option>
             </Field>
-            <label className="label-text-alt text-error">
-              {errors.familyIncome &&
-                touched.familyIncome &&
-                errors.familyIncome}
-            </label>
           </div>
 
           {/* Family income proof */}
           <div className="flex flex-col justify-start w-full">
             <label className="label">
-              {t("familyIncomeProof")} {t("document")}{" "}
-              {!props.student.input && (
-                <span className="ml-1 mr-auto text-red-500">*</span>
-              )}
-              {props.student.input && (
-                <GetStorageLinkComponent
-                  storageKey={props.student.input?.familyIncomeProofDoc}
-                ></GetStorageLinkComponent>
-              )}
+              <div>
+                {`${t("familyIncomeProof")} ${t("document")}`}
+                {<span className="ml-1 mr-auto text-red-500">*</span>}
+              </div>
+              <div className="flex flex-col">
+                {props.student.input && (
+                  <GetStorageLinkComponent
+                    storageKey={props.student.input?.familyIncomeProofDoc}
+                  ></GetStorageLinkComponent>
+                )}
+                <label className="label-text-alt text-error">
+                  {errors.familyIncomeProofDocFile &&
+                    touched.familyIncomeProofDocFile &&
+                    errors.familyIncomeProofDocFile}
+                </label>
+              </div>
             </label>
             <Field
               dir="ltr"
@@ -437,7 +493,9 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="familyIncomeProofDocFile"
               placeholder="Transcript Doc"
               className={`file-input file-input-bordered file-input-secondary bg-secondary text-secondary-content ${
-                errors.familyIncomeProofDocFile && "input-error"
+                errors.familyIncomeProofDocFile &&
+                touched.familyIncomeProofDocFile &&
+                "input-error"
               }`}
               onChange={(event: any) => {
                 let file: File | undefined = event.currentTarget.files[0];
@@ -453,16 +511,19 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               onBlur={handleBlur}
               value={values.familyIncomeProofDocFile ?? ""}
             />
-            <label className="label-text-alt text-error">
-              {errors.familyIncomeProofDocFile &&
-                touched.familyIncomeProofDocFile &&
-                errors.familyIncomeProofDocFile}
-            </label>
           </div>
 
           {/* preferredLanguage */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("preferredLanguage")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("preferredLanguage")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.preferredLanguage &&
+                  touched.preferredLanguage &&
+                  errors.preferredLanguage}
+              </label>
+            </div>
             <Field
               dir="ltr"
               as="select"
@@ -470,7 +531,9 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               title="preferredLanguage"
               placeholder="Preferred Language"
               className={`input input-bordered input-primary ${
-                errors.preferredLanguage && "input-error"
+                errors.preferredLanguage &&
+                touched.preferredLanguage &&
+                "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -482,38 +545,42 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               <option value={Language.ARABIC}>العربية</option>
               <option value={Language.ENGLISH}>English</option>
             </Field>
-            <label className="label-text-alt text-error">
-              {errors.preferredLanguage &&
-                touched.preferredLanguage &&
-                errors.preferredLanguage}
-            </label>
           </div>
 
           {/* graduationDate */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("graduationDate")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("graduationDate")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.graduationDate &&
+                  touched.graduationDate &&
+                  errors.graduationDate}
+              </label>
+            </div>
             <Field
               type="date"
               name="graduationDate"
               title="graduationDate"
               placeholder="Graduation Date"
               className={`input input-bordered input-primary ${
-                errors.graduationDate && "input-error"
+                errors.graduationDate && touched.graduationDate && "input-error"
               }`}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.graduationDate}
             />
-            <label className="label-text-alt text-error">
-              {errors.graduationDate &&
-                touched.graduationDate &&
-                errors.graduationDate}
-            </label>
           </div>
 
           {/* Password */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("password")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("password")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.password && touched.password && errors.password}
+              </label>
+            </div>
             <div className="relative w-full">
               <Field
                 dir="ltr"
@@ -522,7 +589,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
                 title="password"
                 placeholder="Password"
                 className={`input w-full input-bordered input-primary ${
-                  errors.password && "input-error"
+                  errors.password && touched.password && "input-error"
                 }`}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -561,9 +628,68 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
                 </svg>
               </div>
             </div>
-            <label className="label-text-alt text-error">
-              {errors.password && touched.password && errors.password}
-            </label>
+          </div>
+
+          {/* Confirm Password */}
+          <div className="flex flex-col justify-start w-full">
+            <div className="flex items-center">
+              <label className="label">{t("confirmPassword")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.confirmPassword &&
+                  touched.confirmPassword &&
+                  errors.confirmPassword}
+              </label>
+            </div>
+            <div className="relative w-full">
+              <Field
+                dir="ltr"
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                title="Confirm password"
+                placeholder="Confirm password"
+                className={`input w-full input-bordered input-primary ${
+                  errors.confirmPassword &&
+                  touched.confirmPassword &&
+                  "input-error"
+                }`}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.confirmPassword}
+              />
+              <div
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute inset-y-0 right-0 flex items-center px-3 text-sm leading-5 hover:cursor-pointer"
+              >
+                <svg
+                  className={`h-6  text-gray-700 ${
+                    showConfirmPassword ? "hidden" : "block"
+                  } `}
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 576 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z"
+                  ></path>
+                </svg>
+
+                <svg
+                  className={`h-6  text-gray-700 ${
+                    showConfirmPassword ? "block" : "hidden"
+                  }`}
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 640 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144.13 144.13 0 0 1-26 2.61zm313.82 58.1l-110.55-85.44a331.25 331.25 0 0 0 81.25-102.07 32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45zm-183.72-142l-39.3-30.38A94.75 94.75 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.64 46.64 0 0 1-1.54 10l-73.61-56.89A142.31 142.31 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
           </div>
 
           {/* Submit */}

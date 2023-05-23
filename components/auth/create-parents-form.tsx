@@ -21,15 +21,13 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
         relation: yup.string().required(),
         guardianCPR: yup.string().required(),
         address: yup.string().required(),
-
         primaryMobile: yup.string().phone().required(),
         secondaryMobile: yup.string().phone().required(),
 
-        fatherFullName: yup.string().required(),
-        fatherCPR: yup.string().required(),
-
-        motherFullName: yup.string().required(),
-        motherCPR: yup.string().required(),
+        fatherFullName: yup.string(),
+        fatherCPR: yup.string(),
+        motherFullName: yup.string(),
+        motherCPR: yup.string(),
 
         numberOfFamilyMembers: yup.number().required(),
       })}
@@ -68,7 +66,15 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
         <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* guardianFullName */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("guardianName")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("guardianName")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.guardianFullName &&
+                  touched.guardianFullName &&
+                  errors.guardianFullName}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -82,16 +88,17 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.guardianFullName ?? ""}
             />
-            <label className="label-text-alt text-error">
-              {errors.guardianFullName &&
-                touched.guardianFullName &&
-                errors.guardianFullName}
-            </label>
           </div>
 
           {/* relation */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("relation")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("relation")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.relation && touched.relation && errors.relation}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -105,14 +112,19 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.relation}
             />
-            <label className="label-text-alt text-error">
-              {errors.relation && touched.relation && errors.relation}
-            </label>
           </div>
 
           {/* Guardian CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("guardianCPR")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("guardianCPR")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.guardianCPR &&
+                  touched.guardianCPR &&
+                  errors.guardianCPR}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -126,14 +138,17 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.guardianCPR}
             />
-            <label className="label-text-alt text-error">
-              {errors.guardianCPR && touched.guardianCPR && errors.guardianCPR}
-            </label>
           </div>
 
           {/* Address */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("address")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("address")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.address && touched.address && errors.address}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -147,16 +162,19 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.address}
             />
-            <label className="label-text-alt text-error">
-              {errors.address && touched.address && errors.address}
-            </label>
           </div>
-
-          <div className="divider md:col-span-2"></div>
 
           {/* primaryMobile */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("primaryMobileNumber")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("primaryMobileNumber")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.primaryMobile &&
+                  touched.primaryMobile &&
+                  errors.primaryMobile}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="phone"
@@ -170,16 +188,19 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.primaryMobile}
             />
-            <label className="label-text-alt text-error">
-              {errors.primaryMobile &&
-                touched.primaryMobile &&
-                errors.primaryMobile}
-            </label>
           </div>
 
           {/* secondaryMobile */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("secondaryMobileNumber")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("secondaryMobileNumber")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.secondaryMobile &&
+                  touched.secondaryMobile &&
+                  errors.secondaryMobile}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="phone"
@@ -193,16 +214,19 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.secondaryMobile}
             />
-            <label className="label-text-alt text-error">
-              {errors.secondaryMobile &&
-                touched.secondaryMobile &&
-                errors.secondaryMobile}
-            </label>
           </div>
 
           {/* Number Of Family Members */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("numberOfFamilyMembers")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("numberOfFamilyMembers")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.numberOfFamilyMembers &&
+                  touched.numberOfFamilyMembers &&
+                  errors.numberOfFamilyMembers}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -216,18 +240,21 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.numberOfFamilyMembers}
             />
-            <label className="label-text-alt text-error">
-              {errors.numberOfFamilyMembers &&
-                touched.numberOfFamilyMembers &&
-                errors.numberOfFamilyMembers}
-            </label>
           </div>
 
           <div className="divider md:col-span-2"></div>
 
           {/* Father Full Name */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("fatherFullName")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("fatherFullName")}</label>
+
+              <label className="label-text-alt text-error">
+                {errors.fatherFullName &&
+                  touched.fatherFullName &&
+                  errors.fatherFullName}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -241,16 +268,17 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.fatherFullName}
             />
-            <label className="label-text-alt text-error">
-              {errors.fatherFullName &&
-                touched.fatherFullName &&
-                errors.fatherFullName}
-            </label>
           </div>
 
           {/* Father CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("fatherCPR")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("fatherCPR")}</label>
+
+              <label className="label-text-alt text-error">
+                {errors.fatherCPR && touched.fatherCPR && errors.fatherCPR}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -264,16 +292,19 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.fatherCPR}
             />
-            <label className="label-text-alt text-error">
-              {errors.fatherCPR && touched.fatherCPR && errors.fatherCPR}
-            </label>
           </div>
-
-          <div className="md:col-span-2 divider"></div>
 
           {/* Mother Full Name */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("motherFullName")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("motherFullName")}</label>
+
+              <label className="label-text-alt text-error">
+                {errors.motherFullName &&
+                  touched.motherFullName &&
+                  errors.motherFullName}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -287,16 +318,17 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.motherFullName}
             />
-            <label className="label-text-alt text-error">
-              {errors.motherFullName &&
-                touched.motherFullName &&
-                errors.motherFullName}
-            </label>
           </div>
 
           {/* Mother CPR */}
           <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("motherCPR")}</label>
+            <div className="flex items-center">
+              <label className="label">{t("motherCPR")}</label>
+
+              <label className="label-text-alt text-error">
+                {errors.motherCPR && touched.motherCPR && errors.motherCPR}
+              </label>
+            </div>
             <Field
               dir="ltr"
               type="text"
@@ -310,9 +342,6 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               onBlur={handleBlur}
               value={values.motherCPR}
             />
-            <label className="label-text-alt text-error">
-              {errors.motherCPR && touched.motherCPR && errors.motherCPR}
-            </label>
           </div>
 
           {/* Submit */}
