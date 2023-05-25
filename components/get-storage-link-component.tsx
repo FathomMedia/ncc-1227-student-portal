@@ -5,9 +5,13 @@ import { useTranslation } from "react-i18next";
 
 interface Props {
   storageKey: string | undefined | null;
+  showName?: boolean;
 }
 
-export default function GetStorageLinkComponent({ storageKey }: Props) {
+export default function GetStorageLinkComponent({
+  storageKey,
+  showName,
+}: Props) {
   const [link, setLink] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -19,6 +23,15 @@ export default function GetStorageLinkComponent({ storageKey }: Props) {
   }
 
   const { t } = useTranslation("applicationPage");
+
+  function extractTextBetweenHashTags(str: string): string {
+    const hashTagRegex = /#([^#]+)#/;
+    const match = str.match(hashTagRegex);
+    if (match !== null) {
+      return match[1];
+    }
+    return "";
+  }
 
   return (
     <div>
@@ -32,11 +45,18 @@ export default function GetStorageLinkComponent({ storageKey }: Props) {
             }`}
             onClick={() => getLink(storageKey)}
           >
-            {isLoading ? t("loading") : t("getLink")}
+            {isLoading
+              ? t("loading")
+              : showName
+              ? extractTextBetweenHashTags(storageKey) || t("getLink")
+              : t("getLink")}
           </button>
         ) : (
-          <Link className="link link-success" target="_blank" href={link}>
-            {t("view")} {t("document")}
+          <Link className="btn btn-success btn-sm" target="_blank" href={link}>
+            {showName
+              ? `View ${extractTextBetweenHashTags(storageKey)}` ||
+                `${t("view")} ${t("document")}`
+              : `${t("view")} ${t("document")}`}
           </Link>
         ))}
       {!storageKey && (

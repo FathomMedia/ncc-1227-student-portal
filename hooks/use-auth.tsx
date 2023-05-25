@@ -11,7 +11,7 @@ import {
 import { Auth, CognitoUser } from "@aws-amplify/auth";
 import config from "../src/aws-exports";
 import { toast } from "react-hot-toast";
-import { API } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 import { GetStudentQuery, GetStudentQueryVariables } from "../src/API";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { useRouter } from "next/router";
@@ -76,14 +76,17 @@ function useProvideAuth() {
    * @returns A boolean value.
    */
   async function checkIfCprExist(cpr: string): Promise<boolean> {
-    let queryInput: GetStudentQueryVariables = {
-      cpr: cpr,
-    };
+    const query = `
+    query CheckIfStudentCprExist {
+      getStudent(cpr: "${cpr}") {
+        cpr
+      }
+    }
+    `;
 
-    let res = (await API.graphql({
-      query: getStudent,
-      variables: queryInput,
-    })) as GraphQLResult<GetStudentQuery>;
+    let res = (await API.graphql(
+      graphqlOperation(query)
+    )) as GraphQLResult<GetStudentQuery>;
 
     return res.data?.getStudent != null;
   }

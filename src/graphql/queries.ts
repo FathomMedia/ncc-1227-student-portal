@@ -163,6 +163,7 @@ export const getApplication = /* GraphQL */ `
         householdIncome
         familyIncome
         familyIncomeProofDoc
+        familyIncomeProofDocs
         preferredLanguage
         graduationDate
         address
@@ -266,6 +267,7 @@ export const listApplications = /* GraphQL */ `
           householdIncome
           familyIncome
           familyIncomeProofDoc
+          familyIncomeProofDocs
           preferredLanguage
           graduationDate
           address
@@ -351,6 +353,7 @@ export const syncApplications = /* GraphQL */ `
           householdIncome
           familyIncome
           familyIncomeProofDoc
+          familyIncomeProofDocs
           preferredLanguage
           graduationDate
           address
@@ -457,6 +460,7 @@ export const getProgramChoice = /* GraphQL */ `
           householdIncome
           familyIncome
           familyIncomeProofDoc
+          familyIncomeProofDocs
           preferredLanguage
           graduationDate
           address
@@ -976,6 +980,7 @@ export const getStudentLog = /* GraphQL */ `
         householdIncome
         familyIncome
         familyIncomeProofDoc
+        familyIncomeProofDocs
         preferredLanguage
         graduationDate
         address
@@ -1052,6 +1057,7 @@ export const listStudentLogs = /* GraphQL */ `
           householdIncome
           familyIncome
           familyIncomeProofDoc
+          familyIncomeProofDocs
           preferredLanguage
           graduationDate
           address
@@ -1110,6 +1116,7 @@ export const syncStudentLogs = /* GraphQL */ `
           householdIncome
           familyIncome
           familyIncomeProofDoc
+          familyIncomeProofDocs
           preferredLanguage
           graduationDate
           address
@@ -1340,6 +1347,7 @@ export const getStudent = /* GraphQL */ `
       householdIncome
       familyIncome
       familyIncomeProofDoc
+      familyIncomeProofDocs
       preferredLanguage
       graduationDate
       address
@@ -1442,6 +1450,7 @@ export const listStudents = /* GraphQL */ `
         householdIncome
         familyIncome
         familyIncomeProofDoc
+        familyIncomeProofDocs
         preferredLanguage
         graduationDate
         address
@@ -1512,6 +1521,7 @@ export const syncStudents = /* GraphQL */ `
         householdIncome
         familyIncome
         familyIncomeProofDoc
+        familyIncomeProofDocs
         preferredLanguage
         graduationDate
         address
@@ -1616,6 +1626,7 @@ export const applicationsByIdAndDateTime = /* GraphQL */ `
           householdIncome
           familyIncome
           familyIncomeProofDoc
+          familyIncomeProofDocs
           preferredLanguage
           graduationDate
           address
@@ -1705,6 +1716,7 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
           householdIncome
           familyIncome
           familyIncomeProofDoc
+          familyIncomeProofDocs
           preferredLanguage
           graduationDate
           address
@@ -1794,6 +1806,7 @@ export const applicationsByBatchAndStatus = /* GraphQL */ `
           householdIncome
           familyIncome
           familyIncomeProofDoc
+          familyIncomeProofDocs
           preferredLanguage
           graduationDate
           address

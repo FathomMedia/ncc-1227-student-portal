@@ -133,6 +133,7 @@ type Student @model @auth(rules: [{ allow: public }]) {
   householdIncome: Float
   familyIncome: FamilyIncome
   familyIncomeProofDoc: String
+  familyIncomeProofDocs: [String]
   preferredLanguage: Language
   graduationDate: AWSDate
   address: String

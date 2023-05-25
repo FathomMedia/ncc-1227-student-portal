@@ -403,10 +403,17 @@ export async function createStudentLogInDB(
  * @param {DocType} type - DocType - this is an enum that I have defined in my code.
  * @returns The key of the file uploaded to the storage bucket.
  */
-export async function uploadFile(file: File, type: DocType, cpr: string) {
+export async function uploadFile(
+  file: File,
+  type: DocType,
+  cpr: string,
+  index?: number
+) {
   try {
     let res = await Storage.put(
-      `Student${cpr}/${cpr}#${DocType[type]}#${new Date().getTime()}`,
+      `Student${cpr}/${cpr}#${DocType[type]}${
+        index ? `-${index}` : ""
+      }#${new Date().getTime()}`,
       file,
       {
         contentType: file.type,

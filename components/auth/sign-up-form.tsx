@@ -29,10 +29,9 @@ import { values } from "lodash";
 
 export interface CreateStudentFormValues {
   student: CreateStudentMutationVariables;
-
   parentInfo: CreateParentInfoMutationVariables;
-
   password: string;
+  familyIncomeProofDocsFile: File[];
 }
 
 export default function SignUpForm() {
@@ -83,6 +82,7 @@ export default function SignUpForm() {
       condition: undefined,
     },
     password: "",
+    familyIncomeProofDocsFile: [],
   };
 
   const [createStudentFormValues, setCreateStudentFormValues] =
@@ -202,6 +202,17 @@ export default function SignUpForm() {
       throw new Error("Error creating the user");
     }
 
+    const storageKeys = await Promise.all([
+      ...data.familyIncomeProofDocsFile.map((f, index) =>
+        uploadFile(
+          f,
+          DocType.FAMILY_INCOME_PROOF,
+          data.student.input.cpr,
+          index
+        )
+      ),
+    ]);
+
     let temp: CreateStudentFormValues = {
       student: {
         input: {
@@ -222,7 +233,7 @@ export default function SignUpForm() {
           address: data.student.input.address,
           parentInfoID: createdParentInfo?.data?.createParentInfo?.id,
           familyIncome: data.student.input.familyIncome,
-          familyIncomeProofDoc: data.student.input.familyIncomeProofDoc,
+          familyIncomeProofDocs: storageKeys,
           nationality: data.student.input.nationality,
           _version: data.student.input._version,
         },
@@ -230,6 +241,7 @@ export default function SignUpForm() {
       },
       parentInfo: data.parentInfo,
       password: data.password,
+      familyIncomeProofDocsFile: data.familyIncomeProofDocsFile,
     };
 
     setCreateStudentFormValues(temp);
@@ -296,6 +308,7 @@ export default function SignUpForm() {
               parentInfo: createStudentFormValues.parentInfo,
 
               password: values.password,
+              familyIncomeProofDocsFile: values.familyIncomeProofDocsFile,
             };
 
             setCreateStudentFormValues(temp);
@@ -311,10 +324,10 @@ export default function SignUpForm() {
           onFormSubmit={async (values) => {
             let temp: CreateStudentFormValues = {
               student: createStudentFormValues.student,
-
               parentInfo: values,
-
               password: createStudentFormValues.password,
+              familyIncomeProofDocsFile:
+                createStudentFormValues.familyIncomeProofDocsFile,
             };
 
             setCreateStudentFormValues(temp);

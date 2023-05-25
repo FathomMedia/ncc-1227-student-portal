@@ -10,9 +10,8 @@ import * as yup from "yup";
 import "yup-phone";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import GetStorageLinkComponent from "../get-storage-link-component";
-import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
-import { uploadFile, DocType } from "../../src/CustomAPI";
+import MultiUpload from "../MultiUpload";
+import { useAuth } from "../../hooks/use-auth";
 
 interface ICreateStudentForm {
   student: CreateStudentMutationVariables;
@@ -21,20 +20,23 @@ interface ICreateStudentForm {
   onFormSubmit: (values: {
     student: CreateStudentMutationVariables;
     password: string;
-    familyIncomeProofDocFile: File;
+    familyIncomeProofDocsFile: File[];
   }) => void;
 }
 
 export const CreateStudentForm = (props: ICreateStudentForm) => {
   const { t } = useTranslation("account");
+  const { checkIfCprExist } = useAuth();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
+  const [familyIncomeProofInvalid, setFamilyIncomeProofInvalid] =
+    useState<boolean>(false);
 
-  const [familyIncomeProofDocFile, setFamilyIncomeProofDocFile] = useState<
-    File | undefined
-  >(undefined);
+  const [familyIncomeProofDocsFile, setFamilyIncomeProofDocsFile] = useState<
+    File[]
+  >([]);
 
   return (
     <Formik
@@ -42,7 +44,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         ...props.student.input,
         password: "",
         confirmPassword: "",
-        familyIncomeProofDocFile: undefined,
+        familyIncomeProofDocsFile: [],
       }}
       validationSchema={yup.object({
         cpr: yup.string().min(9).max(9).required(),
@@ -56,8 +58,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         address: yup.string().required(),
         placeOfBirth: yup.string().required(),
         familyIncome: yup.string().required(),
-        familyIncomeProofDoc: yup.string(),
-        familyIncomeProofDocFile: yup.string().required(),
+        familyIncomeProofDocsFile: yup.array(yup.string()),
         nationality: yup.string().required(),
         studentOrderAmongSiblings: yup.number().required(),
         preferredLanguage: yup.string().required(),
@@ -69,16 +70,6 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           .required("Password is required"),
       })}
       onSubmit={async (values, actions) => {
-        if (!familyIncomeProofDocFile) {
-          throw new Error("Family proof is missing.");
-        }
-
-        const familyIncomeProofStorageKey = await uploadFile(
-          familyIncomeProofDocFile,
-          DocType.FAMILY_INCOME_PROOF,
-          `${values.cpr}`
-        );
-
         props.onFormSubmit({
           student: {
             input: {
@@ -94,7 +85,6 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               nationality: values.nationality,
               studentOrderAmongSiblings: values.studentOrderAmongSiblings,
               familyIncome: values.familyIncome,
-              familyIncomeProofDoc: familyIncomeProofStorageKey,
               preferredLanguage: values.preferredLanguage,
               graduationDate: values.graduationDate,
               address: values.address,
@@ -104,7 +94,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
             condition: props.student.condition,
           },
           password: values.password,
-          familyIncomeProofDocFile: familyIncomeProofDocFile,
+          familyIncomeProofDocsFile: familyIncomeProofDocsFile,
         });
 
         actions.setSubmitting(false);
@@ -119,6 +109,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         isSubmitting,
         isValid,
         setFieldError,
+        validateField,
       }) => (
         <Form className="container grid items-end max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* CPR */}
@@ -140,8 +131,24 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
                 errors.cpr && touched.cpr && "input-error"
               }`}
               onChange={handleChange}
-              onBlur={handleBlur}
+              onBlur={() => {
+                if (!errors.cpr) {
+                  checkIfCprExist(values.cpr)
+                    .then((res) => {
+                      if (res) {
+                        setFieldError("cpr", "CPR already in use");
+                      } else {
+                        validateField("cpr");
+                      }
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                }
+              }}
               value={values.cpr ?? ""}
+              validateOnChange={false}
+              validateOnBlur={true}
             />
           </div>
           {/* FullName */}
@@ -427,92 +434,6 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
             />
           </div>
 
-          {/* familyIncome */}
-          <div className="flex flex-col justify-start w-full">
-            <div className="flex items-center">
-              <label className="label">{t("familyIncome")}</label>
-              <label className="text-error label">*</label>{" "}
-              <label className="label-text-alt text-error">
-                {errors.familyIncome &&
-                  touched.familyIncome &&
-                  errors.familyIncome}
-              </label>
-            </div>
-            <Field
-              dir="ltr"
-              as="select"
-              name="familyIncome"
-              title="familyIncome"
-              placeholder="Preferred Language"
-              className={`input input-bordered input-primary ${
-                errors.familyIncome && touched.familyIncome && "input-error"
-              }`}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.familyIncome}
-            >
-              <option disabled selected value={undefined}>
-                Select
-              </option>
-
-              <option value={FamilyIncome.LESS_THAN_500}>Less than 500</option>
-              <option value={FamilyIncome.BETWEEN_500_AND_700}>500-700</option>
-              <option value={FamilyIncome.BETWEEN_700_AND_1000}>
-                700-1000
-              </option>
-              <option value={FamilyIncome.OVER_1000}>More than 1000</option>
-            </Field>
-          </div>
-
-          {/* Family income proof */}
-          <div className="flex flex-col justify-start w-full">
-            <label className="label">
-              <div>
-                {`${t("familyIncomeProof")} ${t("document")}`}
-                {<span className="ml-1 mr-auto text-red-500">*</span>}
-              </div>
-              <div className="flex flex-col">
-                {props.student.input && (
-                  <GetStorageLinkComponent
-                    storageKey={props.student.input?.familyIncomeProofDoc}
-                  ></GetStorageLinkComponent>
-                )}
-                <label className="label-text-alt text-error">
-                  {errors.familyIncomeProofDocFile &&
-                    touched.familyIncomeProofDocFile &&
-                    errors.familyIncomeProofDocFile}
-                </label>
-              </div>
-            </label>
-            <Field
-              dir="ltr"
-              type="file"
-              accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
-              id="familyIncomeProofDocFile"
-              name="familyIncomeProofDocFile"
-              title="familyIncomeProofDocFile"
-              placeholder="Transcript Doc"
-              className={`file-input file-input-bordered file-input-secondary bg-secondary text-secondary-content ${
-                errors.familyIncomeProofDocFile &&
-                touched.familyIncomeProofDocFile &&
-                "input-error"
-              }`}
-              onChange={(event: any) => {
-                let file: File | undefined = event.currentTarget.files[0];
-
-                let isValid = checkIfFilesAreTooBig(file);
-                if (isValid) {
-                  setFamilyIncomeProofDocFile(file);
-                  handleChange(event);
-                } else {
-                  setFieldError("familyIncomeProofDoc", "File is too large");
-                }
-              }}
-              onBlur={handleBlur}
-              value={values.familyIncomeProofDocFile ?? ""}
-            />
-          </div>
-
           {/* preferredLanguage */}
           <div className="flex flex-col justify-start w-full">
             <div className="flex items-center">
@@ -571,6 +492,154 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               value={values.graduationDate}
             />
           </div>
+
+          {/* familyIncome */}
+          <div className="flex flex-col justify-start w-full md:col-span-2">
+            <div className="flex items-center">
+              <label className="label">{t("familyIncome")}</label>
+              <label className="text-error label">*</label>{" "}
+              <label className="label-text-alt text-error">
+                {errors.familyIncome &&
+                  touched.familyIncome &&
+                  errors.familyIncome}
+              </label>
+            </div>
+            <Field
+              dir="ltr"
+              as="select"
+              name="familyIncome"
+              title="familyIncome"
+              placeholder="Preferred Language"
+              className={`input input-bordered input-primary ${
+                errors.familyIncome && touched.familyIncome && "input-error"
+              }`}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.familyIncome}
+            >
+              <option disabled selected value={undefined}>
+                Select
+              </option>
+
+              <option value={FamilyIncome.LESS_THAN_500}>Less than 500</option>
+              <option value={FamilyIncome.BETWEEN_500_AND_700}>500-700</option>
+              <option value={FamilyIncome.BETWEEN_700_AND_1000}>
+                700-1000
+              </option>
+              <option value={FamilyIncome.OVER_1000}>More than 1000</option>
+            </Field>
+          </div>
+
+          <div className="justify-start md:col-span-2">
+            <MultiUpload
+              onFiles={(files) => {
+                setFamilyIncomeProofDocsFile(files);
+              }}
+              isInvalid={setFamilyIncomeProofInvalid}
+              handleChange={handleChange}
+              value={values.familyIncomeProofDocsFile ?? ""}
+              filedName={"familyIncomeProofDocsFile"}
+              title={`${t("familyIncomeProof")} ${t("document")}`}
+            ></MultiUpload>
+          </div>
+
+          {/* Family income proofs */}
+          {/* <div className="flex flex-col justify-start md:col-span-2">
+            <label className="label">
+              <div className="flex justify-between items-center w-full">
+                <div className="flex justify-start gap-1">
+                  <p>{`${t("familyIncomeProof")} ${t("document")}`}</p>
+                  <span className=" text-red-500">*</span>
+                </div>
+                <button
+                  className="btn btn-ghost btn-xs ml-auto"
+                  type="button"
+                  onClick={() => {
+                    handleCleanFamilyIncomeProofDocs();
+                  }}
+                >
+                  Clear
+                </button>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex flex-wrap gap-2 items-center">
+                  {props.student.input?.familyIncomeProofDocs?.map(
+                    (doc, index) => (
+                      <div key={index} className="badge badge-secondary">
+                        <GetStorageLinkComponent
+                          storageKey={doc}
+                        ></GetStorageLinkComponent>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            </label>
+            <div
+              {...getRootProps()}
+              className={`flex flex-col justify-start w-full p-4 border border-dashed rounded-lg border-secondary ${
+                familyIncomeProofDocsFileRejected.length > 0 && "border-error"
+              }`}
+            >
+              <Field
+                dir="ltr"
+                name="familyIncomeProofDocsFile"
+                title="familyIncomeProofDocsFile"
+                {...getInputProps()}
+                onChange={(event: any) => {
+                  if (familyIncomeProofDocsFileRejected.length > 0) {
+                    setFieldError("familyIncomeProofDocsFile", "invalid file");
+                  }
+
+                  handleChange(event);
+                }}
+                value={values.familyIncomeProofDocsFile ?? ""}
+              />
+              <div className="flex justify-center mb-4 text-center ">
+                {isDragActive ? (
+                  <p>Drop the files here ...</p>
+                ) : (
+                  <p>Drag drop some files here, or click to select files</p>
+                )}
+              </div>
+
+              {(familyIncomeProofDocsFile ||
+                familyIncomeProofDocsFileRejected) && (
+                <div className="flex flex-wrap gap-3 text-sm text-secondary">
+                  {familyIncomeProofDocsFile.map((file: File, index) => (
+                    <div
+                      className="flex flex-col justify-start px-3 py-2 bg-gray-200 border border-gray-300 rounded-md"
+                      key={index}
+                    >
+                      <p>{file.name}</p>
+                      <p className="text-xs">
+                        Size: {(file.size / 1024 / 1024).toFixed(1)} MB
+                      </p>
+                    </div>
+                  ))}
+
+                  {familyIncomeProofDocsFileRejected.map(
+                    (file: FileRejection, index) => (
+                      <div
+                        className="flex flex-col gap-1 px-3 py-2 bg-red-200 border border-red-300 rounded-md text-error"
+                        key={index}
+                      >
+                        <p>{file.file.name}</p>
+                        <div className="flex flex-col gap-1">
+                          {file.errors.map((e, i) => (
+                            <p className="text-xs" key={i}>
+                              Size: {(file.file.size / 1024 / 1024).toFixed(1)}{" "}
+                              MB - {e.message}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+          </div> */}
 
           {/* Password */}
           <div className="flex flex-col justify-start w-full">
@@ -696,7 +765,13 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           <button
             className="my-3 text-white md:col-span-2 btn btn-primary"
             type="submit"
-            disabled={isSubmitting || !isValid}
+            disabled={
+              isSubmitting ||
+              !isValid ||
+              familyIncomeProofInvalid ||
+              (familyIncomeProofDocsFile.length === 0 &&
+                (props.student.input.familyIncomeProofDocs ?? []).length === 0)
+            }
           >
             {props.submitTitle}
           </button>

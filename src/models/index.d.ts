@@ -424,6 +424,7 @@ type EagerStudent = {
   readonly householdIncome?: number | null;
   readonly familyIncome?: FamilyIncome | keyof typeof FamilyIncome | null;
   readonly familyIncomeProofDoc?: string | null;
+  readonly familyIncomeProofDocs?: (string | null)[] | null;
   readonly preferredLanguage?: Language | keyof typeof Language | null;
   readonly graduationDate?: string | null;
   readonly address?: string | null;
@@ -454,6 +455,7 @@ type LazyStudent = {
   readonly householdIncome?: number | null;
   readonly familyIncome?: FamilyIncome | keyof typeof FamilyIncome | null;
   readonly familyIncomeProofDoc?: string | null;
+  readonly familyIncomeProofDocs?: (string | null)[] | null;
   readonly preferredLanguage?: Language | keyof typeof Language | null;
   readonly graduationDate?: string | null;
   readonly address?: string | null;

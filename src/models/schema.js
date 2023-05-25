@@ -1224,6 +1224,14 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "familyIncomeProofDocs": {
+                    "name": "familyIncomeProofDocs",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
                 "preferredLanguage": {
                     "name": "preferredLanguage",
                     "isArray": false,
@@ -1399,6 +1407,6 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "codegenVersion": "3.4.3",
-    "version": "282d10467afde43d78d360c200fdae1d"
+    "codegenVersion": "3.4.2",
+    "version": "2d38265864b6e52880f68e9a1d888ce3"
 };

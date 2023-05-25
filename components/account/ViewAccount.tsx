@@ -14,9 +14,8 @@ import { toast } from "react-hot-toast";
 import { useAppContext } from "../../contexts/AppContexts";
 
 import { useTranslation } from "react-i18next";
-import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
-import GetStorageLinkComponent from "../get-storage-link-component";
 import { useState } from "react";
+import MultiUpload from "../MultiUpload";
 
 interface Props {
   student: Student;
@@ -29,9 +28,10 @@ interface FormValues {
   schoolType: SchoolType | null | undefined;
   specialization: string | null | undefined;
   placeOfBirth: string | null | undefined;
+
   familyIncome: FamilyIncome | null | undefined;
-  familyIncomeProofDoc: string | null | undefined;
-  familyIncomeProofDocFile: File | null | undefined;
+  familyIncomeProofDocs: (string | null)[] | null | undefined;
+  familyIncomeProofDocsFile: File[];
 
   nationality: string | null | undefined;
   studentOrderAmongSiblings: number | null | undefined;
@@ -44,9 +44,11 @@ export default function ViewApplication({ student }: Props) {
   const { syncStudent } = useAppContext();
   const { t } = useTranslation("account");
 
-  const [familyIncomeProofDocFile, setFamilyIncomeProofDocFile] = useState<
-    File | undefined
-  >(undefined);
+  const [familyIncomeProofDocsFile, setFamilyIncomeProofDocsFile] = useState<
+    File[]
+  >([]);
+  const [familyIncomeProofInvalid, setFamilyIncomeProofInvalid] =
+    useState<boolean>(false);
 
   let initialValues: FormValues = {
     phone: student.phone,
@@ -56,8 +58,8 @@ export default function ViewApplication({ student }: Props) {
     specialization: student.specialization,
     placeOfBirth: student.placeOfBirth,
     familyIncome: student.familyIncome,
-    familyIncomeProofDoc: student.familyIncomeProofDoc,
-    familyIncomeProofDocFile: undefined,
+    familyIncomeProofDocs: student.familyIncomeProofDocs,
+    familyIncomeProofDocsFile: [],
     nationality: student.nationality,
     studentOrderAmongSiblings: student.studentOrderAmongSiblings,
     preferredLanguage: student.preferredLanguage,
@@ -88,30 +90,36 @@ export default function ViewApplication({ student }: Props) {
         address: yup.string().required(),
         placeOfBirth: yup.string().required(),
         familyIncome: yup.string().required(),
-        familyIncomeProofDoc: yup.string().nullable(),
-        familyIncomeProofDocFile: yup.string().nullable(),
+        familyIncomeProofDocs: yup.array(yup.string()),
+        familyIncomeProofDocsFile: yup.array(yup.string()),
         nationality: yup.string().required(),
         studentOrderAmongSiblings: yup.number().required(),
         preferredLanguage: yup.string().required(),
         graduationDate: yup.date().required(),
       })}
       onSubmit={async (values, actions) => {
-        const familyIncomeProofStorageKey = familyIncomeProofDocFile
-          ? await toast.promise(
-              uploadFile(
-                familyIncomeProofDocFile,
-                DocType.FAMILY_INCOME_PROOF,
-                `${student?.cpr}`
-              ),
-              {
-                loading: "Uploading...",
-                success: "Document uploaded successfully",
-                error: (err) => {
-                  return `${err.message}`;
-                },
-              }
-            )
-          : student.familyIncomeProofDoc;
+        const storageKeys =
+          familyIncomeProofDocsFile.length > 0
+            ? await toast.promise(
+                Promise.all([
+                  ...familyIncomeProofDocsFile.map((f, index) =>
+                    uploadFile(
+                      f,
+                      DocType.FAMILY_INCOME_PROOF,
+                      student.cpr,
+                      index
+                    )
+                  ),
+                ]),
+                {
+                  loading: "Uploading...",
+                  success: "Document uploaded successfully",
+                  error: (err) => {
+                    return `${err.message}`;
+                  },
+                }
+              )
+            : student.familyIncomeProofDocs;
 
         let updateVars: UpdateStudentMutationVariables = {
           input: {
@@ -125,7 +133,7 @@ export default function ViewApplication({ student }: Props) {
             nationality: values.nationality,
             studentOrderAmongSiblings: values.studentOrderAmongSiblings,
             familyIncome: values.familyIncome,
-            familyIncomeProofDoc: familyIncomeProofStorageKey,
+            familyIncomeProofDocs: storageKeys,
             preferredLanguage: values.preferredLanguage,
             graduationDate: values.graduationDate,
             address: values.address,
@@ -411,7 +419,7 @@ export default function ViewApplication({ student }: Props) {
           </div>
 
           {/* familyIncome */}
-          <div className="flex flex-col justify-start w-full">
+          <div className="flex flex-col justify-start w-full md:col-span-2">
             <label className="label">{t("familyIncome")}</label>
             <Field
               dir="ltr"
@@ -443,51 +451,19 @@ export default function ViewApplication({ student }: Props) {
                 errors.familyIncome}
             </label>
           </div>
-
           {/* Family income proof */}
-          <div className="flex flex-col justify-start w-full">
-            <label className="label">
-              {t("familyIncomeProof")} {t("document")}{" "}
-              {!student && <span className="ml-1 mr-auto text-red-500">*</span>}
-              {student && (
-                <GetStorageLinkComponent
-                  storageKey={student?.familyIncomeProofDoc}
-                ></GetStorageLinkComponent>
-              )}
-            </label>
-            <Field
-              dir="ltr"
-              type="file"
-              accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
-              id="familyIncomeProofDocFile"
-              name="familyIncomeProofDocFile"
-              title="familyIncomeProofDocFile"
-              placeholder="Transcript Doc"
-              className={`file-input file-input-bordered file-input-secondary bg-secondary text-secondary-content ${
-                errors.familyIncomeProofDocFile && "input-error"
-              }`}
-              onChange={(event: any) => {
-                let file: File | undefined = event.currentTarget.files[0];
-
-                let isValid = checkIfFilesAreTooBig(file);
-                if (isValid) {
-                  setFamilyIncomeProofDocFile(file);
-                  handleChange(event);
-                } else {
-                  setFieldError(
-                    "familyIncomeProofDocFile",
-                    "File is too large"
-                  );
-                }
+          <div className="justify-start md:col-span-2">
+            <MultiUpload
+              onFiles={(files) => {
+                setFamilyIncomeProofDocsFile(files);
               }}
-              onBlur={handleBlur}
-              value={values.familyIncomeProofDocFile ?? ""}
-            />
-            <label className="label-text-alt text-error">
-              {errors.familyIncomeProofDocFile &&
-                touched.familyIncomeProofDocFile &&
-                errors.familyIncomeProofDocFile}
-            </label>
+              isInvalid={setFamilyIncomeProofInvalid}
+              handleChange={handleChange}
+              value={values.familyIncomeProofDocsFile ?? ""}
+              filedName={"familyIncomeProofDocsFile"}
+              title={`${t("familyIncomeProof")} ${t("document")}`}
+              storageKeys={student.familyIncomeProofDocs}
+            ></MultiUpload>
           </div>
 
           {/* preferredLanguage */}
@@ -546,7 +522,13 @@ export default function ViewApplication({ student }: Props) {
           <button
             className="my-3 text-white md:col-span-2 btn btn-primary"
             type="submit"
-            disabled={isSubmitting || !isValid}
+            disabled={
+              isSubmitting ||
+              !isValid ||
+              familyIncomeProofInvalid ||
+              (familyIncomeProofDocsFile.length === 0 &&
+                (student.familyIncomeProofDocs ?? []).length === 0)
+            }
           >
             {t("update")}
           </button>
