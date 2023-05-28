@@ -29,6 +29,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
   const { checkIfCprExist } = useAuth();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [cprAvailable, setCprAvailable] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
   const [familyIncomeProofInvalid, setFamilyIncomeProofInvalid] =
@@ -120,6 +121,9 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               <label className="label-text-alt text-error">
                 {errors.cpr && touched.cpr && errors.cpr}
               </label>
+              <label className="px-2 label-text-alt text-success">
+                {cprAvailable && touched.cpr && !errors.cpr && t("available")}
+              </label>
             </div>
             <Field
               dir="ltr"
@@ -131,24 +135,25 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
                 errors.cpr && touched.cpr && "input-error"
               }`}
               onChange={handleChange}
-              onBlur={() => {
+              onBlur={(event: any) => {
                 if (!errors.cpr) {
                   checkIfCprExist(values.cpr)
                     .then((res) => {
                       if (res) {
                         setFieldError("cpr", "CPR already in use");
+                        setCprAvailable(false);
                       } else {
                         validateField("cpr");
+                        setCprAvailable(true);
                       }
                     })
                     .catch((error) => {
                       console.error(error);
                     });
                 }
+                handleBlur(event);
               }}
               value={values.cpr ?? ""}
-              validateOnChange={false}
-              validateOnBlur={true}
             />
           </div>
           {/* FullName */}
@@ -546,13 +551,13 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           {/* Family income proofs */}
           {/* <div className="flex flex-col justify-start md:col-span-2">
             <label className="label">
-              <div className="flex justify-between items-center w-full">
+              <div className="flex items-center justify-between w-full">
                 <div className="flex justify-start gap-1">
                   <p>{`${t("familyIncomeProof")} ${t("document")}`}</p>
-                  <span className=" text-red-500">*</span>
+                  <span className="text-red-500 ">*</span>
                 </div>
                 <button
-                  className="btn btn-ghost btn-xs ml-auto"
+                  className="ml-auto btn btn-ghost btn-xs"
                   type="button"
                   onClick={() => {
                     handleCleanFamilyIncomeProofDocs();
@@ -562,7 +567,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
                 </button>
               </div>
               <div className="flex flex-col">
-                <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex flex-wrap items-center gap-2">
                   {props.student.input?.familyIncomeProofDocs?.map(
                     (doc, index) => (
                       <div key={index} className="badge badge-secondary">
