@@ -7,7 +7,8 @@ import { SignInForm } from "./auth/sign-in-form";
 
 import logo from "../public/svg/logo-white.svg";
 import account from "../public/svg/account.svg";
-import background from "../public/images/graduates-university.png";
+import background from "../public/images/headerBg.jpg";
+import footerBg from "../public/images/footerBg.jpg";
 import Image from "next/image";
 import { useAppContext } from "../contexts/AppContexts";
 import { useTranslation } from "react-i18next";
@@ -42,10 +43,10 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
             style={{
               backgroundImage: `url(${background.src})`,
               backgroundSize: "cover",
-              backgroundPosition: "50%",
+              backgroundPosition: "0% 100%",
             }}
           >
-            <div className="relative flex flex-col items-center w-full gap-3 bg-secondary/80 text-secondary-content p-11 md:p-20 md:pt-10">
+            <div className="relative flex flex-col items-center w-full gap-3 bg-secondary/20 text-secondary-content p-11 md:p-20 md:pt-10">
               <Image
                 className="w-40 md:w-52 hover:cursor-pointer"
                 src={logo}
@@ -106,8 +107,15 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
             )}
           </div>
         </div>
-        <div className="divide-y divide-secondary-content">
-          <footer className="justify-center p-10 md:justify-around footer bg-secondary text-secondary-content">
+        <div
+          className="divide-y divide-secondary-content"
+          style={{
+            backgroundImage: `url(${footerBg.src})`,
+            backgroundSize: "cover",
+            backgroundPosition: "50% 75%",
+          }}
+        >
+          <footer className="justify-center p-10 md:justify-around footer text-secondary-content">
             <div className="flex flex-col justify-center h-full mx-auto">
               <Image
                 className="w-40 md:w-52 max-h-24 hover:cursor-pointer"
@@ -146,8 +154,14 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
               {/* <a>{footerTranslation.t("manamaKingdomOfBahrain")} </a> */}
             </div>
           </footer>
-          <div dir="ltr" className="justify-center px-10 py-4 text-center footer bg-secondary text-secondary-content">
-            <p>© {new Date().getFullYear()} isa bin salman education charitable trust</p>
+          <div
+            dir="ltr"
+            className="justify-center px-10 py-4 text-center footer text-secondary-content"
+          >
+            <p>
+              © {new Date().getFullYear()} isa bin salman education charitable
+              trust
+            </p>
           </div>
         </div>
       </div>
