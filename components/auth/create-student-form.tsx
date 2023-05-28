@@ -216,7 +216,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="phone"
               name="phone"
               title="phone"
-              placeholder="Phone (+973)"
+              placeholder={`${t("phone")} (+973)`}
               className={`input input-bordered input-primary ${
                 errors.phone && touched.phone && "input-error"
               }`}
@@ -427,7 +427,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="number"
               name="studentOrderAmongSiblings"
               title="studentOrderAmongSiblings"
-              placeholder="Student Order Among Siblings"
+              placeholder={t("studentOrderAmongSiblings")}
               className={`input input-bordered input-primary ${
                 errors.studentOrderAmongSiblings &&
                 touched.studentOrderAmongSiblings &&
