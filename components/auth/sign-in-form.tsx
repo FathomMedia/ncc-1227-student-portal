@@ -11,6 +11,7 @@ interface ISignInForm {
 export const SignInForm = () => {
   const auth = useAuth();
   const { t } = useTranslation("signIn");
+  const { t: tErrors } = useTranslation("errors");
 
   const initialValues: ISignInForm = {
     cpr: "",
@@ -22,8 +23,12 @@ export const SignInForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={yup.object({
-          cpr: yup.string().min(9).max(9).required(),
-          password: yup.string().required(),
+          cpr: yup
+            .string()
+            .min(9)
+            .max(9)
+            .required(`${tErrors("requiredField")}`),
+          password: yup.string().required(`${tErrors("requiredField")}`),
         })}
         onSubmit={async (values, actions) => {
           await auth.signIn(values.cpr, values.password);
@@ -37,7 +42,6 @@ export const SignInForm = () => {
               <Field
                 name="cpr"
                 type="text"
-                placeholder="Cpr"
                 className={`input input-bordered input-primary ${
                   errors.cpr && "input-error"
                 }`}
@@ -51,11 +55,13 @@ export const SignInForm = () => {
               <Field
                 name="password"
                 type="password"
-                placeholder="Password"
                 className={`input input-bordered input-primary ${
                   errors.cpr && "input-error"
                 }`}
               />
+              <label className="label-text-alt text-error">
+                {errors.password && touched.password && errors.password}
+              </label>
             </div>
             <button
               type="submit"

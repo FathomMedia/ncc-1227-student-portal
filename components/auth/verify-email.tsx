@@ -30,7 +30,7 @@ export const VerifyEmail = ({ cpr }: Props) => {
   };
 
   const { t } = useTranslation("signUp");
-
+  const { t: tErrors } = useTranslation("errors");
   const { push } = useRouter();
 
   const [email, setEmail] = useState<string | null>(null);
@@ -120,7 +120,7 @@ export const VerifyEmail = ({ cpr }: Props) => {
       <Formik
         initialValues={initialValues}
         validationSchema={yup.object({
-          code: yup.string().required(),
+          code: yup.string().required(`${tErrors("requiredField")}`),
         })}
         onSubmit={(values, actions) => {
           try {

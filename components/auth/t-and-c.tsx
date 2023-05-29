@@ -19,6 +19,7 @@ export const TermsAndConditions: FC<ITermsAndConditions> = ({
     accepted: false,
   };
   const { t } = useTranslation("termsAndConditions");
+  const { t: tErrors } = useTranslation("errors");
 
   return (
     <Formik
@@ -27,7 +28,7 @@ export const TermsAndConditions: FC<ITermsAndConditions> = ({
         accepted: yup
           .boolean()
           .isTrue("You have to accept the terms and conditions to continue.")
-          .required(),
+          .required(`${tErrors("requiredField")}`),
       })}
       onSubmit={async (values, actions) => {
         // console.log({ values, actions });

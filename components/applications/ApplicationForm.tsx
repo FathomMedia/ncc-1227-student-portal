@@ -77,6 +77,7 @@ export const ApplicationForm: FC<Props> = (props) => {
   const { push } = useRouter();
   const { student, syncStudentApplication } = useAppContext();
   const { t } = useTranslation("applicationPage");
+  const { t: tErrors } = useTranslation("errors");
 
   const [cprDoc, setCprDoc] = useState<File | undefined>(undefined);
 
@@ -312,23 +313,47 @@ export const ApplicationForm: FC<Props> = (props) => {
         validationSchema={
           props.application
             ? yup.object({
-                gpa: yup.number().min(88).max(100).required(),
-                primaryProgramID: yup.string().required(),
-                secondaryProgramID: yup.string().required(),
-                reasonForUpdate: yup.string().required(),
+                gpa: yup
+                  .number()
+                  .min(88, `${tErrors("minimumGPA")} ${88}`)
+                  .max(100, `${tErrors("maximumGPA")} ${100}`)
+                  .required(`${tErrors("requiredField")}`),
+                primaryProgramID: yup
+                  .string()
+                  .required(`${tErrors("requiredField")}`),
+                secondaryProgramID: yup
+                  .string()
+                  .required(`${tErrors("requiredField")}`),
+                reasonForUpdate: yup
+                  .string()
+                  .required(`${tErrors("requiredField")}`),
               })
             : yup.object({
-                gpa: yup.number().min(88).max(100).required(),
-                primaryProgramID: yup.string().required(),
-                secondaryProgramID: yup.string().required(),
-                cprDoc: yup.mixed().required(),
+                gpa: yup
+                  .number()
+                  .min(88, `${tErrors("minimumGPA")} ${88}`)
+                  .max(100, `${tErrors("maximumGPA")} ${100}`)
+                  .required(`${tErrors("requiredField")}`),
+                primaryProgramID: yup
+                  .string()
+                  .required(`${tErrors("requiredField")}`),
+                secondaryProgramID: yup
+                  .string()
+                  .required(`${tErrors("requiredField")}`),
+                cprDoc: yup.mixed().required(`${tErrors("requiredField")}`),
                 schoolCertificate:
                   student?.getStudent?.schoolType == SchoolType.PRIVATE
-                    ? yup.mixed().required()
+                    ? yup.mixed().required(`${tErrors("requiredField")}`)
                     : yup.mixed(),
-                transcriptDoc: yup.mixed().required(),
-                primaryAcceptanceDoc: yup.mixed().required(),
-                secondaryAcceptanceDoc: yup.mixed().required(),
+                transcriptDoc: yup
+                  .mixed()
+                  .required(`${tErrors("requiredField")}`),
+                primaryAcceptanceDoc: yup
+                  .mixed()
+                  .required(`${tErrors("requiredField")}`),
+                secondaryAcceptanceDoc: yup
+                  .mixed()
+                  .required(`${tErrors("requiredField")}`),
               })
         }
         onSubmit={async (values, actions) => {
@@ -736,7 +761,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* Primary Program */}
             {
               <div className="flex flex-col justify-start w-full md:col-span-2">
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 items-end">
+                <div className="grid items-end grid-cols-1 gap-3 md:grid-cols-2">
                   <div className="w-full">
                     <label className="label">{t("primaryProgram")}</label>
                     <Field
@@ -855,7 +880,7 @@ export const ApplicationForm: FC<Props> = (props) => {
             {/* secondaryProgram */}
             {
               <div className="flex flex-col justify-start w-full md:col-span-2">
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 items-end">
+                <div className="grid items-end grid-cols-1 gap-3 md:grid-cols-2">
                   <div className="">
                     <label className="label">{t("secondaryProgram")}</label>
                     <Field
@@ -1101,7 +1126,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 onBlur={handleBlur}
                 value={values.transcriptDoc ?? ""}
               />
-              <p className=" stat-desc whitespace-pre-wrap py-2 italic">
+              <p className="py-2 italic whitespace-pre-wrap stat-desc">
                 {t(`transcriptNote`)}
               </p>
               <label className="label-text-alt text-error">

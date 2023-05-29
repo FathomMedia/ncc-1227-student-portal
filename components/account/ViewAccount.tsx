@@ -43,6 +43,7 @@ interface FormValues {
 export default function ViewApplication({ student }: Props) {
   const { syncStudent } = useAppContext();
   const { t } = useTranslation("account");
+  const { t: tErrors } = useTranslation("errors");
 
   const [familyIncomeProofDocsFile, setFamilyIncomeProofDocsFile] = useState<
     File[]
@@ -82,20 +83,25 @@ export default function ViewApplication({ student }: Props) {
     <Formik
       initialValues={initialValues}
       validationSchema={yup.object({
-        phone: yup.string().phone().required(),
-        gender: yup.string().required(),
-        schoolName: yup.string().required(),
-        schoolType: yup.string().required(),
-        specialization: yup.string().required(),
-        address: yup.string().required(),
-        placeOfBirth: yup.string().required(),
-        familyIncome: yup.string().required(),
+        phone: yup
+          .string()
+          .phone()
+          .required(`${tErrors("requiredField")}`),
+        gender: yup.string().required(`${tErrors("requiredField")}`),
+        schoolName: yup.string().required(`${tErrors("requiredField")}`),
+        schoolType: yup.string().required(`${tErrors("requiredField")}`),
+        specialization: yup.string().required(`${tErrors("requiredField")}`),
+        address: yup.string().required(`${tErrors("requiredField")}`),
+        placeOfBirth: yup.string().required(`${tErrors("requiredField")}`),
+        familyIncome: yup.string().required(`${tErrors("requiredField")}`),
         familyIncomeProofDocs: yup.array(yup.string()),
         familyIncomeProofDocsFile: yup.array(yup.string()),
-        nationality: yup.string().required(),
-        studentOrderAmongSiblings: yup.number().required(),
-        preferredLanguage: yup.string().required(),
-        graduationDate: yup.date().required(),
+        nationality: yup.string().required(`${tErrors("requiredField")}`),
+        studentOrderAmongSiblings: yup
+          .number()
+          .required(`${tErrors("requiredField")}`),
+        preferredLanguage: yup.string().required(`${tErrors("requiredField")}`),
+        graduationDate: yup.date().required(`${tErrors("requiredField")}`),
       })}
       onSubmit={async (values, actions) => {
         const storageKeys =

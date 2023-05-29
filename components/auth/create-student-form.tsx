@@ -26,6 +26,7 @@ interface ICreateStudentForm {
 
 export const CreateStudentForm = (props: ICreateStudentForm) => {
   const { t } = useTranslation("account");
+  const { t: tErrors } = useTranslation("errors");
   const { checkIfCprExist } = useAuth();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -48,27 +49,39 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         familyIncomeProofDocsFile: [],
       }}
       validationSchema={yup.object({
-        cpr: yup.string().min(9).max(9).required(),
-        fullName: yup.string().required(),
-        email: yup.string().email().required(),
-        phone: yup.string().phone().required(),
-        gender: yup.string().required(),
-        schoolName: yup.string().required(),
-        schoolType: yup.string().required(),
-        specialization: yup.string().required(),
-        address: yup.string().required(),
-        placeOfBirth: yup.string().required(),
-        familyIncome: yup.string().required(),
+        cpr: yup
+          .string()
+          .min(9)
+          .max(9)
+          .required(`${tErrors("requiredField")}`),
+        fullName: yup.string().required(`${tErrors("requiredField")}`),
+        email: yup
+          .string()
+          .email()
+          .required(`${tErrors("requiredField")}`),
+        phone: yup
+          .string()
+          .phone()
+          .required(`${tErrors("requiredField")}`),
+        gender: yup.string().required(`${tErrors("requiredField")}`),
+        schoolName: yup.string().required(`${tErrors("requiredField")}`),
+        schoolType: yup.string().required(`${tErrors("requiredField")}`),
+        specialization: yup.string().required(`${tErrors("requiredField")}`),
+        address: yup.string().required(`${tErrors("requiredField")}`),
+        placeOfBirth: yup.string().required(`${tErrors("requiredField")}`),
+        familyIncome: yup.string().required(`${tErrors("requiredField")}`),
         familyIncomeProofDocsFile: yup.array(yup.string()),
-        nationality: yup.string().required(),
-        studentOrderAmongSiblings: yup.number().required(),
-        preferredLanguage: yup.string().required(),
-        graduationDate: yup.date().required(),
-        password: yup.string().required("Password is required"),
+        nationality: yup.string().required(`${tErrors("requiredField")}`),
+        studentOrderAmongSiblings: yup
+          .number()
+          .required(`${tErrors("requiredField")}`),
+        preferredLanguage: yup.string().required(`${tErrors("requiredField")}`),
+        graduationDate: yup.date().required(`${tErrors("requiredField")}`),
+        password: yup.string().required(`${tErrors("requiredField")}`),
         confirmPassword: yup
           .string()
-          .oneOf([yup.ref("password"), null], "Passwords must match")
-          .required("Password is required"),
+          .oneOf([yup.ref("password"), null], `${tErrors("passwordMustMatch")}`)
+          .required(`${tErrors("requiredField")}`),
       })}
       onSubmit={async (values, actions) => {
         props.onFormSubmit({
@@ -251,8 +264,8 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               <option disabled selected value={undefined}>
                 Select
               </option>
-              <option value={Gender.MALE}>{t('male')}</option>
-              <option value={Gender.FEMALE}>{t('female')}</option>
+              <option value={Gender.MALE}>{t("male")}</option>
+              <option value={Gender.FEMALE}>{t("female")}</option>
             </Field>
           </div>
 
@@ -327,10 +340,10 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               value={values.schoolType}
             >
               <option disabled selected value={undefined}>
-                {t('select')}
+                {t("select")}
               </option>
-              <option value={SchoolType.PRIVATE}>{t('private')}</option>
-              <option value={SchoolType.PUBLIC}>{t('public')}</option>
+              <option value={SchoolType.PRIVATE}>{t("private")}</option>
+              <option value={SchoolType.PUBLIC}>{t("public")}</option>
             </Field>
           </div>
 
@@ -466,7 +479,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               value={values.preferredLanguage}
             >
               <option disabled selected value={undefined}>
-                {t('select')}
+                {t("select")}
               </option>
               <option value={Language.ARABIC}>العربية</option>
               <option value={Language.ENGLISH}>English</option>
@@ -523,15 +536,19 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               value={values.familyIncome}
             >
               <option disabled selected value={undefined}>
-                {t('select')}
+                {t("select")}
               </option>
 
-              <option value={FamilyIncome.LESS_THAN_500}>{t('lessThan500')}</option>
+              <option value={FamilyIncome.LESS_THAN_500}>
+                {t("lessThan500")}
+              </option>
               <option value={FamilyIncome.BETWEEN_500_AND_700}>500-700</option>
               <option value={FamilyIncome.BETWEEN_700_AND_1000}>
                 700-1000
               </option>
-              <option value={FamilyIncome.OVER_1000}>{t('moreThan1000')}</option>
+              <option value={FamilyIncome.OVER_1000}>
+                {t("moreThan1000")}
+              </option>
             </Field>
           </div>
 
@@ -546,7 +563,9 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               filedName={"familyIncomeProofDocsFile"}
               title={`${t("familyIncomeProof")} ${t("document")}`}
             ></MultiUpload>
-            <label className="stat-desc">{t('IfYouWantToUploadMultiple')}</label>
+            <label className="stat-desc">
+              {t("IfYouWantToUploadMultiple")}
+            </label>
           </div>
 
           {/* Family income proofs */}

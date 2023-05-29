@@ -13,23 +13,32 @@ interface ICreateParentsForm {
 
 export const CreateParentsForm = (props: ICreateParentsForm) => {
   const { t } = useTranslation("account");
+  const { t: tErrors } = useTranslation("errors");
   return (
     <Formik
       initialValues={props.parentInfo.input}
       validationSchema={yup.object({
-        guardianFullName: yup.string().required(),
-        relation: yup.string().required(),
-        guardianCPR: yup.string().required(),
-        address: yup.string().required(),
-        primaryMobile: yup.string().phone().required(),
-        secondaryMobile: yup.string().phone().required(),
+        guardianFullName: yup.string().required(`${tErrors("requiredField")}`),
+        relation: yup.string().required(`${tErrors("requiredField")}`),
+        guardianCPR: yup.string().required(`${tErrors("requiredField")}`),
+        address: yup.string().required(`${tErrors("requiredField")}`),
+        primaryMobile: yup
+          .string()
+          .phone()
+          .required(`${tErrors("requiredField")}`),
+        secondaryMobile: yup
+          .string()
+          .phone()
+          .required(`${tErrors("requiredField")}`),
 
         fatherFullName: yup.string(),
         fatherCPR: yup.string(),
         motherFullName: yup.string(),
         motherCPR: yup.string(),
 
-        numberOfFamilyMembers: yup.number().required(),
+        numberOfFamilyMembers: yup
+          .number()
+          .required(`${tErrors("requiredField")}`),
       })}
       onSubmit={async (values, actions) => {
         props.onFormSubmit({

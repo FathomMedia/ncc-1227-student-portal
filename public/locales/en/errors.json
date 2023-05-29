@@ -1,0 +1,6 @@
+{
+  "requiredField": "Required field",
+  "passwordMustMatch": "Password must match",
+  "minimumGPA": "Minimum GPA is",
+  "maximumGPA": "Maximum GPA is"
+}

@@ -21,6 +21,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         "account",
         "termsAndConditions",
         "signIn",
+        "errors",
       ])),
     },
   };

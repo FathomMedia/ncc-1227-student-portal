@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import { PageComponent } from "../components/PageComponent";
 import { Formik, Form, Field } from "formik";
 import { t } from "i18next";
@@ -7,6 +7,21 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { locale } = ctx;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", [
+        "common",
+        "errors",
+        "signIn",
+      ])),
+    },
+  };
+};
 
 interface Props {}
 
@@ -19,7 +34,8 @@ interface IForgetPasswordOTPForm {
 }
 
 const ForgetPassword: NextPage<Props> = () => {
-  const { t } = useTranslation("forgetPassword");
+  const { t } = useTranslation("signIn");
+  const { t: tErrors } = useTranslation("errors");
   const auth = useAuth();
   const initialValues: IForgetPasswordForm = {
     cpr: "",
@@ -36,13 +52,17 @@ const ForgetPassword: NextPage<Props> = () => {
 
   return (
     <div>
-      <PageComponent title={"Forget Password"}>
+      <PageComponent title={t("forgetPassword")}>
         <div className="container max-w-sm mx-auto">
           {!showOTP && (
             <Formik
               initialValues={initialValues}
               validationSchema={yup.object({
-                cpr: yup.string().min(9).max(9).required(),
+                cpr: yup
+                  .string()
+                  .min(9)
+                  .max(9)
+                  .required(`${tErrors("requiredField")}`),
               })}
               onSubmit={async (values, actions) => {
                 await auth.sendForgetPassword(values.cpr).then((isSent) => {
@@ -60,7 +80,6 @@ const ForgetPassword: NextPage<Props> = () => {
                     <Field
                       name="cpr"
                       type="text"
-                      placeholder="CPR"
                       className={`input input-bordered input-primary ${
                         errors.cpr && "input-error"
                       }`}
@@ -86,13 +105,22 @@ const ForgetPassword: NextPage<Props> = () => {
             <Formik
               initialValues={initialValuesOTP}
               validationSchema={yup.object({
-                otp: yup.string().min(6).max(6).required(),
-                newPassword: yup.string().min(6).required(),
+                otp: yup
+                  .string()
+                  .min(6)
+                  .max(6)
+                  .required(`${tErrors("requiredField")}`),
+                newPassword: yup
+                  .string()
+                  .min(6)
+                  .required(`${tErrors("requiredField")}`),
               })}
               onSubmit={async (values, actions) => {
-                auth
+                actions.setSubmitting(true);
+                await auth
                   .verifyForgetPassword(cpr, values.otp, values.newPassword)
                   .then((isPasswordUpdated) => {
+                    actions.setSubmitting(false);
                     if (isPasswordUpdated) {
                       router.replace("/signIn");
                     }
@@ -107,8 +135,8 @@ const ForgetPassword: NextPage<Props> = () => {
                       name="cpr"
                       type="text"
                       disabled
-                      placeholder="CPR"
                       className={`input input-bordered input-primary`}
+                      value={cpr}
                     />
                   </div>
 
@@ -117,7 +145,6 @@ const ForgetPassword: NextPage<Props> = () => {
                     <Field
                       name="otp"
                       type="text"
-                      placeholder="OTP"
                       className={`input input-bordered input-primary ${
                         errors.otp && "input-error"
                       }`}
@@ -131,7 +158,6 @@ const ForgetPassword: NextPage<Props> = () => {
                     <Field
                       name="newPassword"
                       type="text"
-                      placeholder="New Password"
                       className={`input input-bordered input-primary ${
                         errors.newPassword && "input-error"
                       }`}

@@ -3,5 +3,9 @@
   "password": "Password",
   "signIn": "Sign In",
   "newUser": "New user?",
-  "forgetPassword":"Forgot Password"
+  "sendResetEmail": "Send reset email",
+  "otp": "OTP",
+  "newPassword": "New password",
+  "verify": "Verify",
+  "forgetPassword": "Forgot password"
 }

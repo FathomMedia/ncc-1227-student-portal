@@ -156,7 +156,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
           </footer>
           <div
             dir="ltr"
-            className="justify-center px-10 py-4 text-center footer text-secondary-content"
+            className="justify-center px-10 py-4 text-center text-base-100 footer "
           >
             <p>
               © {new Date().getFullYear()} isa bin salman education charitable

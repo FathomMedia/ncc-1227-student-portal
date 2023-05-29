@@ -30,6 +30,7 @@ interface Props {
 export default function ViewParentInfo({ parentInfo }: Props) {
   const { syncStudent } = useAppContext();
   const { t } = useTranslation("account");
+  const { t: tErrors } = useTranslation("errors");
 
   let initialValues: FormValues = {
     guardianFullName: parentInfo.guardianFullName,
@@ -60,21 +61,29 @@ export default function ViewParentInfo({ parentInfo }: Props) {
     <Formik
       initialValues={initialValues}
       validationSchema={yup.object({
-        guardianFullName: yup.string().required(),
-        relation: yup.string().required(),
-        guardianCPR: yup.string().required(),
-        address: yup.string().required(),
+        guardianFullName: yup.string().required(`${tErrors("requiredField")}`),
+        relation: yup.string().required(`${tErrors("requiredField")}`),
+        guardianCPR: yup.string().required(`${tErrors("requiredField")}`),
+        address: yup.string().required(`${tErrors("requiredField")}`),
 
-        primaryMobile: yup.string().phone().required(),
-        secondaryMobile: yup.string().phone().required(),
+        primaryMobile: yup
+          .string()
+          .phone()
+          .required(`${tErrors("requiredField")}`),
+        secondaryMobile: yup
+          .string()
+          .phone()
+          .required(`${tErrors("requiredField")}`),
 
-        fatherFullName: yup.string().required(),
-        fatherCPR: yup.string().required(),
+        fatherFullName: yup.string().required(`${tErrors("requiredField")}`),
+        fatherCPR: yup.string().required(`${tErrors("requiredField")}`),
 
-        motherFullName: yup.string().required(),
-        motherCPR: yup.string().required(),
+        motherFullName: yup.string().required(`${tErrors("requiredField")}`),
+        motherCPR: yup.string().required(`${tErrors("requiredField")}`),
 
-        numberOfFamilyMembers: yup.number().required(),
+        numberOfFamilyMembers: yup
+          .number()
+          .required(`${tErrors("requiredField")}`),
       })}
       onSubmit={async (values, actions) => {
         let updateVars: UpdateParentInfoMutationVariables = {
