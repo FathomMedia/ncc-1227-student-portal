@@ -80,7 +80,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="guardianFullName"
               title="guardianFullName"
-              placeholder="Guardian Full Name"
+              // placeholder="Guardian Full Name"
               className={`input input-bordered input-primary ${
                 errors.guardianFullName && "input-error"
               }`}
@@ -104,7 +104,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="relation"
               title="relation"
-              placeholder="Relation"
+              // placeholder="Relation"
               className={`input input-bordered input-primary ${
                 errors.relation && "input-error"
               }`}
@@ -130,7 +130,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="guardianCPR"
               title="guardianCPR"
-              placeholder="Guardian CPR"
+              // placeholder="Guardian CPR"
               className={`input input-bordered input-primary ${
                 errors.guardianCPR && "input-error"
               }`}
@@ -154,7 +154,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="address"
               title="address"
-              placeholder="Address"
+              // placeholder="Address"
               className={`input input-bordered input-primary ${
                 errors.address && "input-error"
               }`}
@@ -180,7 +180,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="phone"
               name="primaryMobile"
               title="primaryMobile"
-              placeholder="Primary Mobile (+973)"
+              placeholder={`${t("phone")} (+973)`}
               className={`input input-bordered input-primary ${
                 errors.primaryMobile && "input-error"
               }`}
@@ -206,7 +206,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="phone"
               name="secondaryMobile"
               title="secondaryMobile"
-              placeholder="Primary Mobile (+973)"
+              placeholder={`${t("phone")} (+973)`}
               className={`input input-bordered input-primary ${
                 errors.secondaryMobile && "input-error"
               }`}
@@ -232,7 +232,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="numberOfFamilyMembers"
               title="numberOfFamilyMembers"
-              placeholder="Number Of Family Members"
+              // placeholder="Number Of Family Members"
               className={`input input-bordered input-primary ${
                 errors.numberOfFamilyMembers && "input-error"
               }`}
@@ -260,7 +260,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="fatherFullName"
               title="fatherFullName"
-              placeholder="Father Full Name"
+              // placeholder="Father Full Name"
               className={`input input-bordered input-primary ${
                 errors.fatherFullName && "input-error"
               }`}
@@ -284,7 +284,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="fatherCPR"
               title="fatherCPR"
-              placeholder="Father CPR"
+              // placeholder="Father CPR"
               className={`input input-bordered input-primary ${
                 errors.fatherCPR && "input-error"
               }`}
@@ -310,7 +310,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="motherFullName"
               title="motherFullName"
-              placeholder="Mother Full Name"
+              // placeholder="Mother Full Name"
               className={`input input-bordered input-primary ${
                 errors.motherFullName && "input-error"
               }`}
@@ -334,7 +334,7 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
               type="text"
               name="motherCPR"
               title="motherCPR"
-              placeholder="Mother CPR"
+              // placeholder="Mother CPR"
               className={`input input-bordered input-primary ${
                 errors.motherCPR && "input-error"
               }`}

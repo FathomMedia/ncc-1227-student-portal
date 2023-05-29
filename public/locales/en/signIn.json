@@ -2,5 +2,6 @@
   "cpr": "CPR",
   "password": "Password",
   "signIn": "Sign In",
-  "newUser": "New user?"
+  "newUser": "New user?",
+  "forgetPassword":"Forgot Password"
 }

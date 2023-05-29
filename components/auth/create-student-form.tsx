@@ -130,7 +130,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="text"
               name="cpr"
               title="cpr"
-              placeholder="CPR"
+              // placeholder="CPR"
               className={`input input-bordered input-primary ${
                 errors.cpr && touched.cpr && "input-error"
               }`}
@@ -170,7 +170,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="text"
               name="fullName"
               title="fullName"
-              placeholder="Full name"
+              // placeholder="Full name"
               className={`input input-bordered input-primary ${
                 errors.fullName && touched.fullName && "input-error"
               }`}
@@ -193,7 +193,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="email"
               name="email"
               title="email"
-              placeholder="Email"
+              // placeholder={t("email")}
               className={`input input-bordered input-primary ${
                 errors.email && touched.email && "input-error"
               }`}
@@ -240,7 +240,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               as="select"
               name="gender"
               title="gender"
-              placeholder="Gender"
+              // placeholder="Gender"
               className={`input input-bordered input-primary ${
                 errors.gender && touched.gender && "input-error"
               }`}
@@ -251,8 +251,8 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               <option disabled selected value={undefined}>
                 Select
               </option>
-              <option value={Gender.MALE}>Male</option>
-              <option value={Gender.FEMALE}>Female</option>
+              <option value={Gender.MALE}>{t('male')}</option>
+              <option value={Gender.FEMALE}>{t('female')}</option>
             </Field>
           </div>
 
@@ -270,7 +270,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="text"
               name="address"
               title="address"
-              placeholder="Student Address"
+              // placeholder="Student Address"
               className={`input input-bordered input-primary ${
                 errors.address && touched.address && "input-error"
               }`}
@@ -294,7 +294,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="text"
               name="schoolName"
               title="schoolName"
-              placeholder="School name"
+              // placeholder="School name"
               className={`input input-bordered input-primary ${
                 errors.schoolName && touched.schoolName && "input-error"
               }`}
@@ -327,10 +327,10 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               value={values.schoolType}
             >
               <option disabled selected value={undefined}>
-                Select
+                {t('select')}
               </option>
-              <option value={SchoolType.PRIVATE}>Private</option>
-              <option value={SchoolType.PUBLIC}>Public</option>
+              <option value={SchoolType.PRIVATE}>{t('private')}</option>
+              <option value={SchoolType.PUBLIC}>{t('public')}</option>
             </Field>
           </div>
 
@@ -350,7 +350,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="text"
               name="specialization"
               title="specialization"
-              placeholder="Specialization"
+              // placeholder="Specialization"
               className={`input input-bordered input-primary ${
                 errors.specialization && touched.specialization && "input-error"
               }`}
@@ -375,7 +375,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="text"
               name="placeOfBirth"
               title="placeOfBirth"
-              placeholder="Place Of Birth"
+              // placeholder="Place Of Birth"
               className={`input input-bordered input-primary ${
                 errors.placeOfBirth && touched.placeOfBirth && "input-error"
               }`}
@@ -401,7 +401,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="text"
               name="nationality"
               title="nationality"
-              placeholder="Nationality"
+              // placeholder="Nationality"
               className={`input input-bordered input-primary ${
                 errors.nationality && touched.nationality && "input-error"
               }`}
@@ -427,7 +427,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="number"
               name="studentOrderAmongSiblings"
               title="studentOrderAmongSiblings"
-              placeholder={t("studentOrderAmongSiblings")}
+              // placeholder={t("studentOrderAmongSiblings")}
               className={`input input-bordered input-primary ${
                 errors.studentOrderAmongSiblings &&
                 touched.studentOrderAmongSiblings &&
@@ -466,7 +466,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               value={values.preferredLanguage}
             >
               <option disabled selected value={undefined}>
-                Select
+                {t('select')}
               </option>
               <option value={Language.ARABIC}>العربية</option>
               <option value={Language.ENGLISH}>English</option>
@@ -488,7 +488,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               type="date"
               name="graduationDate"
               title="graduationDate"
-              placeholder="Graduation Date"
+              // placeholder="Graduation Date"
               className={`input input-bordered input-primary ${
                 errors.graduationDate && touched.graduationDate && "input-error"
               }`}
@@ -523,15 +523,15 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               value={values.familyIncome}
             >
               <option disabled selected value={undefined}>
-                Select
+                {t('select')}
               </option>
 
-              <option value={FamilyIncome.LESS_THAN_500}>Less than 500</option>
+              <option value={FamilyIncome.LESS_THAN_500}>{t('lessThan500')}</option>
               <option value={FamilyIncome.BETWEEN_500_AND_700}>500-700</option>
               <option value={FamilyIncome.BETWEEN_700_AND_1000}>
                 700-1000
               </option>
-              <option value={FamilyIncome.OVER_1000}>More than 1000</option>
+              <option value={FamilyIncome.OVER_1000}>{t('moreThan1000')}</option>
             </Field>
           </div>
 
@@ -546,6 +546,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               filedName={"familyIncomeProofDocsFile"}
               title={`${t("familyIncomeProof")} ${t("document")}`}
             ></MultiUpload>
+            <label className="stat-desc">{t('IfYouWantToUploadMultiple')}</label>
           </div>
 
           {/* Family income proofs */}
@@ -661,7 +662,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 title="password"
-                placeholder="Password"
+                // placeholder="Password"
                 className={`input w-full input-bordered input-primary ${
                   errors.password && touched.password && "input-error"
                 }`}
@@ -721,7 +722,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 title="Confirm password"
-                placeholder="Confirm password"
+                // placeholder="Confirm password"
                 className={`input w-full input-bordered input-primary ${
                   errors.confirmPassword &&
                   touched.confirmPassword &&

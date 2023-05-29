@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { Accept, FileRejection, useDropzone } from "react-dropzone";
 import { checkIfFilesAreTooBig } from "../src/HelperFunctions";
+import { useTranslation } from "react-i18next";
 import { Field } from "formik";
 import GetStorageLinkComponent from "./get-storage-link-component";
 
@@ -18,7 +19,7 @@ interface Props {
 
 export default function MultiUpload(props: Props) {
   const [files, setFiles] = useState<File[]>([]);
-
+  const { t } = useTranslation("account");
   const [filesRejected, setFilesRejected] = useState<FileRejection[]>([]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -73,7 +74,7 @@ export default function MultiUpload(props: Props) {
               handleCleanFiles();
             }}
           >
-            Clear
+            {t('clear')}
           </button>
         </div>
       </label>
@@ -109,9 +110,9 @@ export default function MultiUpload(props: Props) {
         />
         <div className="flex justify-center mb-4 text-center ">
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <p>{t('dropTheFilesHere')}</p>
           ) : (
-            <p>Drag drop some files here, or click to select files</p>
+            <p>{t('dragDropSomeFilesHereOr')}</p>
           )}
         </div>
 

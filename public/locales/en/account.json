@@ -31,5 +31,19 @@
   "nationality": "Nationality",
   "familyIncome": "Family income",
   "familyIncomeProof": "Family income proof",
-  "documentNotSubmitted": "Document Not Submitted"
+  "documentNotSubmitted": "Document Not Submitted",
+  "private": "Private",
+  "public": "Public",
+  "select": "Select",
+  "lessThan500":"Less than 500",
+  "moreThan1000":"More than 1000",
+  "document": "Document",
+  "schoolType": "School Type",
+  "confirmPassword": "Confirm Password",
+  "clear": "Clear",
+  "dropTheFilesHere": "Drop some files here...",
+  "dragDropSomeFilesHereOr": "Drag & drop some files here, or click to select files",
+  "male": "Male",
+  "Female": "Female",
+  "IfYouWantToUploadMultiple": "If you want to upload multiple files, please select multiple files then drag and drop"
 }

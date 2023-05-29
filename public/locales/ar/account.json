@@ -9,6 +9,7 @@
   "gender": "الجنس",
   "studentAddress": "عنوان الطالب",
   "schoolName": "اسم المدرسة",
+  "schoolType": "نوع المدرسة",
   "specialization": "التخصص",
   "placeOfBirth": "مكان الولادة",
   "studentOrderAmongSiblings": "عدد الأشقاء",
@@ -31,5 +32,18 @@
   "nationality": "الجنسية",
   "familyIncome": "دخل العائلة",
   "familyIncomeProof": "اثبات دخل الأسرة",
-  "documentNotSubmitted": "لم يتم تقديم المستند"
+  "documentNotSubmitted": "لم يتم تقديم المستند",
+  "private": "خاصة",
+  "public": "حكومية",
+  "select":"اختيار",
+  "lessThan500":"أقل من 500",
+  "moreThan1000":"أكثر من 1000",
+  "document": "مستند",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "clear": "إزالة",
+  "dropTheFilesHere": "...قم بوضع الملفات هناقم بوضع الملفات هنا",
+  "dragDropSomeFilesHereOr": "اسحب وضع بعض الملفات هنا ، أو اضغط لتحديد الملفات",
+  "male": "ذكر",
+  "female": "أنثى",
+  "IfYouWantToUploadMultiple":"اذا رغبت في رفع أكثر من ملف واحد، رجاءً قم بإختيار الملفات ثم اسحبها وضعها"
 }
