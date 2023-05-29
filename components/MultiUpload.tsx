@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { Accept, FileRejection, useDropzone } from "react-dropzone";
 import { checkIfFilesAreTooBig } from "../src/HelperFunctions";
 import { useTranslation } from "react-i18next";
@@ -11,6 +11,7 @@ interface Props {
   accept?: Accept | undefined;
   maxSize?: number;
   handleChange: (event: any) => void;
+  handleOnClear: () => void;
   value: any;
   filedName: string;
   title: string;
@@ -21,6 +22,7 @@ export default function MultiUpload(props: Props) {
   const [files, setFiles] = useState<File[]>([]);
   const { t } = useTranslation("account");
   const [filesRejected, setFilesRejected] = useState<FileRejection[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -57,30 +59,34 @@ export default function MultiUpload(props: Props) {
     setFiles([]);
     setFilesRejected([]);
     props.isInvalid(false);
+    if (inputRef.current) {
+      inputRef.current.dispatchEvent(new Event("input", { bubbles: true })); // Trigger the onChange event
+    }
+    props.handleOnClear();
   }
 
   return (
     <div>
       <label className="label">
-        <div className="flex justify-between items-center w-full">
+        <div className="flex items-center justify-between w-full">
           <div className="flex justify-start gap-1">
             <p>{props.title}</p>
-            <span className=" text-red-500">*</span>
+            <span className="text-red-500 ">*</span>
           </div>
           <button
-            className="btn btn-ghost btn-xs ml-auto"
+            className="ml-auto btn btn-ghost btn-xs"
             type="button"
             onClick={() => {
               handleCleanFiles();
             }}
           >
-            {t('clear')}
+            {t("clear")}
           </button>
         </div>
       </label>
       {(props.storageKeys ?? [])?.length > 0 && (
-        <div className="flex flex-col mb-3 p-3 rounded-lg bg-gray-200">
-          <div className="flex flex-wrap gap-2 items-center">
+        <div className="flex flex-col p-3 mb-3 bg-gray-200 rounded-lg">
+          <div className="flex flex-wrap items-center gap-2">
             {props.storageKeys?.map((doc, index) => (
               <div key={index} className="">
                 <GetStorageLinkComponent
@@ -98,21 +104,22 @@ export default function MultiUpload(props: Props) {
           filesRejected.length > 0 && "border-error"
         }`}
       >
-        <Field
+        <input
+          ref={inputRef}
           dir="ltr"
           name={props.filedName}
           title={props.filedName}
           {...getInputProps()}
-          onChange={(event: any) => {
+          onChange={(event) => {
             props.handleChange(event);
           }}
           value={props.value}
         />
         <div className="flex justify-center mb-4 text-center ">
           {isDragActive ? (
-            <p>{t('dropTheFilesHere')}</p>
+            <p>{t("dropTheFilesHere")}</p>
           ) : (
-            <p>{t('dragDropSomeFilesHereOr')}</p>
+            <p>{t("dragDropSomeFilesHereOr")}</p>
           )}
         </div>
 

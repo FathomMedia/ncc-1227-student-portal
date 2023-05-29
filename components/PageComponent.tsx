@@ -21,11 +21,12 @@ interface Props {
 }
 
 export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
-  const { isSignedIn, user, signOut } = useAuth();
+  const { isSignedIn, user, signOut, isInitializing: init } = useAuth();
   const { student, resetContext } = useAppContext();
   const router = useRouter();
   const titleTranslation = useTranslation("pageTitles");
   const footerTranslation = useTranslation("footer");
+  const isInitializing = init ?? true;
 
   async function signUserOut() {
     await signOut().then(() => {
@@ -37,76 +38,90 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
     <>
       <Toaster />
       <div className="flex flex-col justify-between min-h-screen">
-        <div className="relative bg-secondary md:m-10 rounded-b-5xl md:rounded-b-2xl md:rounded-t-2xl ">
-          <div
-            className="relative object-cover w-full rounded-b-5xl md:rounded-b-2xl overflow-clip md:rounded-t-2xl"
-            style={{
-              backgroundImage: `url(${background.src})`,
-              backgroundSize: "cover",
-              backgroundPosition: "0% 100%",
-            }}
-          >
-            <div className="relative flex flex-col items-center w-full gap-3 bg-secondary/20 text-secondary-content p-11 md:p-20 md:pt-10">
-              <Image
-                className="w-40 md:w-52 hover:cursor-pointer"
-                src={logo}
-                alt="logo"
-                onClick={() => router.push("/")}
-              />
-              {user && (
-                <div
-                  tabIndex={0}
-                  className="flex flex-col items-center p-2 rounded-lg hover:cursor-pointer dropdown dropdown-bottom md:dropdown-end md:items-end md:absolute md:right-4 md:top-4 glass"
-                >
-                  <div className="flex ">
-                    <Image className="w-10 p-2 " src={account} alt="account" />
-
-                    <div className="text-white">
-                      <p>{student?.getStudent?.fullName}</p>
-                      <p>{user?.getUsername()}</p>
-                    </div>
-                  </div>
-                  <ul
-                    tabIndex={0}
-                    className="p-2 mt-2 shadow dropdown-content text-secondary menu bg-base-100 rounded-box w-52"
-                  >
-                    <li>
-                      <Link href={"/account"}>
-                        {footerTranslation.t("account")}
-                      </Link>
-                    </li>
-                    <li>
-                      <div onClick={signUserOut}>
-                        {footerTranslation.t("signOut")}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              )}
-              <div className="md:dropdown-end md:items-end md:absolute md:left-4 md:top-4">
-                <LangSwitcher></LangSwitcher>
-              </div>
-              <div className="w-full mt-10 md:mt-16">{props.header}</div>
-              {!props.header && (
-                <div className="prose prose-headings:text-white">
-                  <h1 className="font-semibold">
-                    {titleTranslation.t(props.title)}
-                  </h1>
-                </div>
-              )}
+        {isInitializing ? (
+          <div className="flex items-center justify-center w-full h-full min-h-screen bg-gray-200 animate-pulse">
+            <div className="btn btn-ghost hover:bg-transparent loading">
+              Loading...
             </div>
           </div>
+        ) : (
+          <div className="relative bg-secondary md:m-10 rounded-b-5xl md:rounded-b-2xl md:rounded-t-2xl ">
+            <div
+              className="relative object-cover w-full rounded-b-5xl md:rounded-b-2xl overflow-clip md:rounded-t-2xl"
+              style={{
+                backgroundImage: `url(${background.src})`,
+                backgroundSize: "cover",
+                backgroundPosition: "0% 100%",
+              }}
+            >
+              <div className="relative flex flex-col items-center w-full gap-3 bg-secondary/20 text-secondary-content p-11 md:p-20 md:pt-10">
+                <Image
+                  className="w-40 md:w-52 hover:cursor-pointer"
+                  src={logo}
+                  alt="logo"
+                  onClick={() => router.push("/")}
+                />
+                {user && (
+                  <div
+                    tabIndex={0}
+                    className="flex flex-col items-center p-2 rounded-lg hover:cursor-pointer dropdown dropdown-bottom md:dropdown-end md:items-end md:absolute md:right-4 md:top-4 glass"
+                  >
+                    <div className="flex ">
+                      <Image
+                        className="w-10 p-2 "
+                        src={account}
+                        alt="account"
+                      />
 
-          <div className="z-40 pt-20 -mt-10 bg-base-100 p-11">
-            {props.authRequired && !isSignedIn ? (
-              <div>
-                <SignInForm></SignInForm>
+                      <div className="text-white">
+                        <p>{student?.getStudent?.fullName}</p>
+                        <p>{user?.getUsername()}</p>
+                      </div>
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="p-2 mt-2 shadow dropdown-content text-secondary menu bg-base-100 rounded-box w-52"
+                    >
+                      <li>
+                        <Link href={"/account"}>
+                          {footerTranslation.t("account")}
+                        </Link>
+                      </li>
+                      <li>
+                        <div onClick={signUserOut}>
+                          {footerTranslation.t("signOut")}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+                <div className="md:dropdown-end md:items-end md:absolute md:left-4 md:top-4">
+                  <LangSwitcher></LangSwitcher>
+                </div>
+                <div className="w-full mt-10 md:mt-16">{props.header}</div>
+                {!props.header && (
+                  <div className="prose prose-headings:text-white">
+                    <h1 className="font-semibold">
+                      {titleTranslation.t(props.title)}
+                    </h1>
+                  </div>
+                )}
               </div>
-            ) : (
-              props.children
-            )}
+            </div>
+
+            {
+              <div className="z-40 pt-20 -mt-10 bg-base-100 p-11">
+                {props.authRequired && !isSignedIn ? (
+                  <div>
+                    <SignInForm></SignInForm>
+                  </div>
+                ) : (
+                  props.children
+                )}
+              </div>
+            }
           </div>
-        </div>
+        )}
         <div
           className="divide-y divide-secondary-content"
           style={{
@@ -150,8 +165,6 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
               </span>
               <a dir="ltr">1744 4444</a>
               <a>edutrust@meo.gov.bh</a>
-              {/* <a>Building 000, Road 000, Block 000 </a> */}
-              {/* <a>{footerTranslation.t("manamaKingdomOfBahrain")} </a> */}
             </div>
           </footer>
           <div

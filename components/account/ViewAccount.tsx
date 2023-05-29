@@ -59,7 +59,7 @@ export default function ViewApplication({ student }: Props) {
     specialization: student.specialization,
     placeOfBirth: student.placeOfBirth,
     familyIncome: student.familyIncome,
-    familyIncomeProofDocs: student.familyIncomeProofDocs,
+    familyIncomeProofDocs: student.familyIncomeProofDocs ?? [],
     familyIncomeProofDocsFile: [],
     nationality: student.nationality,
     studentOrderAmongSiblings: student.studentOrderAmongSiblings,
@@ -166,10 +166,10 @@ export default function ViewApplication({ student }: Props) {
         handleBlur,
         isSubmitting,
         isValid,
-        setFieldError,
       }) => (
         <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* CPR */}
+          <div className="col-span-2">{JSON.stringify(errors)}</div>
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("studentCPR")}</label>
             <Field
@@ -464,7 +464,13 @@ export default function ViewApplication({ student }: Props) {
                 setFamilyIncomeProofDocsFile(files);
               }}
               isInvalid={setFamilyIncomeProofInvalid}
-              handleChange={handleChange}
+              handleChange={(event) => {
+                console.log(event, "outside event");
+                handleChange(event);
+              }}
+              handleOnClear={() => {
+                setFamilyIncomeProofDocsFile([]);
+              }}
               value={values.familyIncomeProofDocsFile ?? ""}
               filedName={"familyIncomeProofDocsFile"}
               title={`${t("familyIncomeProof")} ${t("document")}`}

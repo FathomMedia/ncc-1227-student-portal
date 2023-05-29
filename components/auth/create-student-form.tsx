@@ -51,8 +51,8 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
       validationSchema={yup.object({
         cpr: yup
           .string()
-          .min(9)
-          .max(9)
+          .min(9, `${tErrors("cprShouldBe9")}`)
+          .max(9, `${tErrors("cprShouldBe9")}`)
           .required(`${tErrors("requiredField")}`),
         fullName: yup.string().required(`${tErrors("requiredField")}`),
         email: yup
@@ -342,8 +342,8 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               <option disabled selected value={undefined}>
                 {t("select")}
               </option>
-              <option value={SchoolType.PRIVATE}>{t("private")}</option>
               <option value={SchoolType.PUBLIC}>{t("public")}</option>
+              <option value={SchoolType.PRIVATE}>{t("private")}</option>
             </Field>
           </div>
 
@@ -552,6 +552,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
             </Field>
           </div>
 
+          {/* Family income proofs */}
           <div className="justify-start md:col-span-2">
             <MultiUpload
               onFiles={(files) => {
@@ -559,6 +560,9 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               }}
               isInvalid={setFamilyIncomeProofInvalid}
               handleChange={handleChange}
+              handleOnClear={() => {
+                setFamilyIncomeProofDocsFile([]);
+              }}
               value={values.familyIncomeProofDocsFile ?? ""}
               filedName={"familyIncomeProofDocsFile"}
               title={`${t("familyIncomeProof")} ${t("document")}`}
@@ -567,104 +571,6 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               {t("IfYouWantToUploadMultiple")}
             </label>
           </div>
-
-          {/* Family income proofs */}
-          {/* <div className="flex flex-col justify-start md:col-span-2">
-            <label className="label">
-              <div className="flex items-center justify-between w-full">
-                <div className="flex justify-start gap-1">
-                  <p>{`${t("familyIncomeProof")} ${t("document")}`}</p>
-                  <span className="text-red-500 ">*</span>
-                </div>
-                <button
-                  className="ml-auto btn btn-ghost btn-xs"
-                  type="button"
-                  onClick={() => {
-                    handleCleanFamilyIncomeProofDocs();
-                  }}
-                >
-                  Clear
-                </button>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex flex-wrap items-center gap-2">
-                  {props.student.input?.familyIncomeProofDocs?.map(
-                    (doc, index) => (
-                      <div key={index} className="badge badge-secondary">
-                        <GetStorageLinkComponent
-                          storageKey={doc}
-                        ></GetStorageLinkComponent>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            </label>
-            <div
-              {...getRootProps()}
-              className={`flex flex-col justify-start w-full p-4 border border-dashed rounded-lg border-secondary ${
-                familyIncomeProofDocsFileRejected.length > 0 && "border-error"
-              }`}
-            >
-              <Field
-                dir="ltr"
-                name="familyIncomeProofDocsFile"
-                title="familyIncomeProofDocsFile"
-                {...getInputProps()}
-                onChange={(event: any) => {
-                  if (familyIncomeProofDocsFileRejected.length > 0) {
-                    setFieldError("familyIncomeProofDocsFile", "invalid file");
-                  }
-
-                  handleChange(event);
-                }}
-                value={values.familyIncomeProofDocsFile ?? ""}
-              />
-              <div className="flex justify-center mb-4 text-center ">
-                {isDragActive ? (
-                  <p>Drop the files here ...</p>
-                ) : (
-                  <p>Drag drop some files here, or click to select files</p>
-                )}
-              </div>
-
-              {(familyIncomeProofDocsFile ||
-                familyIncomeProofDocsFileRejected) && (
-                <div className="flex flex-wrap gap-3 text-sm text-secondary">
-                  {familyIncomeProofDocsFile.map((file: File, index) => (
-                    <div
-                      className="flex flex-col justify-start px-3 py-2 bg-gray-200 border border-gray-300 rounded-md"
-                      key={index}
-                    >
-                      <p>{file.name}</p>
-                      <p className="text-xs">
-                        Size: {(file.size / 1024 / 1024).toFixed(1)} MB
-                      </p>
-                    </div>
-                  ))}
-
-                  {familyIncomeProofDocsFileRejected.map(
-                    (file: FileRejection, index) => (
-                      <div
-                        className="flex flex-col gap-1 px-3 py-2 bg-red-200 border border-red-300 rounded-md text-error"
-                        key={index}
-                      >
-                        <p>{file.file.name}</p>
-                        <div className="flex flex-col gap-1">
-                          {file.errors.map((e, i) => (
-                            <p className="text-xs" key={i}>
-                              Size: {(file.file.size / 1024 / 1024).toFixed(1)}{" "}
-                              MB - {e.message}
-                            </p>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
-            </div>
-          </div> */}
 
           {/* Password */}
           <div className="flex flex-col justify-start w-full">

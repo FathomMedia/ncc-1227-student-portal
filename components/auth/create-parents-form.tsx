@@ -20,7 +20,11 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
       validationSchema={yup.object({
         guardianFullName: yup.string().required(`${tErrors("requiredField")}`),
         relation: yup.string().required(`${tErrors("requiredField")}`),
-        guardianCPR: yup.string().required(`${tErrors("requiredField")}`),
+        guardianCPR: yup
+          .string()
+          .min(9, `${tErrors("cprShouldBe9")}`)
+          .max(9, `${tErrors("cprShouldBe9")}`)
+          .required(`${tErrors("requiredField")}`),
         address: yup.string().required(`${tErrors("requiredField")}`),
         primaryMobile: yup
           .string()
@@ -32,9 +36,15 @@ export const CreateParentsForm = (props: ICreateParentsForm) => {
           .required(`${tErrors("requiredField")}`),
 
         fatherFullName: yup.string(),
-        fatherCPR: yup.string(),
+        fatherCPR: yup
+          .string()
+          .min(9, `${tErrors("cprShouldBe9")}`)
+          .max(9, `${tErrors("cprShouldBe9")}`),
         motherFullName: yup.string(),
-        motherCPR: yup.string(),
+        motherCPR: yup
+          .string()
+          .min(9, `${tErrors("cprShouldBe9")}`)
+          .max(9, `${tErrors("cprShouldBe9")}`),
 
         numberOfFamilyMembers: yup
           .number()

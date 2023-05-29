@@ -15,13 +15,13 @@ import { API, graphqlOperation } from "aws-amplify";
 import { GetStudentQuery, GetStudentQueryVariables } from "../src/API";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { useRouter } from "next/router";
-import { getStudent } from "../src/graphql/queries";
 
 Auth.configure({ ...config, ssr: true });
 
 interface IUseAuthContext {
   user: CognitoUser | undefined;
   isSignedIn: boolean;
+  isInitializing: boolean;
   signIn: (cpr: string, password: string) => Promise<CognitoUser | undefined>;
   signOut: () => Promise<void>;
   checkIfCprExist: (cpr: string) => Promise<boolean>;
@@ -36,6 +36,7 @@ interface IUseAuthContext {
 const defaultState: IUseAuthContext = {
   user: undefined,
   isSignedIn: false,
+  isInitializing: true,
   signIn: async () => undefined,
   signOut: async () => {},
   checkIfCprExist: async () => false,
@@ -57,6 +58,9 @@ export const useAuth = () => useContext(AuthContext);
 function useProvideAuth() {
   const [user, setUser] = useState<CognitoUser | undefined>(defaultState.user);
   const [isSignedIn, setIsSignedIn] = useState(defaultState.isSignedIn);
+  const [isInitializing, setIsInitializing] = useState(
+    defaultState.isInitializing
+  );
 
   const { push } = useRouter();
 
@@ -147,9 +151,11 @@ function useProvideAuth() {
           }
         });
       }
+      setIsInitializing(false);
     } catch (error) {
       setIsSignedIn(false);
       setUser(undefined);
+      setIsInitializing(false);
     }
   }
 
@@ -219,5 +225,6 @@ function useProvideAuth() {
     checkIfCprExist,
     sendForgetPassword,
     verifyForgetPassword,
+    isInitializing,
   };
 }
