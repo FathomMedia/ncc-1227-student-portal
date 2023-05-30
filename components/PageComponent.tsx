@@ -34,6 +34,10 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
     });
   }
 
+  function goBack() {
+    router.back();
+  }
+
   return (
     <>
       <Toaster />
@@ -98,6 +102,13 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                 <div className="md:dropdown-end md:items-end md:absolute md:left-4 md:top-4">
                   <LangSwitcher></LangSwitcher>
                 </div>
+                <button
+                  type="button"
+                  onClick={goBack}
+                  className="btn md:absolute md:left-4 md:bottom-4"
+                >
+                  {titleTranslation.t("Back")}
+                </button>
                 <div className="w-full mt-10 md:mt-16">{props.header}</div>
                 {!props.header && (
                   <div className="prose prose-headings:text-white">
@@ -123,7 +134,7 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
           </div>
         )}
         <div
-          className="divide-y divide-secondary-content"
+          className="divide-y divide-primary-content"
           style={{
             backgroundImage: `url(${footerBg.src})`,
             backgroundSize: "cover",

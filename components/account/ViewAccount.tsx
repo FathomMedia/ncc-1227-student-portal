@@ -169,7 +169,6 @@ export default function ViewApplication({ student }: Props) {
       }) => (
         <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* CPR */}
-          <div className="col-span-2">{JSON.stringify(errors)}</div>
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("studentCPR")}</label>
             <Field
@@ -465,7 +464,6 @@ export default function ViewApplication({ student }: Props) {
               }}
               isInvalid={setFamilyIncomeProofInvalid}
               handleChange={(event) => {
-                console.log(event, "outside event");
                 handleChange(event);
               }}
               handleOnClear={() => {

@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from "next";
 import { PageComponent } from "../components/PageComponent";
 import { Formik, Form, Field } from "formik";
-import { t } from "i18next";
+
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/use-auth";
