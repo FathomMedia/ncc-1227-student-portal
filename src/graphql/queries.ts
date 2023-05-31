@@ -150,6 +150,7 @@ export const getApplication = /* GraphQL */ `
       }
       student {
         cpr
+        cprDoc
         fullName
         email
         phone
@@ -254,6 +255,7 @@ export const listApplications = /* GraphQL */ `
         }
         student {
           cpr
+          cprDoc
           fullName
           email
           phone
@@ -340,6 +342,7 @@ export const syncApplications = /* GraphQL */ `
         }
         student {
           cpr
+          cprDoc
           fullName
           email
           phone
@@ -447,6 +450,7 @@ export const getProgramChoice = /* GraphQL */ `
         }
         student {
           cpr
+          cprDoc
           fullName
           email
           phone
@@ -967,6 +971,7 @@ export const getStudentLog = /* GraphQL */ `
       reason
       student {
         cpr
+        cprDoc
         fullName
         email
         phone
@@ -1044,6 +1049,7 @@ export const listStudentLogs = /* GraphQL */ `
         reason
         student {
           cpr
+          cprDoc
           fullName
           email
           phone
@@ -1103,6 +1109,7 @@ export const syncStudentLogs = /* GraphQL */ `
         reason
         student {
           cpr
+          cprDoc
           fullName
           email
           phone
@@ -1334,6 +1341,7 @@ export const getStudent = /* GraphQL */ `
   query GetStudent($cpr: String!) {
     getStudent(cpr: $cpr) {
       cpr
+      cprDoc
       fullName
       email
       phone
@@ -1437,6 +1445,7 @@ export const listStudents = /* GraphQL */ `
     ) {
       items {
         cpr
+        cprDoc
         fullName
         email
         phone
@@ -1508,6 +1517,7 @@ export const syncStudents = /* GraphQL */ `
     ) {
       items {
         cpr
+        cprDoc
         fullName
         email
         phone
@@ -1613,6 +1623,7 @@ export const applicationsByIdAndDateTime = /* GraphQL */ `
         }
         student {
           cpr
+          cprDoc
           fullName
           email
           phone
@@ -1703,6 +1714,7 @@ export const applicationsByStudentCPRAndGpa = /* GraphQL */ `
         }
         student {
           cpr
+          cprDoc
           fullName
           email
           phone
@@ -1793,6 +1805,7 @@ export const applicationsByBatchAndStatus = /* GraphQL */ `
         }
         student {
           cpr
+          cprDoc
           fullName
           email
           phone

@@ -411,6 +411,7 @@ type EagerStudent = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly cpr: string;
+  readonly cprDoc?: string | null;
   readonly fullName?: string | null;
   readonly email?: string | null;
   readonly phone?: string | null;
@@ -442,6 +443,7 @@ type LazyStudent = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly cpr: string;
+  readonly cprDoc?: string | null;
   readonly fullName?: string | null;
   readonly email?: string | null;
   readonly phone?: string | null;

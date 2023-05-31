@@ -120,6 +120,7 @@ enum SchoolType {
 
 type Student @model @auth(rules: [{ allow: public }]) {
   cpr: String! @primaryKey
+  cprDoc: String
   fullName: String
   email: String
   phone: String
