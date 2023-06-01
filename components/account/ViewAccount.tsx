@@ -16,12 +16,15 @@ import { useAppContext } from "../../contexts/AppContexts";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import MultiUpload from "../MultiUpload";
+import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
+import GetStorageLinkComponent from "../get-storage-link-component";
 
 interface Props {
   student: Student;
 }
 
 interface FormValues {
+  cprDocFile: string | null | undefined;
   phone: string | null | undefined;
   gender: Gender | null | undefined;
   schoolName: string | null | undefined;
@@ -40,7 +43,7 @@ interface FormValues {
   address: string | null | undefined;
 }
 
-export default function ViewApplication({ student }: Props) {
+export default function ViewAccount({ student }: Props) {
   const { syncStudent } = useAppContext();
   const { t } = useTranslation("account");
   const { t: tErrors } = useTranslation("errors");
@@ -50,8 +53,10 @@ export default function ViewApplication({ student }: Props) {
   >([]);
   const [familyIncomeProofInvalid, setFamilyIncomeProofInvalid] =
     useState<boolean>(false);
+  const [cprDoc, setCprDoc] = useState<File | undefined>(undefined);
 
   let initialValues: FormValues = {
+    cprDocFile: undefined,
     phone: student.phone,
     gender: student.gender,
     schoolName: student.schoolName,
@@ -83,6 +88,8 @@ export default function ViewApplication({ student }: Props) {
     <Formik
       initialValues={initialValues}
       validationSchema={yup.object({
+        cprDoc: yup.string(),
+        cprDocFile: yup.mixed(),
         phone: yup
           .string()
           .phone()
@@ -104,6 +111,16 @@ export default function ViewApplication({ student }: Props) {
         graduationDate: yup.date().required(`${tErrors("requiredField")}`),
       })}
       onSubmit={async (values, actions) => {
+        const cprDocStorage = cprDoc
+          ? await toast.promise(uploadFile(cprDoc, DocType.CPR, student.cpr), {
+              loading: "Uploading...",
+              success: "CPR uploaded successfully",
+              error: (err) => {
+                return `${err.message}`;
+              },
+            })
+          : student.cprDoc;
+
         const storageKeys =
           familyIncomeProofDocsFile.length > 0
             ? await toast.promise(
@@ -119,7 +136,7 @@ export default function ViewApplication({ student }: Props) {
                 ]),
                 {
                   loading: "Uploading...",
-                  success: "Document uploaded successfully",
+                  success: "Family income proofs uploaded successfully",
                   error: (err) => {
                     return `${err.message}`;
                   },
@@ -130,6 +147,7 @@ export default function ViewApplication({ student }: Props) {
         let updateVars: UpdateStudentMutationVariables = {
           input: {
             cpr: student.cpr,
+            cprDoc: cprDocStorage,
             phone: values.phone,
             gender: values.gender,
             schoolName: values.schoolName,
@@ -166,8 +184,9 @@ export default function ViewApplication({ student }: Props) {
         handleBlur,
         isSubmitting,
         isValid,
+        setFieldError,
       }) => (
-        <Form className="container grid max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
+        <Form className="container grid items-end max-w-3xl grid-cols-1 gap-3 mx-auto md:grid-cols-2">
           {/* CPR */}
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("studentCPR")}</label>
@@ -183,6 +202,43 @@ export default function ViewApplication({ student }: Props) {
               disabled
               value={student.cpr ?? ""}
             />
+          </div>
+          {/* cprDoc */}
+          <div className="flex flex-col justify-start w-full">
+            <label className="label">
+              {t("studentCPRdoc")}
+              <GetStorageLinkComponent
+                storageKey={student.cprDoc}
+              ></GetStorageLinkComponent>
+            </label>
+            <Field
+              dir="ltr"
+              type="file"
+              accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
+              id="cprDocFile"
+              name="cprDocFile"
+              title="cprDocFile"
+              placeholder="CPR Doc"
+              className={`file-input file-input-bordered file-input-secondary bg-secondary text-secondary-content ${
+                errors.cprDocFile && "input-error"
+              }`}
+              onChange={(event: any) => {
+                let file: File | undefined = event.currentTarget.files[0];
+
+                let isValid = checkIfFilesAreTooBig(file);
+                if (isValid) {
+                  setCprDoc(file);
+                  handleChange(event);
+                } else {
+                  setFieldError("cprDoc", "File is too large");
+                }
+              }}
+              onBlur={handleBlur}
+              value={values.cprDocFile ?? ""}
+            />
+            <label className="label-text-alt text-error">
+              {errors.cprDocFile && touched.cprDocFile && errors.cprDocFile}
+            </label>
           </div>
           {/* Email */}
           <div className="flex flex-col justify-start w-full">
@@ -471,7 +527,7 @@ export default function ViewApplication({ student }: Props) {
               }}
               value={values.familyIncomeProofDocsFile ?? ""}
               filedName={"familyIncomeProofDocsFile"}
-              title={`${t("familyIncomeProof")} ${t("document")}`}
+              title={`${t("familyIncomeProofDocs")}`}
               storageKeys={student.familyIncomeProofDocs}
             ></MultiUpload>
           </div>

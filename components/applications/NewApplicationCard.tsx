@@ -15,7 +15,7 @@ export const NewApplicationCard = () => {
               {t(`createNewApplication`)}
             </h3>
             {/* Submit Date */}
-            <div className=" h-4 w-24 bg-gray-200 rounded"></div>
+            <div className="w-24 h-4 bg-gray-200 rounded "></div>
           </div>
           {/* Programs */}
           <div>
@@ -23,21 +23,20 @@ export const NewApplicationCard = () => {
               {t("selectedPrograms")}
             </div>
             <div className="flex flex-col gap-1">
-              <div className="h-4 w-32 bg-gray-200 rounded"></div>
-              <div className="h-4 w-40 bg-gray-200 rounded"></div>
+              <div className="w-32 h-4 bg-gray-200 rounded"></div>
+              <div className="w-40 h-4 bg-gray-200 rounded"></div>
             </div>
           </div>
           {/* Attachments */}
-          <div className="p-3 rounded-xl border border-gray-200">
+          <div className="p-3 border border-gray-200 rounded-xl">
             <div className="flex gap-2 mb-2 -mt-2 text-sm stat-title ">
               {t("uploadedAttachments")}
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <div
-                className={`badge  badge-ghost ${" opacity-50 !badge-outline"}`}
-              >
-                {t("CPR")}
+              <div className={`badge badge-ghost`}>{t("CPR")}</div>
+              <div className={`badge badge-ghost`}>
+                {t("familyIncomeProofs")}
               </div>
               <div
                 className={`badge  badge-ghost ${" opacity-50 !badge-outline"}`}

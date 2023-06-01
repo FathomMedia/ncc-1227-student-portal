@@ -44,8 +44,11 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
       <div className="flex flex-col justify-between min-h-screen">
         {isInitializing ? (
           <div className="flex items-center justify-center w-full h-full min-h-screen bg-gray-200 animate-pulse">
-            <div className="btn btn-ghost hover:bg-transparent loading">
-              Loading...
+            <div
+              dir="ltr"
+              className="btn btn-ghost hover:bg-transparent loading"
+            >
+              {titleTranslation.t("loading")}
             </div>
           </div>
         ) : (
@@ -103,10 +106,25 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
                   <LangSwitcher></LangSwitcher>
                 </div>
                 <button
+                  dir="ltr"
                   type="button"
                   onClick={goBack}
-                  className="btn md:absolute md:left-4 md:bottom-4"
+                  className="text-white btn btn-ghost md:absolute md:left-4 md:bottom-4"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="mr-1 feather feather-chevron-left"
+                  >
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
                   {titleTranslation.t("Back")}
                 </button>
                 <div className="w-full mt-10 md:mt-16">{props.header}</div>

@@ -2,13 +2,16 @@ import { withSSRContext } from "aws-amplify";
 import { GetServerSideProps } from "next";
 import React, { useState } from "react";
 import { PageComponent } from "../../components/PageComponent";
-import { Application, Status } from "../../src/API";
+import { Application, Status, Student } from "../../src/API";
 import ViewApplication from "../../components/applications/ViewApplication";
 import { CognitoUser } from "@aws-amplify/auth";
 import { ApplicationForm } from "../../components/applications/ApplicationForm";
 import { getApplicationData, listAllPrograms } from "../../src/CustomAPI";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "react-i18next";
+import { useAppContext } from "../../contexts/AppContexts";
+import GetStorageLinkComponent from "../../components/get-storage-link-component";
+import Link from "next/link";
 
 interface Props {
   application: Application | null;
@@ -37,6 +40,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         "pageTitles",
         "applicationPage",
         "signIn",
+        "account",
+        "errors",
       ])),
       application:
         authUser?.getUsername() === application?.studentCPR && application,
@@ -53,26 +58,44 @@ export default function SingleApplicationPage({
 
   const [isEdit, setIsEdit] = useState(false);
 
+  const { student: studentData } = useAppContext();
+
+  const student = studentData?.getStudent;
+
   return (
     <PageComponent title={"Application"} authRequired>
-      {(application?.status === Status.REVIEW ||
-        application?.status === Status.NOT_COMPLETED ||
-        application?.status === Status.ELIGIBLE) && (
-        <div className="flex justify-end pb-5 px-7">
-          <button
-            className="btn btn-sm btn-outline btn-primary"
-            onClick={() => setIsEdit(!isEdit)}
-            type="button"
-          >
-            {isEdit ? t("view") : t("edit")}
-          </button>
-        </div>
-      )}
-      {application && !isEdit && <ViewApplication application={application} />}
+      <div className="max-w-3xl mx-auto">
+        {(application?.status === Status.REVIEW ||
+          application?.status === Status.NOT_COMPLETED ||
+          application?.status === Status.ELIGIBLE) && (
+          <div className="flex justify-end mb-3 ">
+            <button
+              className="btn btn-sm btn-outline btn-primary"
+              onClick={() => setIsEdit(!isEdit)}
+              type="button"
+            >
+              {isEdit ? t("view") : t("edit")}
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="max-w-3xl mx-auto">
+        {application && !isEdit && (
+          <ViewApplication application={application} />
+        )}
+      </div>
 
-      {application && isEdit && (
-        <ApplicationForm application={application} programs={programs} />
-      )}
+      <div className="max-w-3xl mx-auto">
+        {application && isEdit && (
+          <ApplicationForm application={application} programs={programs} />
+        )}
+      </div>
+
+      <div className="max-w-3xl mx-auto">
+        {application && student && (
+          <AccountDocs student={student}></AccountDocs>
+        )}
+      </div>
 
       {!application && (
         <div className="flex flex-col items-center justify-center">
@@ -82,5 +105,63 @@ export default function SingleApplicationPage({
         </div>
       )}
     </PageComponent>
+  );
+}
+
+interface AccountDocs {
+  student: Student;
+}
+
+function AccountDocs({ student }: AccountDocs) {
+  const { t } = useTranslation("account");
+  return (
+    <div className="container flex flex-col items-end gap-3 mt-8">
+      <div className="flex items-center justify-between w-full">
+        <p className="w-full text-xl stat-value">{t("accountTitle")}</p>
+        <Link
+          className="btn btn-primary btn-sm btn-outline w-fit"
+          href={"/account"}
+        >
+          {t("editAccount")}
+        </Link>
+      </div>
+      <table dir="ltr" className="table w-full">
+        <thead>
+          <tr>
+            <th>{t("field")}</th>
+            <th>{t("value")}</th>
+          </tr>
+        </thead>
+        <tbody className="">
+          <tr>
+            <td>{t("studentCPR")}</td>
+            <td className="label">
+              <GetStorageLinkComponent
+                storageKey={student.cprDoc}
+              ></GetStorageLinkComponent>
+            </td>
+          </tr>
+          <tr>
+            <td>{t("familyIncomeProofDocs")}</td>
+            <td>
+              {(student.familyIncomeProofDocs ?? [])?.length > 0 && (
+                <div className="flex flex-col p-3 mb-3 bg-gray-200 rounded-lg">
+                  <div className="flex flex-wrap items-center gap-2">
+                    {student.familyIncomeProofDocs?.map((doc, index) => (
+                      <div key={index} className="">
+                        <GetStorageLinkComponent
+                          storageKey={doc}
+                          showName
+                        ></GetStorageLinkComponent>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 }

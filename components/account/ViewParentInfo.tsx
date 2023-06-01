@@ -63,7 +63,11 @@ export default function ViewParentInfo({ parentInfo }: Props) {
       validationSchema={yup.object({
         guardianFullName: yup.string().required(`${tErrors("requiredField")}`),
         relation: yup.string().required(`${tErrors("requiredField")}`),
-        guardianCPR: yup.string().required(`${tErrors("requiredField")}`),
+        guardianCPR: yup
+          .string()
+          .min(9, `${tErrors("cprShouldBe9")}`)
+          .max(9, `${tErrors("cprShouldBe9")}`)
+          .required(`${tErrors("requiredField")}`),
         address: yup.string().required(`${tErrors("requiredField")}`),
 
         primaryMobile: yup
@@ -75,12 +79,18 @@ export default function ViewParentInfo({ parentInfo }: Props) {
           .phone()
           .required(`${tErrors("requiredField")}`),
 
-        fatherFullName: yup.string().required(`${tErrors("requiredField")}`),
-        fatherCPR: yup.string().required(`${tErrors("requiredField")}`),
-
-        motherFullName: yup.string().required(`${tErrors("requiredField")}`),
-        motherCPR: yup.string().required(`${tErrors("requiredField")}`),
-
+        fatherFullName: yup.string().nullable(),
+        fatherCPR: yup
+          .string()
+          .min(9, `${tErrors("cprShouldBe9")}`)
+          .max(9, `${tErrors("cprShouldBe9")}`)
+          .nullable(),
+        motherFullName: yup.string().nullable(),
+        motherCPR: yup
+          .string()
+          .min(9, `${tErrors("cprShouldBe9")}`)
+          .max(9, `${tErrors("cprShouldBe9")}`)
+          .nullable(),
         numberOfFamilyMembers: yup
           .number()
           .required(`${tErrors("requiredField")}`),
@@ -133,7 +143,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="guardianFullName"
               title="guardianFullName"
-              placeholder="Guardian Full Name"
               className={`input input-bordered input-primary ${
                 errors.guardianFullName && "input-error"
               }`}
@@ -156,7 +165,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="relation"
               title="relation"
-              placeholder="Relation"
               className={`input input-bordered input-primary ${
                 errors.relation && "input-error"
               }`}
@@ -177,7 +185,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="guardianCPR"
               title="guardianCPR"
-              placeholder="Guardian CPR"
               className={`input input-bordered input-primary ${
                 errors.guardianCPR && "input-error"
               }`}
@@ -198,7 +205,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="address"
               title="address"
-              placeholder="Address"
               className={`input input-bordered input-primary ${
                 errors.address && "input-error"
               }`}
@@ -211,8 +217,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
             </label>
           </div>
 
-          <div className="divider md:col-span-2"></div>
-
           {/* primaryMobile */}
           <div className="flex flex-col justify-start w-full">
             <label className="label">{t("primaryMobileNumber")}</label>
@@ -221,7 +225,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="phone"
               name="primaryMobile"
               title="primaryMobile"
-              placeholder="Primary Mobile (+973)"
               className={`input input-bordered input-primary ${
                 errors.primaryMobile && "input-error"
               }`}
@@ -244,7 +247,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="phone"
               name="secondaryMobile"
               title="secondaryMobile"
-              placeholder="Primary Mobile (+973)"
               className={`input input-bordered input-primary ${
                 errors.secondaryMobile && "input-error"
               }`}
@@ -267,7 +269,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="numberOfFamilyMembers"
               title="numberOfFamilyMembers"
-              placeholder="Number Of Family Members"
               className={`input input-bordered input-primary ${
                 errors.numberOfFamilyMembers && "input-error"
               }`}
@@ -292,7 +293,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="fatherFullName"
               title="fatherFullName"
-              placeholder="Father Full Name"
               className={`input input-bordered input-primary ${
                 errors.fatherFullName && "input-error"
               }`}
@@ -315,7 +315,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="fatherCPR"
               title="fatherCPR"
-              placeholder="Father CPR"
               className={`input input-bordered input-primary ${
                 errors.fatherCPR && "input-error"
               }`}
@@ -338,7 +337,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="motherFullName"
               title="motherFullName"
-              placeholder="Mother Full Name"
               className={`input input-bordered input-primary ${
                 errors.motherFullName && "input-error"
               }`}
@@ -361,7 +359,6 @@ export default function ViewParentInfo({ parentInfo }: Props) {
               type="text"
               name="motherCPR"
               title="motherCPR"
-              placeholder="Mother CPR"
               className={`input input-bordered input-primary ${
                 errors.motherCPR && "input-error"
               }`}

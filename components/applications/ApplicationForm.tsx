@@ -12,6 +12,7 @@ import {
   CreateStudentLogMutationVariables,
   Program,
   SchoolType,
+  Student,
   UpdateApplicationMutationVariables,
   UpdateAttachmentMutationVariables,
   UpdateProgramChoiceMutationVariables,
@@ -33,6 +34,7 @@ import {
 } from "../../src/CustomAPI";
 import {
   ApplicationSnapshotInput,
+  allDocsAreAvailable,
   checkIfFilesAreTooBig,
   getStudentApplicationSnapshot,
 } from "../../src/HelperFunctions";
@@ -58,7 +60,7 @@ interface FormValues {
   gpa: number | undefined;
   primaryProgramID: string | undefined;
   secondaryProgramID: string | undefined;
-  cprDoc: File | undefined;
+  // cprDoc: File | undefined;
   schoolCertificate: File | undefined;
   transcriptDoc: File | undefined;
   primaryAcceptanceDoc: File | undefined;
@@ -79,7 +81,9 @@ export const ApplicationForm: FC<Props> = (props) => {
   const { t } = useTranslation("applicationPage");
   const { t: tErrors } = useTranslation("errors");
 
-  const [cprDoc, setCprDoc] = useState<File | undefined>(undefined);
+  const studentData = student?.getStudent as Student;
+
+  // const [cprDoc, setCprDoc] = useState<File | undefined>(undefined);
 
   const [primaryAcceptanceDoc, setPrimaryAcceptanceDoc] = useState<
     File | undefined
@@ -114,7 +118,7 @@ export const ApplicationForm: FC<Props> = (props) => {
     gpa: props.application?.gpa ?? undefined,
     primaryProgramID: oldPrimaryProgram?.program?.id ?? undefined,
     secondaryProgramID: oldSecondaryProgram?.program?.id ?? undefined,
-    cprDoc: undefined,
+    // cprDoc: undefined,
     schoolCertificate: undefined,
     transcriptDoc: undefined,
     primaryAcceptanceDoc: undefined,
@@ -340,27 +344,14 @@ export const ApplicationForm: FC<Props> = (props) => {
                 secondaryProgramID: yup
                   .string()
                   .required(`${tErrors("requiredField")}`),
-                cprDoc: yup.mixed().required(`${tErrors("requiredField")}`),
-                schoolCertificate:
-                  student?.getStudent?.schoolType == SchoolType.PRIVATE
-                    ? yup.mixed().required(`${tErrors("requiredField")}`)
-                    : yup.mixed(),
-                transcriptDoc: yup
-                  .mixed()
-                  .required(`${tErrors("requiredField")}`),
-                primaryAcceptanceDoc: yup
-                  .mixed()
-                  .required(`${tErrors("requiredField")}`),
-                secondaryAcceptanceDoc: yup
-                  .mixed()
-                  .required(`${tErrors("requiredField")}`),
+                schoolCertificate: yup.mixed(),
+                transcriptDoc: yup.mixed(),
+                primaryAcceptanceDoc: yup.mixed(),
+                secondaryAcceptanceDoc: yup.mixed(),
               })
         }
         onSubmit={async (values, actions) => {
           let checkStorageKeys: (string | null | undefined)[] = [
-            props.application
-              ? props.application.attachment?.cprDoc
-              : undefined,
             props.application
               ? props.application.attachment?.schoolCertificate
               : undefined,
@@ -373,8 +364,6 @@ export const ApplicationForm: FC<Props> = (props) => {
 
           let storageKeys = await toast.promise(
             Promise.all([
-              cprDoc &&
-                uploadFile(cprDoc, DocType.CPR, `${student?.getStudent?.cpr}`),
               schoolCertificate &&
                 uploadFile(
                   schoolCertificate,
@@ -413,31 +402,26 @@ export const ApplicationForm: FC<Props> = (props) => {
               error: "Uploading documents failed",
             }
           );
-          // CPR doc storage key
+          // School certificate doc storage key
           checkStorageKeys[0] =
             storageKeys?.[0] !== undefined
               ? storageKeys[0]
               : checkStorageKeys[0];
-          // School certificate doc storage key
+          // Transcript doc storage key
           checkStorageKeys[1] =
             storageKeys?.[1] !== undefined
               ? storageKeys[1]
               : checkStorageKeys[1];
-          // Transcript doc storage key
+          // Primary program acceptance letter doc storage key
           checkStorageKeys[2] =
             storageKeys?.[2] !== undefined
               ? storageKeys[2]
               : checkStorageKeys[2];
-          // Primary program acceptance letter doc storage key
+          // Secondary program acceptance letter doc storage key
           checkStorageKeys[3] =
             storageKeys?.[3] !== undefined
               ? storageKeys[3]
               : checkStorageKeys[3];
-          // Secondary program acceptance letter doc storage key
-          checkStorageKeys[4] =
-            storageKeys?.[4] !== undefined
-              ? storageKeys[4]
-              : checkStorageKeys[4];
 
           const selectedPrimaryProgram = props.programs?.find(
             (p) => p.id === values.primaryProgramID
@@ -452,7 +436,7 @@ export const ApplicationForm: FC<Props> = (props) => {
               id: values.primaryProgramID,
               name: `${selectedPrimaryProgram?.name}-${selectedPrimaryProgram?.university?.name}`,
               acceptanceLetterDoc:
-                storageKeys?.[3] ??
+                storageKeys?.[2] ??
                 oldPrimaryProgram?.acceptanceLetterDoc ??
                 undefined,
             },
@@ -460,14 +444,13 @@ export const ApplicationForm: FC<Props> = (props) => {
               id: values.secondaryProgramID,
               name: `${selectedSecondaryProgram?.name}-${selectedSecondaryProgram?.university?.name}`,
               acceptanceLetterDoc:
-                storageKeys?.[4] ??
+                storageKeys?.[3] ??
                 oldSecondaryProgram?.acceptanceLetterDoc ??
                 undefined,
             },
             attachments: {
-              cpr: storageKeys?.[0] ?? undefined,
-              schoolCertificate: storageKeys?.[1] ?? undefined,
-              transcript: storageKeys?.[2] ?? undefined,
+              schoolCertificate: storageKeys?.[0] ?? undefined,
+              transcript: storageKeys?.[1] ?? undefined,
             },
           };
 
@@ -489,7 +472,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                     oldSecondaryProgram?.acceptanceLetterDoc ?? undefined,
                 },
                 attachments: {
-                  cpr: props.application?.attachment?.cprDoc ?? undefined,
                   schoolCertificate:
                     props.application?.attachment?.schoolCertificate ??
                     undefined,
@@ -504,7 +486,17 @@ export const ApplicationForm: FC<Props> = (props) => {
               input: {
                 id: undefined,
                 gpa: values.gpa,
-                status: Status.REVIEW,
+                status: allDocsAreAvailable({
+                  cpr: studentData.cprDoc,
+                  familyProofs:
+                    student?.getStudent?.familyIncomeProofDocs ?? [],
+                  transcript: checkStorageKeys[1],
+                  schoolCertificate: checkStorageKeys[0],
+                  primaryProgramAcceptanceLetter: checkStorageKeys[2],
+                  secondaryProgramAcceptanceLetter: checkStorageKeys[3],
+                })
+                  ? Status.REVIEW
+                  : Status.NOT_COMPLETED,
                 studentCPR: `${student?.getStudent?.cpr}`,
                 _version: null,
                 attachmentID: null,
@@ -522,7 +514,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 programID: values.primaryProgramID ?? "",
                 applicationProgramsId: values.primaryProgramID ?? "",
                 programApplicationsId: undefined,
-                acceptanceLetterDoc: storageKeys?.[3],
+                acceptanceLetterDoc: storageKeys?.[2],
               },
               condition: undefined,
             },
@@ -535,16 +527,15 @@ export const ApplicationForm: FC<Props> = (props) => {
                 applicationProgramsId: values.secondaryProgramID ?? "",
                 applicationID: "",
                 programApplicationsId: undefined,
-                acceptanceLetterDoc: storageKeys?.[4],
+                acceptanceLetterDoc: storageKeys?.[3],
               },
               condition: undefined,
             },
             attachment: {
               input: {
                 id: undefined,
-                cprDoc: storageKeys?.[0],
-                schoolCertificate: storageKeys?.[1],
-                transcriptDoc: storageKeys?.[2],
+                schoolCertificate: storageKeys?.[0],
+                transcriptDoc: storageKeys?.[1],
                 _version: undefined,
               },
               condition: undefined,
@@ -578,15 +569,18 @@ export const ApplicationForm: FC<Props> = (props) => {
               input: {
                 id: props.application?.id ?? "",
                 gpa: values.gpa,
-                status:
-                  props.application?.status === Status.NOT_COMPLETED
-                    ? Array.prototype.every.call(
-                        checkStorageKeys,
-                        (x) => typeof x === "string"
-                      )
-                      ? Status.REVIEW
-                      : Status.NOT_COMPLETED
-                    : props.application?.status,
+                status: allDocsAreAvailable({
+                  cpr: studentData.cprDoc,
+                  familyProofs:
+                    student?.getStudent?.familyIncomeProofDocs ?? [],
+                  transcript: checkStorageKeys[1],
+                  schoolCertificate: checkStorageKeys[0],
+                  primaryProgramAcceptanceLetter: checkStorageKeys[2],
+                  secondaryProgramAcceptanceLetter: checkStorageKeys[3],
+                })
+                  ? Status.REVIEW
+                  : Status.NOT_COMPLETED,
+
                 studentCPR: `${student?.getStudent?.cpr}`,
                 _version: props.application?._version,
                 attachmentID: props.application?.attachmentID,
@@ -610,7 +604,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 applicationProgramsId: props.application?.id ?? "",
                 programApplicationsId: values.primaryProgramID ?? "",
                 acceptanceLetterDoc:
-                  storageKeys?.[3] ??
+                  storageKeys?.[2] ??
                   (primaryProgram?.id === oldPrimaryProgram?.program?.id
                     ? oldPrimaryProgram?.acceptanceLetterDoc
                     : null) ??
@@ -633,7 +627,7 @@ export const ApplicationForm: FC<Props> = (props) => {
                 applicationID: props.application?.id ?? "",
                 programApplicationsId: values.secondaryProgramID ?? "",
                 acceptanceLetterDoc:
-                  storageKeys?.[4] ??
+                  storageKeys?.[3] ??
                   (secondaryProgram?.id === oldSecondaryProgram?.program?.id
                     ? oldSecondaryProgram?.acceptanceLetterDoc
                     : null) ??
@@ -644,13 +638,13 @@ export const ApplicationForm: FC<Props> = (props) => {
             attachment: {
               input: {
                 id: props.application?.attachment?.id ?? "",
-                cprDoc:
-                  storageKeys?.[0] ?? props.application?.attachment?.cprDoc,
+                // cprDoc:
+                //   storageKeys?.[0] ?? props.application?.attachment?.cprDoc,
                 schoolCertificate:
-                  storageKeys?.[1] ??
+                  storageKeys?.[0] ??
                   props.application?.attachment?.schoolCertificate,
                 transcriptDoc:
-                  storageKeys?.[2] ??
+                  storageKeys?.[1] ??
                   props.application?.attachment?.transcriptDoc,
                 _version: props.application?.attachment?._version,
               },
@@ -813,9 +807,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
                       {t("primaryAcceptance")}{" "}
-                      {!props.application && (
-                        <span className="ml-1 mr-auto text-red-500">*</span>
-                      )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
                           storageKey={
@@ -933,9 +924,6 @@ export const ApplicationForm: FC<Props> = (props) => {
                   <div className="flex flex-col justify-start w-full">
                     <label className="label">
                       {t("secondaryAcceptance")}{" "}
-                      {!props.application && (
-                        <span className="ml-1 mr-auto text-red-500">*</span>
-                      )}{" "}
                       {props.application && (
                         <GetStorageLinkComponent
                           storageKey={
@@ -999,12 +987,10 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="divider md:col-span-2"></div>
 
             {/* cprDoc */}
-            <div className="flex flex-col justify-start w-full">
+            {/* <div className="flex flex-col justify-start w-full">
               <label className="label">
                 {t("CPRDoc")}{" "}
-                {!props.application && (
-                  <span className="ml-1 mr-auto text-red-500">*</span>
-                )}{" "}
+              {" "}
                 {props.application && (
                   <GetStorageLinkComponent
                     storageKey={props.application?.attachment?.cprDoc}
@@ -1039,15 +1025,12 @@ export const ApplicationForm: FC<Props> = (props) => {
               <label className="label-text-alt text-error">
                 {errors.cprDoc && touched.cprDoc && errors.cprDoc}
               </label>
-            </div>
+            </div> */}
 
             {/* schoolCertificate */}
             <div className="flex flex-col justify-start w-full">
               <label className="label">
                 {t("schoolCertificate")}{" "}
-                {!props.application && (
-                  <span className="ml-1 mr-auto text-red-500">*</span>
-                )}
                 {props.application && (
                   <GetStorageLinkComponent
                     storageKey={
@@ -1092,9 +1075,6 @@ export const ApplicationForm: FC<Props> = (props) => {
             <div className="flex flex-col justify-start w-full">
               <label className="label">
                 {t("transcript")}{" "}
-                {!props.application && (
-                  <span className="ml-1 mr-auto text-red-500">*</span>
-                )}
                 {props.application && (
                   <GetStorageLinkComponent
                     storageKey={props.application?.attachment?.transcriptDoc}

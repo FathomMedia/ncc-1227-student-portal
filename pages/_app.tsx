@@ -8,8 +8,8 @@ import { AppProvider } from "../contexts/AppContexts";
 import { AuthProvider } from "../hooks/use-auth";
 import { appWithTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { Crisp } from "crisp-sdk-web";
+// import { useEffect } from "react";
+// import { Crisp } from "crisp-sdk-web";
 
 import NextNProgress from "nextjs-progressbar";
 
@@ -23,14 +23,14 @@ function App({ Component, pageProps }: AppProps) {
 
   const dir = locale === "ar" ? "rtl" : "ltr";
 
-  useEffect(() => {
-    Crisp.configure(`${process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID}`, {
-      locale: locale,
-      autoload: true,
-    });
+  // useEffect(() => {
+  //   Crisp.configure(`${process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID}`, {
+  //     locale: locale,
+  //     autoload: true,
+  //   });
 
-    return () => {};
-  }, [locale]);
+  //   return () => {};
+  // }, [locale]);
 
   return (
     <div dir={dir} className={locale === "ar" ? "font-IBMArabic" : "font-IBM"}>

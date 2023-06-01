@@ -32,6 +32,7 @@ export interface CreateStudentFormValues {
   parentInfo: CreateParentInfoMutationVariables;
   password: string;
   familyIncomeProofDocsFile: File[];
+  cprDoc: File | undefined;
 }
 
 export default function SignUpForm() {
@@ -45,6 +46,7 @@ export default function SignUpForm() {
     student: {
       input: {
         cpr: "",
+        cprDoc: undefined,
         fullName: undefined,
         email: undefined,
         phone: "+973",
@@ -83,6 +85,7 @@ export default function SignUpForm() {
     },
     password: "",
     familyIncomeProofDocsFile: [],
+    cprDoc: undefined,
   };
 
   const [createStudentFormValues, setCreateStudentFormValues] =
@@ -201,6 +204,15 @@ export default function SignUpForm() {
     if (createdParentInfo?.data == null) {
       throw new Error("Error creating the user");
     }
+    if (data.cprDoc == undefined) {
+      throw new Error("CprDoc is missing");
+    }
+
+    const cprDocStorage = await uploadFile(
+      data.cprDoc,
+      DocType.CPR,
+      data.student.input.cpr
+    );
 
     const storageKeys = await Promise.all([
       ...data.familyIncomeProofDocsFile.map((f, index) =>
@@ -217,6 +229,7 @@ export default function SignUpForm() {
       student: {
         input: {
           cpr: data.student.input.cpr,
+          cprDoc: cprDocStorage,
           fullName: data.student.input.fullName,
           email: data.student.input.email,
           phone: data.student.input.phone,
@@ -242,6 +255,7 @@ export default function SignUpForm() {
       parentInfo: data.parentInfo,
       password: data.password,
       familyIncomeProofDocsFile: data.familyIncomeProofDocsFile,
+      cprDoc: data.cprDoc,
     };
 
     setCreateStudentFormValues(temp);
@@ -309,6 +323,7 @@ export default function SignUpForm() {
 
               password: values.password,
               familyIncomeProofDocsFile: values.familyIncomeProofDocsFile,
+              cprDoc: values.cprDoc,
             };
 
             setCreateStudentFormValues(temp);
@@ -326,6 +341,7 @@ export default function SignUpForm() {
               student: createStudentFormValues.student,
               parentInfo: values,
               password: createStudentFormValues.password,
+              cprDoc: createStudentFormValues.cprDoc,
               familyIncomeProofDocsFile:
                 createStudentFormValues.familyIncomeProofDocsFile,
             };

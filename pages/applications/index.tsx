@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { ApplicationCard } from "../../components/applications/ApplicationCard";
 import { getStatusOrder } from "../../src/HelperFunctions";
 import { NewApplicationCard } from "../../components/applications/NewApplicationCard";
-import { Status } from "../../src/API";
+import { Status, Student } from "../../src/API";
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { locale } = ctx;
@@ -30,6 +30,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 export default function ApplicationsPage() {
   const appContext = useAppContext();
 
+  const student = appContext.student?.getStudent as Student;
+
   const activeApplications = appContext.applications.filter(
     (app) =>
       app.status === Status.APPROVED ||
@@ -46,66 +48,70 @@ export default function ApplicationsPage() {
 
   return (
     <PageComponent title={"Applications"} authRequired>
-      <div className="container mx-auto">
-        {!appContext.haveActiveApplication && (
-          <div>
-            <p className="stat-value my-4 text-2xl">New Application</p>
-          </div>
-        )}
-        {activeApplications.length > 0 && (
-          <div>
-            <p className="stat-value my-4 text-2xl">Active Applications</p>
-          </div>
-        )}
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 [grid-auto-rows:1fr]">
+      {student && (
+        <div className="container mx-auto">
           {!appContext.haveActiveApplication && (
-            <Link href={"../applications/new-application"}>
-              <NewApplicationCard></NewApplicationCard>
-            </Link>
+            <div>
+              <p className="my-4 text-2xl stat-value">New Application</p>
+            </div>
           )}
-          {appContext.haveActiveApplication &&
-            activeApplications
-              .sort((a, b) => {
-                if (a.status && b.status) {
-                  if (getStatusOrder(b.status) > getStatusOrder(a.status))
-                    return 1;
-                  if (getStatusOrder(b.status) < getStatusOrder(a.status))
-                    return -1;
-                }
-                return 0;
-              })
-              .map((application) => (
-                <ApplicationCard
-                  key={application.id}
-                  application={application}
-                />
-              ))}
-        </div>
-        {pastApplications.length > 0 && (
-          <div>
-            <p className="stat-value my-4 text-2xl">Past Applications</p>
+          {activeApplications.length > 0 && (
+            <div>
+              <p className="my-4 text-2xl stat-value">Active Applications</p>
+            </div>
+          )}
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 [grid-auto-rows:1fr]">
+            {!appContext.haveActiveApplication && (
+              <Link href={"../applications/new-application"}>
+                <NewApplicationCard></NewApplicationCard>
+              </Link>
+            )}
+            {appContext.haveActiveApplication &&
+              activeApplications
+                .sort((a, b) => {
+                  if (a.status && b.status) {
+                    if (getStatusOrder(b.status) > getStatusOrder(a.status))
+                      return 1;
+                    if (getStatusOrder(b.status) < getStatusOrder(a.status))
+                      return -1;
+                  }
+                  return 0;
+                })
+                .map((application) => (
+                  <ApplicationCard
+                    key={application.id}
+                    application={application}
+                    student={student}
+                  />
+                ))}
           </div>
-        )}
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 [grid-auto-rows:1fr]">
-          {pastApplications.length > 0 &&
-            pastApplications
-              .sort((a, b) => {
-                if (a.status && b.status) {
-                  if (getStatusOrder(b.status) > getStatusOrder(a.status))
-                    return 1;
-                  if (getStatusOrder(b.status) < getStatusOrder(a.status))
-                    return -1;
-                }
-                return 0;
-              })
-              .map((application) => (
-                <ApplicationCard
-                  key={application.id}
-                  application={application}
-                />
-              ))}
+          {pastApplications.length > 0 && (
+            <div>
+              <p className="my-4 text-2xl stat-value">Past Applications</p>
+            </div>
+          )}
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 [grid-auto-rows:1fr]">
+            {pastApplications.length > 0 &&
+              pastApplications
+                .sort((a, b) => {
+                  if (a.status && b.status) {
+                    if (getStatusOrder(b.status) > getStatusOrder(a.status))
+                      return 1;
+                    if (getStatusOrder(b.status) < getStatusOrder(a.status))
+                      return -1;
+                  }
+                  return 0;
+                })
+                .map((application) => (
+                  <ApplicationCard
+                    key={application.id}
+                    application={application}
+                    student={student}
+                  />
+                ))}
+          </div>
         </div>
-      </div>
+      )}
     </PageComponent>
   );
 }

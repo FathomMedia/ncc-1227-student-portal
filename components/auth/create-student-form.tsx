@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import MultiUpload from "../MultiUpload";
 import { useAuth } from "../../hooks/use-auth";
+import { checkIfFilesAreTooBig } from "../../src/HelperFunctions";
 
 interface ICreateStudentForm {
   student: CreateStudentMutationVariables;
@@ -21,6 +22,7 @@ interface ICreateStudentForm {
     student: CreateStudentMutationVariables;
     password: string;
     familyIncomeProofDocsFile: File[];
+    cprDoc: File | undefined;
   }) => void;
 }
 
@@ -40,6 +42,8 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
     File[]
   >([]);
 
+  const [cprDoc, setCprDoc] = useState<File | undefined>(undefined);
+
   return (
     <Formik
       initialValues={{
@@ -47,6 +51,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         password: "",
         confirmPassword: "",
         familyIncomeProofDocsFile: [],
+        cprDoc: undefined,
       }}
       validationSchema={yup.object({
         cpr: yup
@@ -54,6 +59,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           .min(9, `${tErrors("cprShouldBe9")}`)
           .max(9, `${tErrors("cprShouldBe9")}`)
           .required(`${tErrors("requiredField")}`),
+        cprDoc: yup.string().required(`${tErrors("requiredField")}`),
         fullName: yup.string().required(`${tErrors("requiredField")}`),
         email: yup
           .string()
@@ -88,6 +94,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           student: {
             input: {
               cpr: values.cpr,
+              cprDoc: values.cprDoc,
               fullName: values.fullName,
               email: values.email,
               phone: values.phone,
@@ -109,6 +116,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           },
           password: values.password,
           familyIncomeProofDocsFile: familyIncomeProofDocsFile,
+          cprDoc: cprDoc,
         });
 
         actions.setSubmitting(false);
@@ -121,7 +129,6 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
         handleChange,
         handleBlur,
         isSubmitting,
-        isValid,
         setFieldError,
         validateField,
       }) => (
@@ -168,6 +175,40 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
               }}
               value={values.cpr ?? ""}
             />
+          </div>
+          {/* cprDoc */}
+          <div className="flex flex-col justify-start w-full">
+            <label className="label">
+              {t("cprDoc")} <span className="ml-1 mr-auto text-red-500">*</span>
+            </label>
+            <Field
+              dir="ltr"
+              type="file"
+              accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps,application/msword"
+              id="cprDoc"
+              name="cprDoc"
+              title="cprDoc"
+              placeholder="CPR Doc"
+              className={`file-input file-input-bordered file-input-secondary bg-secondary text-secondary-content ${
+                errors.cprDoc && touched.cprDoc && "input-error"
+              }`}
+              onChange={(event: any) => {
+                let file: File | undefined = event.currentTarget.files[0];
+
+                let isValid = checkIfFilesAreTooBig(file);
+                if (isValid) {
+                  setCprDoc(file);
+                  handleChange(event);
+                } else {
+                  setFieldError("cprDoc", "File must not be more than 2MB");
+                }
+              }}
+              onBlur={handleBlur}
+              value={values.cprDoc ?? ""}
+            />
+            <label className="label-text-alt text-error">
+              {errors.cprDoc && touched.cprDoc && errors.cprDoc}
+            </label>
           </div>
           {/* FullName */}
           <div className="flex flex-col justify-start w-full">
@@ -698,7 +739,6 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
             type="submit"
             disabled={
               isSubmitting ||
-              !isValid ||
               familyIncomeProofInvalid ||
               (familyIncomeProofDocsFile.length === 0 &&
                 (props.student.input.familyIncomeProofDocs ?? []).length === 0)

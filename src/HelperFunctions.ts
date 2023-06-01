@@ -143,3 +143,23 @@ export function getStudentApplicationSnapshot(inputData: {
 
   return JSON.stringify(snapshot);
 }
+
+interface IAllDocsAreAvailable {
+  cpr: string | null | undefined;
+  familyProofs: (string | null)[];
+  transcript: string | null | undefined;
+  schoolCertificate: string | null | undefined;
+  primaryProgramAcceptanceLetter: string | null | undefined;
+  secondaryProgramAcceptanceLetter: string | null | undefined;
+}
+
+export function allDocsAreAvailable(props: IAllDocsAreAvailable): boolean {
+  return (
+    typeof props.cpr === "string" &&
+    typeof props.transcript === "string" &&
+    typeof props.schoolCertificate === "string" &&
+    typeof props.primaryProgramAcceptanceLetter === "string" &&
+    typeof props.secondaryProgramAcceptanceLetter === "string" &&
+    props.familyProofs.length > 0
+  );
+}

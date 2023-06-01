@@ -22,7 +22,7 @@ export default function GetStorageLinkComponent({
     setIsLoading(false);
   }
 
-  const { t } = useTranslation("applicationPage");
+  const { t } = useTranslation("common");
 
   function extractTextBetweenHashTags(str: string): string {
     const hashTagRegex = /#([^#]+)#/;

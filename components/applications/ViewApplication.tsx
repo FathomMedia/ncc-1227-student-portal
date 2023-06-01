@@ -68,7 +68,7 @@ export default function ViewApplication({ application }: Props) {
                   {`Requirements: ${primaryProgram?.program?.requirements}`}
                 </div>
               )}
-              <div className="flex gap-4 items-center">
+              <div className="flex items-center gap-4">
                 <p className="text-xs">{t("acceptanceLetter")}</p>
                 <GetStorageLinkComponent
                   storageKey={primaryProgram?.acceptanceLetterDoc}
@@ -87,22 +87,12 @@ export default function ViewApplication({ application }: Props) {
                   {`Requirements: ${secondaryProgram?.program?.requirements}`}
                 </div>
               )}
-              <div className="flex gap-4 items-center">
+              <div className="flex items-center gap-4">
                 <p className="text-xs">{t("acceptanceLetter")}</p>
                 <GetStorageLinkComponent
                   storageKey={secondaryProgram?.acceptanceLetterDoc}
                 ></GetStorageLinkComponent>
               </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {t("CPR")} {t("document")}
-            </td>
-            <td>
-              <GetStorageLinkComponent
-                storageKey={application.attachment?.cprDoc}
-              ></GetStorageLinkComponent>
             </td>
           </tr>
           <tr>
