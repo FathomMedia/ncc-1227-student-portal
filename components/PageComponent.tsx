@@ -40,7 +40,11 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
 
   return (
     <>
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          className: "ltr",
+        }}
+      />
       <div className="flex flex-col justify-between min-h-screen">
         {isInitializing ? (
           <div className="flex items-center justify-center w-full h-full min-h-screen bg-gray-200 animate-pulse">

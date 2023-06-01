@@ -16,8 +16,12 @@
   "acceptanceLetter": "Acceptance Letter",
   "signedContract": "Signed Contract",
   "createNewApplication": "Create New Application",
+  "newApplication": "New application",
+  "activeApplications": "Active applications",
+  "pastApplications": "Past applications",
   "primaryProgramAcceptanceLetter": "Primary Program Acceptance Letter",
   "secondaryProgramAcceptanceLetter": "Secondary Program Acceptance Letter",
   "familyIncomeProof": "Family income proof",
+  "familyIncomeProofDocs": "Family income proof documents",
   "schoolCertificate": "School Certificate"
 }

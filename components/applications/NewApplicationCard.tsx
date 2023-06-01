@@ -34,9 +34,11 @@ export const NewApplicationCard = () => {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <div className={`badge badge-ghost`}>{t("CPR")}</div>
-              <div className={`badge badge-ghost`}>
-                {t("familyIncomeProofs")}
+              <div className={`badge badge-ghost opacity-50 !badge-outline`}>
+                {t("CPR")}
+              </div>
+              <div className={`badge badge-ghost opacity-50 !badge-outline`}>
+                {t("familyIncomeProofDocs")}
               </div>
               <div
                 className={`badge  badge-ghost ${" opacity-50 !badge-outline"}`}

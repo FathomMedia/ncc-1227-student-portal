@@ -149,15 +149,16 @@ export const ApplicationCard: FC<IApplicationCard> = ({
         </div>
       </Link>
       <div
-        className={`absolute   flex items-center justify-center w-12 h-12 border-2 border-white rounded-full top-2 left-2 ${
+        className={`absolute flex items-center justify-center w-12 h-12 border-2 border-white rounded-full top-2 left-2 ${
           (application.status === Status.REVIEW ||
             application.status === Status.ELIGIBLE) &&
           "bg-warning"
         } ${application.status === Status.APPROVED && "bg-success"} ${
           application.status === Status.REJECTED && "bg-error"
         } ${
-          application.status === Status.WITHDRAWN ||
-          (application.status === Status.NOT_COMPLETED && "bg-neutral")
+          (application.status === Status.WITHDRAWN ||
+            application.status === Status.NOT_COMPLETED) &&
+          "bg-neutral"
         }`}
       >
         {(application.status === Status.REVIEW ||

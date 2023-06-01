@@ -52,12 +52,14 @@ export default function ApplicationsPage() {
         <div className="container mx-auto">
           {!appContext.haveActiveApplication && (
             <div>
-              <p className="my-4 text-2xl stat-value">New Application</p>
+              <p className="my-4 text-2xl stat-value">{t("newApplication")}</p>
             </div>
           )}
           {activeApplications.length > 0 && (
             <div>
-              <p className="my-4 text-2xl stat-value">Active Applications</p>
+              <p className="my-4 text-2xl stat-value">
+                {t("activeApplications")}
+              </p>
             </div>
           )}
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 [grid-auto-rows:1fr]">
@@ -87,7 +89,9 @@ export default function ApplicationsPage() {
           </div>
           {pastApplications.length > 0 && (
             <div>
-              <p className="my-4 text-2xl stat-value">Past Applications</p>
+              <p className="my-4 text-2xl stat-value">
+                {t("pastApplications")}
+              </p>
             </div>
           )}
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 [grid-auto-rows:1fr]">
