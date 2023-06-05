@@ -33,6 +33,7 @@
   "nationality": "Nationality",
   "familyIncome": "Family income",
   "familyIncomeProof": "Family income proof",
+  "familyIncomeProofDocs": "Family income proof documents",
   "documentNotSubmitted": "Document Not Submitted",
   "private": "Private",
   "public": "Public",

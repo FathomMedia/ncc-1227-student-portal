@@ -25,6 +25,7 @@ interface Props {
 
 interface FormValues {
   cprDocFile: string | null | undefined;
+  fullName: string | null | undefined;
   phone: string | null | undefined;
   gender: Gender | null | undefined;
   schoolName: string | null | undefined;
@@ -57,6 +58,7 @@ export default function ViewAccount({ student }: Props) {
 
   let initialValues: FormValues = {
     cprDocFile: undefined,
+    fullName: student.fullName,
     phone: student.phone,
     gender: student.gender,
     schoolName: student.schoolName,
@@ -94,6 +96,7 @@ export default function ViewAccount({ student }: Props) {
           .string()
           .phone()
           .required(`${tErrors("requiredField")}`),
+        fullName: yup.string().required(`${tErrors("requiredField")}`),
         gender: yup.string().required(`${tErrors("requiredField")}`),
         schoolName: yup.string().required(`${tErrors("requiredField")}`),
         schoolType: yup.string().required(`${tErrors("requiredField")}`),
@@ -149,6 +152,7 @@ export default function ViewAccount({ student }: Props) {
             cpr: student.cpr,
             cprDoc: cprDocStorage,
             phone: values.phone,
+            fullName: values.fullName,
             gender: values.gender,
             schoolName: values.schoolName,
             schoolType: values.schoolType,
@@ -256,22 +260,6 @@ export default function ViewAccount({ student }: Props) {
               disabled
             />
           </div>
-          {/* FullName */}
-          <div className="flex flex-col justify-start w-full">
-            <label className="label">{t("fullName")}</label>
-            <Field
-              dir="ltr"
-              type="text"
-              name="fullName"
-              title="fullName"
-              placeholder="Full name"
-              className={`input input-bordered input-primary`}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={student.fullName}
-              disabled
-            />
-          </div>
 
           {/* Phone */}
           <div className="flex flex-col justify-start w-full">
@@ -291,6 +279,25 @@ export default function ViewAccount({ student }: Props) {
             />
             <label className="label-text-alt text-error">
               {errors.phone && touched.phone && errors.phone}
+            </label>
+          </div>
+
+          {/* FullName */}
+          <div className="flex flex-col justify-start w-full">
+            <label className="label">{t("fullName")}</label>
+            <Field
+              dir="ltr"
+              type="text"
+              name="fullName"
+              title="fullName"
+              placeholder="Full name"
+              className={`input input-bordered input-primary`}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.fullName}
+            />
+            <label className="label-text-alt text-error">
+              {errors.fullName && touched.fullName && errors.fullName}
             </label>
           </div>
 
@@ -480,7 +487,7 @@ export default function ViewAccount({ student }: Props) {
           </div>
 
           {/* familyIncome */}
-          <div className="flex flex-col justify-start w-full md:col-span-2">
+          <div className="flex flex-col justify-start w-full">
             <label className="label">{t("familyIncome")}</label>
             <Field
               dir="ltr"

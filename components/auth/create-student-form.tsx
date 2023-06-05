@@ -553,7 +553,7 @@ export const CreateStudentForm = (props: ICreateStudentForm) => {
           </div>
 
           {/* familyIncome */}
-          <div className="flex flex-col justify-start w-full md:col-span-2">
+          <div className="flex flex-col justify-start w-full">
             <div className="flex items-center">
               <label className="label">{t("familyIncome")}</label>
               <label className="text-error label">*</label>{" "}
