@@ -188,17 +188,23 @@ export const PageComponent: FC<PropsWithChildren<Props>> = (props) => {
               <a className="link link-hover">
                 {footerTranslation.t("mediaCenter")}
               </a>
-              <a className="link link-hover">
+              <a
+                className="link link-hover"
+                onClick={() => router.push("/contact")}
+              >
                 {footerTranslation.t("contact")}
               </a>
             </div>
-            <div className="flex flex-col items-center mx-auto text-base-100 md:items-start">
-              <span className="opacity-100 footer-title text-primary">
+            {/* <div className="flex flex-col items-center mx-auto text-base-100 md:items-start">
+              <span
+                className="opacity-100 footer-title text-primary"
+                onClick={() => router.push("/contact")}
+              >
                 {footerTranslation.t("contactUs")}
               </span>
               <a dir="ltr">1744 4444</a>
-              <a>edutrust@meo.gov.bh</a>
-            </div>
+              <a>edutrust@meo.gov.bh</a> 
+            </div> */}
           </footer>
           <div
             dir="ltr"
