@@ -465,6 +465,20 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "nameAr": {
+                    "name": "nameAr",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "requirementsAr": {
+                    "name": "requirementsAr",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "availability": {
                     "name": "availability",
                     "isArray": false,
@@ -512,6 +526,13 @@ export const schema = {
                 },
                 "isDeactivated": {
                     "name": "isDeactivated",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "isTrashed": {
+                    "name": "isTrashed",
                     "isArray": false,
                     "type": "Boolean",
                     "isRequired": false,
@@ -583,6 +604,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "nameAr": {
+                    "name": "nameAr",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "Programs": {
                     "name": "Programs",
                     "isArray": true,
@@ -599,8 +627,22 @@ export const schema = {
                         ]
                     }
                 },
+                "availability": {
+                    "name": "availability",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "isDeactivated": {
                     "name": "isDeactivated",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "isTrashed": {
+                    "name": "isTrashed",
                     "isArray": false,
                     "type": "Boolean",
                     "isRequired": false,
@@ -1415,5 +1457,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "7aeaadadd1dc7040b2f0292564b93644"
+    "version": "4785be7341fc2dc23cf4e7d9bcda7568"
 };

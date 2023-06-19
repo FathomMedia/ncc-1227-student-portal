@@ -38,18 +38,24 @@ type Program @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String
   requirements: String
+  nameAr: String @default(value: "-")
+  requirementsAr: String @default(value: "-")
   availability: Int
   universityID: ID!
   university: University @belongsTo(fields: ["universityID"])
   applications: [ProgramChoice] @hasMany
   isDeactivated: Boolean
+  isTrashed: Boolean @default(value: "false")
 }
 
 type University @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String
+  nameAr: String @default(value: "-")
   Programs: [Program] @hasMany
+  availability: Int @default(value: "0")
   isDeactivated: Boolean
+  isTrashed: Boolean @default(value: "false")
 }
 
 type AdminLog @model @auth(rules: [{ allow: public }]) {

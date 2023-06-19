@@ -175,11 +175,14 @@ type EagerProgram = {
   readonly id: string;
   readonly name?: string | null;
   readonly requirements?: string | null;
+  readonly nameAr?: string | null;
+  readonly requirementsAr?: string | null;
   readonly availability?: number | null;
   readonly universityID: string;
   readonly university?: University | null;
   readonly applications?: (ProgramChoice | null)[] | null;
   readonly isDeactivated?: boolean | null;
+  readonly isTrashed?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly universityProgramsId?: string | null;
@@ -193,11 +196,14 @@ type LazyProgram = {
   readonly id: string;
   readonly name?: string | null;
   readonly requirements?: string | null;
+  readonly nameAr?: string | null;
+  readonly requirementsAr?: string | null;
   readonly availability?: number | null;
   readonly universityID: string;
   readonly university: AsyncItem<University | undefined>;
   readonly applications: AsyncCollection<ProgramChoice>;
   readonly isDeactivated?: boolean | null;
+  readonly isTrashed?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly universityProgramsId?: string | null;
@@ -216,8 +222,11 @@ type EagerUniversity = {
   };
   readonly id: string;
   readonly name?: string | null;
+  readonly nameAr?: string | null;
   readonly Programs?: (Program | null)[] | null;
+  readonly availability?: number | null;
   readonly isDeactivated?: boolean | null;
+  readonly isTrashed?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -229,8 +238,11 @@ type LazyUniversity = {
   };
   readonly id: string;
   readonly name?: string | null;
+  readonly nameAr?: string | null;
   readonly Programs: AsyncCollection<Program>;
+  readonly availability?: number | null;
   readonly isDeactivated?: boolean | null;
+  readonly isTrashed?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

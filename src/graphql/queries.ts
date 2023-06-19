@@ -394,12 +394,17 @@ export const getProgramChoice = /* GraphQL */ `
         id
         name
         requirements
+        nameAr
+        requirementsAr
         availability
         universityID
         university {
           id
           name
+          nameAr
+          availability
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -411,6 +416,7 @@ export const getProgramChoice = /* GraphQL */ `
           startedAt
         }
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -514,9 +520,12 @@ export const listProgramChoices = /* GraphQL */ `
           id
           name
           requirements
+          nameAr
+          requirementsAr
           availability
           universityID
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -578,9 +587,12 @@ export const syncProgramChoices = /* GraphQL */ `
           id
           name
           requirements
+          nameAr
+          requirementsAr
           availability
           universityID
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -627,16 +639,21 @@ export const getProgram = /* GraphQL */ `
       id
       name
       requirements
+      nameAr
+      requirementsAr
       availability
       universityID
       university {
         id
         name
+        nameAr
         Programs {
           nextToken
           startedAt
         }
+        availability
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -662,6 +679,7 @@ export const getProgram = /* GraphQL */ `
         startedAt
       }
       isDeactivated
+      isTrashed
       createdAt
       updatedAt
       _version
@@ -682,12 +700,17 @@ export const listPrograms = /* GraphQL */ `
         id
         name
         requirements
+        nameAr
+        requirementsAr
         availability
         universityID
         university {
           id
           name
+          nameAr
+          availability
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -699,6 +722,7 @@ export const listPrograms = /* GraphQL */ `
           startedAt
         }
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -728,12 +752,17 @@ export const syncPrograms = /* GraphQL */ `
         id
         name
         requirements
+        nameAr
+        requirementsAr
         availability
         universityID
         university {
           id
           name
+          nameAr
+          availability
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -745,6 +774,7 @@ export const syncPrograms = /* GraphQL */ `
           startedAt
         }
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -762,14 +792,18 @@ export const getUniversity = /* GraphQL */ `
     getUniversity(id: $id) {
       id
       name
+      nameAr
       Programs {
         items {
           id
           name
           requirements
+          nameAr
+          requirementsAr
           availability
           universityID
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -780,7 +814,9 @@ export const getUniversity = /* GraphQL */ `
         nextToken
         startedAt
       }
+      availability
       isDeactivated
+      isTrashed
       createdAt
       updatedAt
       _version
@@ -799,11 +835,14 @@ export const listUniversities = /* GraphQL */ `
       items {
         id
         name
+        nameAr
         Programs {
           nextToken
           startedAt
         }
+        availability
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -831,11 +870,14 @@ export const syncUniversities = /* GraphQL */ `
       items {
         id
         name
+        nameAr
         Programs {
           nextToken
           startedAt
         }
+        availability
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version

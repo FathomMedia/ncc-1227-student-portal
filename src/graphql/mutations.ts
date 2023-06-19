@@ -513,12 +513,17 @@ export const createProgramChoice = /* GraphQL */ `
         id
         name
         requirements
+        nameAr
+        requirementsAr
         availability
         universityID
         university {
           id
           name
+          nameAr
+          availability
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -530,6 +535,7 @@ export const createProgramChoice = /* GraphQL */ `
           startedAt
         }
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -631,12 +637,17 @@ export const updateProgramChoice = /* GraphQL */ `
         id
         name
         requirements
+        nameAr
+        requirementsAr
         availability
         universityID
         university {
           id
           name
+          nameAr
+          availability
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -648,6 +659,7 @@ export const updateProgramChoice = /* GraphQL */ `
           startedAt
         }
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -749,12 +761,17 @@ export const deleteProgramChoice = /* GraphQL */ `
         id
         name
         requirements
+        nameAr
+        requirementsAr
         availability
         universityID
         university {
           id
           name
+          nameAr
+          availability
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -766,6 +783,7 @@ export const deleteProgramChoice = /* GraphQL */ `
           startedAt
         }
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -863,16 +881,21 @@ export const createProgram = /* GraphQL */ `
       id
       name
       requirements
+      nameAr
+      requirementsAr
       availability
       universityID
       university {
         id
         name
+        nameAr
         Programs {
           nextToken
           startedAt
         }
+        availability
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -898,6 +921,7 @@ export const createProgram = /* GraphQL */ `
         startedAt
       }
       isDeactivated
+      isTrashed
       createdAt
       updatedAt
       _version
@@ -916,16 +940,21 @@ export const updateProgram = /* GraphQL */ `
       id
       name
       requirements
+      nameAr
+      requirementsAr
       availability
       universityID
       university {
         id
         name
+        nameAr
         Programs {
           nextToken
           startedAt
         }
+        availability
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -951,6 +980,7 @@ export const updateProgram = /* GraphQL */ `
         startedAt
       }
       isDeactivated
+      isTrashed
       createdAt
       updatedAt
       _version
@@ -969,16 +999,21 @@ export const deleteProgram = /* GraphQL */ `
       id
       name
       requirements
+      nameAr
+      requirementsAr
       availability
       universityID
       university {
         id
         name
+        nameAr
         Programs {
           nextToken
           startedAt
         }
+        availability
         isDeactivated
+        isTrashed
         createdAt
         updatedAt
         _version
@@ -1004,6 +1039,7 @@ export const deleteProgram = /* GraphQL */ `
         startedAt
       }
       isDeactivated
+      isTrashed
       createdAt
       updatedAt
       _version
@@ -1021,14 +1057,18 @@ export const createUniversity = /* GraphQL */ `
     createUniversity(input: $input, condition: $condition) {
       id
       name
+      nameAr
       Programs {
         items {
           id
           name
           requirements
+          nameAr
+          requirementsAr
           availability
           universityID
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -1039,7 +1079,9 @@ export const createUniversity = /* GraphQL */ `
         nextToken
         startedAt
       }
+      availability
       isDeactivated
+      isTrashed
       createdAt
       updatedAt
       _version
@@ -1056,14 +1098,18 @@ export const updateUniversity = /* GraphQL */ `
     updateUniversity(input: $input, condition: $condition) {
       id
       name
+      nameAr
       Programs {
         items {
           id
           name
           requirements
+          nameAr
+          requirementsAr
           availability
           universityID
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -1074,7 +1120,9 @@ export const updateUniversity = /* GraphQL */ `
         nextToken
         startedAt
       }
+      availability
       isDeactivated
+      isTrashed
       createdAt
       updatedAt
       _version
@@ -1091,14 +1139,18 @@ export const deleteUniversity = /* GraphQL */ `
     deleteUniversity(input: $input, condition: $condition) {
       id
       name
+      nameAr
       Programs {
         items {
           id
           name
           requirements
+          nameAr
+          requirementsAr
           availability
           universityID
           isDeactivated
+          isTrashed
           createdAt
           updatedAt
           _version
@@ -1109,7 +1161,9 @@ export const deleteUniversity = /* GraphQL */ `
         nextToken
         startedAt
       }
+      availability
       isDeactivated
+      isTrashed
       createdAt
       updatedAt
       _version
